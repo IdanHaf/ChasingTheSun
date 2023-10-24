@@ -1,6 +1,12 @@
 # Progect-Name (yet to be specified)
 Welcome to our super cool project.
 
+# Install
+To install:
+- clone project.
+- npm install (if not working can see in errors - npm install ...  --peep somthing...)
+- npm start
+
 
 
 # React-Tailwind

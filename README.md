@@ -1,3 +1,8 @@
+# Progect-Name (yet to be specified)
+Welcome to our super cool project.
+
+
+
 # React-Tailwind
 a template repository for React+Tailwind
 - npx create-react-app my-app

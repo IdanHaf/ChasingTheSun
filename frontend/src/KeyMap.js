@@ -1,7 +1,7 @@
 // a component that shows the current pressed keys
 import React from 'react';
 function Key(props) {
-    const letter = props.kind.toLowerCase();
+    // const letter = props.kind.toLowerCase();
     
     function handleKeyDown(event) {
         

@@ -2,12 +2,24 @@ import React, { useEffect } from 'react';
 import {useRef, useState} from 'react';
 import { Loader } from "@googlemaps/js-api-loader"
 
-function usePanorama() {
+/*
+
+    The "usePanorama" React hook allows you to show a Google Street View panorama in your React app.
+    It accepts the start Id, position, pov, and zoom as parameters, 
+    and returns: 
+        - panoRef: a ref to the div where the panorama will be shown
+        - panoramaState: an object containing the current panorama's id, position, pov, and zoom
+        - setPov: a setState function for the pov, which takes a lambda function
+        - setZoom: a setState function for the zoom, which takes a lambda function
+
+*/
+
+function usePanorama(startId="", startPosition={ lat: 37.869, lng: -122.255 }, startPov={heading: 270, pitch: 0}, startZoom=1) {
     const [panoramaState, setPanoramaState] = useState({
-        id: null,
-        position: null,
-        pov: null,
-        zoom: null,
+        id: startId,
+        position: startPosition,
+        pov: startPov,
+        zoom: startZoom,
     }); 
 
     const panoRef = useRef(null);
@@ -17,17 +29,8 @@ function usePanorama() {
     const [loaded, setLoaded] = useState(false);
     const [setPov, setPovLoader] = useState((a,b)=>{});
     const [setZoom, setZoomLoader] = useState((a)=>{});
-    let panorama = null;
+    // let panorama = null;
 
-    // useEffect(() => {
-    //     // set panoramas properties
-    //     if (!panorama) return;
-    //     panorama.setPano(panoramaState.id);
-    //     panorama.setPosition(panoramaState.position);
-    //     panorama.setPov(panoramaState.pov);
-    //     panorama.setZoom(panoramaState.zoom);
-    // }
-    // , [panoramaState]);
     useEffect(() => {
         if (loaded) return;
             setLoaded(true);
@@ -44,11 +47,8 @@ function usePanorama() {
                 const {StreetViewPanorama} = streetViewLibrary;
                 console.log("everything's loaded, let's go");
                 const panorama = new StreetViewPanorama(panoRef.current, {
-                    position: { lat: 37.869, lng: -122.255 },
-                    pov: {
-                        heading: 270,
-                        pitch: 0,
-                    },
+                    position: startPosition,
+                    pov: startPov,
                     visible: true,
                     fullscreenControl: false,
                     disableDefaultUI: true,
@@ -105,27 +105,18 @@ function usePanorama() {
             }
         });
         
-        return () => {
-            // if (panorama) {
-            //   panorama.removeListener('pano_changed');
-            //   panorama.removeListener('position_changed');
-            //   panorama.removeListener('pov_changed');
-            //   panorama.removeListener('zoom_changed');
-            //   panorama.setVisible(false); // Hide the panorama
-            //   panorama = null; // Remove the reference
-            // }
-          };
+        // cleanup
+        return () => {};
     
     }, []);
     
  
 function Map() {
-
-
     return (
      <div ref={panoRef} if="pano" style={{ height: '400px' }}></div>
     );
 }
+
 return [panoRef, panoramaState, setPov, setZoom];
 }
 

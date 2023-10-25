@@ -1,18 +1,24 @@
 import React from 'react';
 import Panorama from './Panorama';
-import KeyMap from './KeyMap';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import KeyMap from './pages/KeyMap';
+import IntelligenceMode from './pages/IntelligenceMode';
+import {BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 
 function App() {
 
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Panorama/>}/>
-        <Route path="/keymap" element={<KeyMap/>}/>
-      </Routes>
-    </Router>
+        <Router>
+            <Link to="/intelligenceMode">intelligence mode</Link>
+
+            <Routes>
+            <Route path="/" element={<Panorama/>}/>
+            <Route path="/keymap" element={<KeyMap/>}/>
+            <Route path="/intelligenceMode" element={<IntelligenceMode/>}/>
+
+          </Routes>
+        </Router>
   );
 }
 

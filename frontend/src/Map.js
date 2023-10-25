@@ -15,7 +15,8 @@ function usePanorama() {
 
     
     const [loaded, setLoaded] = useState(false);
-    const [setPanorama, setPanoramaLoader] = useState(null);
+    const [setPov, setPovLoader] = useState((a,b)=>{});
+    const [setZoom, setZoomLoader] = useState((a)=>{});
     let panorama = null;
 
     // useEffect(() => {
@@ -67,8 +68,8 @@ function usePanorama() {
                 panorama.addListener("zoom_changed", () => {
                     setPanoramaState((prevPano) => { return {...prevPano, zoom: panorama.getZoom()}});
                 });
-                
-                setPanoramaLoader((p) => 
+
+                setPovLoader((p) => 
                 {
                     return (newPovFunc) => {
                     
@@ -80,7 +81,22 @@ function usePanorama() {
                     }
                 }
                 )
-                // setPanoramaLoader((p) => 1);
+
+                setZoomLoader((p) => 
+                {
+                    return (newZoomFunc) => {
+                    
+                    setPanoramaState((prevPano) => { 
+                        const newZoom = newZoomFunc(prevPano.zoom);
+                        panorama.setZoom(newZoom);
+                        return {...prevPano, zoom: newZoom};
+                    } );
+                    }
+                }
+                )
+
+                
+                // setPovLoader((p) => 1);
     
                
     
@@ -90,14 +106,14 @@ function usePanorama() {
         });
         
         return () => {
-            if (panorama) {
-              panorama.removeListener('pano_changed');
-              panorama.removeListener('position_changed');
-              panorama.removeListener('pov_changed');
-              panorama.removeListener('zoom_changed');
-              panorama.setVisible(false); // Hide the panorama
-              panorama = null; // Remove the reference
-            }
+            // if (panorama) {
+            //   panorama.removeListener('pano_changed');
+            //   panorama.removeListener('position_changed');
+            //   panorama.removeListener('pov_changed');
+            //   panorama.removeListener('zoom_changed');
+            //   panorama.setVisible(false); // Hide the panorama
+            //   panorama = null; // Remove the reference
+            // }
           };
     
     }, []);
@@ -110,7 +126,7 @@ function Map() {
      <div ref={panoRef} if="pano" style={{ height: '400px' }}></div>
     );
 }
-return [panoRef, panoramaState, setPanorama];
+return [panoRef, panoramaState, setPov, setZoom];
 }
 
 export default usePanorama;

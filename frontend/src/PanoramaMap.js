@@ -1,9 +1,18 @@
 import React from 'react';
 import usePanorama from './usePanorama';
 import './styles/PanoramaMap.css';
+import LabelObject from './components/LabelObject';
+
+/*
+    The "PanoramaMap" React component presents Google Street View in your React app.
+    It uses the "usePanorama" hook to allow moving around the map using the keyboard.
+
+    Returns:
+        html div component of the map that covers the screen.
+ */
 
 function PanoramaMap() {
-    const [panoRef, panoramaState, setPov, setZoom] = usePanorama();
+    const [panoRef, , setPov, setZoom] = usePanorama();
     function handleKeyDown(event) {
         // looking up/down keys
         if (event.key === 'i') {
@@ -30,12 +39,11 @@ function PanoramaMap() {
         }
     }
 
-    // try adding more panorama windows
+    // Try adding more panorama windows.
     return (
-        <div className="container" >
-
-            <div ref={panoRef} onKeyDown={handleKeyDown} if="pano" style={{ position: 'fixed', top: '0', left: '0', width: '100%', height: '100%' }}></div>
-            {/* <Map /> */}
+        <div className = "container" >
+            <div className = "mapContainer" ref={panoRef} onKeyDown={handleKeyDown} if="pano"></div>
+            <LabelObject></LabelObject>
         </div>
     );
 }

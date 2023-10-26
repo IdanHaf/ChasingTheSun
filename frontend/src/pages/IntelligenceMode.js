@@ -6,8 +6,7 @@ import PanoramaMap from '../PanoramaMap';
 function IntelligenceMode(){
     return (
         <div>
-            <h1>Welcome to intelligence mode!!</h1>
-            <PanoramaMap></PanoramaMap>
+            <PanoramaMap />
         </div>
     );
 }

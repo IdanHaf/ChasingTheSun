@@ -1,0 +1,38 @@
+.labelButton{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 50%;
+    color: white;
+    padding: 1% 1.5%;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 2% 1%;
+    cursor: pointer;
+    z-index: 0;
+    transition-duration: 0.3s;
+}
+
+.labelButton:hover {
+    color: black;
+}
+
+.labelDiv{
+    width: 1%;
+    height: 2%;
+    resize: both;
+    overflow: auto;
+    border: 2px solid #282c34;
+}
+
+.pageCover {
+    position: absolute;
+    top: 0%;
+    bottom: 0%;
+    width: 100%;
+    height: 100%;
+}

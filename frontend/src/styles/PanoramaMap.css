@@ -16,3 +16,51 @@
     z-index:-1;
 }
 
+@keyframes fadeIn {
+    0% {
+      opacity: 0;
+      display: none;
+    }
+    100% {
+      opacity: 50%;
+    }
+  }
+  
+  .animate-fade-in {
+    animation: fadeIn 2s ease-in-out; /* Adjust the duration as needed */
+  }
+
+@keyframes fadeOut {
+    0% {
+      opacity: 50%;
+    }
+    100% {
+      opacity: 0%;
+      display: none;
+    }
+  }
+  
+  .animate-fade-out {
+    animation: fadeOut 2s ease-in-out; /* Adjust the duration as needed */
+  }
+  
+ 
+   /* .hole::before {
+    content: "";
+    display: block;
+
+    width: 200px;
+    height: 200px;
+
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 2;
+    background-color: rgba(253, 253, 253, 0.889);
+    
+    transform: translate(-50%, -50%);
+
+}
+.box.blur::before {
+    filter: blur(20px);
+}  */

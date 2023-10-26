@@ -1,30 +1,34 @@
 import React from 'react';
-import usePanorama from './usePanorama';
+import usePanorama from '../utility/usePanorama';
 
+/*
+ This is a reference page for showing Panorama state in real time
+*/
 function Panorama() {
     const [panoRef, panoramaState, setPov, setZoom] = usePanorama();
     function handleKeyDown(event) {
         // looking up/down keys
         if (event.key === 'i') {
-            event.preventDefault();
-            event.stopPropagation();
+            // event.preventDefault();
+            // event.stopPropagation();
+           
           setPov( (oldH, oldpP)=>{return {heading: oldH, pitch: oldpP+3}} )
           
         }
         else if (event.key === 'k') {
-            event.preventDefault();
-            event.stopPropagation();
+            // event.preventDefault();
+            // event.stopPropagation();
           setPov( (oldH, oldpP)=>{return {heading: oldH, pitch: oldpP-3}} )
         }
         // zoom keys
         else if (event.key === 'l') {
-            event.preventDefault();
-            event.stopPropagation();
+            // event.preventDefault();
+            // event.stopPropagation();
           setZoom( (oldZ)=>{return oldZ+1} )
         }
         else if (event.key === 'j') {
-            event.preventDefault();
-            event.stopPropagation();
+            // event.preventDefault();
+            // event.stopPropagation();
             setZoom( (oldZ)=>{return oldZ-1} )
         }
       }

@@ -1,5 +1,4 @@
 import React from 'react';
-import usePanorama from '../usePanorama';
 import { useState } from 'react';
 import '../styles/LabelObject.css';
 

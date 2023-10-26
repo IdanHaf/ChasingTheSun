@@ -1,5 +1,5 @@
 import React from 'react';
-import PanoramaMap from '../PanoramaMap';
+import PanoramaMap from '../components/PanoramaMap';
 
 
 

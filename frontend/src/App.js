@@ -1,5 +1,5 @@
 import React from 'react';
-import Panorama from './Panorama';
+import Panorama from './pages/Panorama';
 import KeyMap from './pages/KeyMap';
 import IntelligenceMode from './pages/IntelligenceMode';
 import {BrowserRouter as Router, Routes, Route } from 'react-router-dom';

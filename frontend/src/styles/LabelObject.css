@@ -22,9 +22,6 @@
 }
 
 .labelDiv{
-    width: 1%;
-    height: 2%;
-    resize: both;
     overflow: auto;
     border: 3px solid #282c34;
     cursor: crosshair;

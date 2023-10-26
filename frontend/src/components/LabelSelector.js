@@ -6,7 +6,10 @@ import '../styles/LabelObject.css'
 function LabelSelector(props) {
     const [animationActive, setAnimationActive] = useState(false);
     const startAnimation = () => {
+        if(!animationActive)
+        {
         setAnimationActive(true);
+        }
     };
 
     const [labelMode, setLabelMode] = useState(false);
@@ -15,7 +18,7 @@ function LabelSelector(props) {
             // Add the animation class
             const timer = setTimeout(() => {
                 setLabelMode(true); // Remove animation class after a delay
-            }, 2000); // Adjust the delay to match your animation duration
+            }, 1000); // Adjust the delay to match your animation duration
             return () => clearTimeout(timer); // Cleanup the timer when the component unmounts
         }
     }, [animationActive]);
@@ -49,7 +52,7 @@ function LabelSelector(props) {
             setLableSize([0, 0]);
         }
     }
-
+    
     return (
         <>
             <div
@@ -57,12 +60,15 @@ function LabelSelector(props) {
                 onMouseDown={handlePageClick}
                 onMouseMove={handlePageSelect}
                 onMouseUp={handlePageFinish}
+                style={{cursor: 'crosshair'}}
             >
-                <div style={{ position: 'absolute', top: lables[1], left: lables[0], zIndex: 20, width: lablesSize[0], height: lablesSize[1], backgroundColor: 'rgba(253, 253, 253, 0.889)', opacity: '0.5', display: 'block' }}>
+                
+                <div style={{ position: 'absolute', top: lables[1], left: lables[0], zIndex: 20, width: lablesSize[0], height: lablesSize[1], backgroundColor: 'rgba(253, 253, 253)', opacity: '0.5', display: 'block' }}>
                 </div>
             </div>
 
-            <button className="labelButton absolute bottom-5 left-5 opacity-70 bg-black rounded-2xl text-white py-1 px-2 w-16 h-16 text-center text-xl m-2 cursor-pointer transition duration-300 hover:text-green-500 hover:opacity-100" onClick={startAnimation}>[ ]</button>
+            <button className="labelButton absolute bottom-5 left-5 opacity-70 bg-black rounded-2xl text-white py-1 px-2 w-16 h-16 text-center text-xl m-2 cursor-pointer transition duration-300 hover:text-green-500 hover:opacity-100" 
+            onClick={startAnimation}>[ ]</button>
         </>
     )
 }

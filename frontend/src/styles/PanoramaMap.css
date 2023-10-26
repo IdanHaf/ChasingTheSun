@@ -27,10 +27,10 @@
   }
   
   .animate-fade-in {
-    animation: fadeIn 2s ease-in-out; /* Adjust the duration as needed */
+    animation: fadeIn 1s ease-in-out; /* Adjust the duration as needed */
   }
 
-@keyframes fadeOut {
+/* @keyframes fadeOut {
     0% {
       opacity: 50%;
     }
@@ -41,8 +41,8 @@
   }
   
   .animate-fade-out {
-    animation: fadeOut 2s ease-in-out; /* Adjust the duration as needed */
-  }
+    animation: fadeOut 1s ease-in-out;
+  } */
   
  
    /* .hole::before {

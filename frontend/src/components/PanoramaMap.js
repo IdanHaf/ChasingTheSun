@@ -1,6 +1,6 @@
 import React from 'react';
 import usePanorama from '../utility/usePanorama';
-import './styles/PanoramaMap.css';
+import '../styles/PanoramaMap.css';
 import LabelSelector from './LabelSelector';
 /*
     The "PanoramaMap" React component presents Google Street View in your React app.

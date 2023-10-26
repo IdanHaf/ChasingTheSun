@@ -19,16 +19,18 @@ function LabelObject() {
 
     return (
         <>
-            {  buttonPressed && <div className = "pageCover" onMouseDown = {handlePageClick}></div> }
-            <button className = "labelButton" onClick={handleButtonClick}>[ ]</button>
             {
-                showDiv && <div className= "labelDiv"
-                               style={{position: 'absolute',
-                                       top: yPosition + 'px',
-                                       left: xPosition + 'px'
-                               }}>
+                buttonPressed &&
+                <div className = "pageCover" style={{cursor: 'crosshair'}} onMouseDown = {handlePageClick}></div>
+            }
 
-                            </div>
+            <button className = "labelButton" onClick={handleButtonClick}>[ ]</button>
+
+            {
+                showDiv &&
+                <div className= "labelDiv"
+                     style={{position: 'absolute', top: yPosition + 'px', left: xPosition + 'px'}}>
+                </div>
             }
         </>
     );

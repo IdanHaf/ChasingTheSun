@@ -25,7 +25,7 @@ function LabelSelector(props) {
         }
     };
     const handlePageSelect = (e) => {
-        if (mouseDown) {
+        if (mouseDown && flicker==='none') {
             setLableSize([e.clientX - lables[0], e.clientY - lables[1]]);
         }
     }
@@ -36,15 +36,25 @@ function LabelSelector(props) {
                 props.onLabelSelect(lables, lablesSize);
             }
             // flicker animation
-            setFlicker('red');
-            // set timer to remove animation
-            // setTimeout(() => {
+            if(props.hasFound && props.hasFound(lables, lablesSize))
+            {
+                // player found the object
+                setFlicker('green');
+            }
+            else
+            {
+                setFlicker('red');
+            }
+            setTimeout(() => {
+                setFlicker('empty');        
+            }, 100);
+            setTimeout(() => {
                 setFlicker('none');
                 setMouseDown(false);
                 setAnimationActive(false);
                 setLablePosition([0, 0]);
                 setLableSize([0, 0]);
-            // }, 1000);
+            }, 200);
 
         
         }
@@ -58,11 +68,12 @@ function LabelSelector(props) {
                 onMouseMove={handlePageSelect}
                 onMouseUp={handlePageFinish}
                 style={{cursor: 'crosshair'}}
-            >
-                
+            >  
                 <div 
-                // className={`${(flicker==='red') ? 'bg-red-500' : ''}`}
-                style={{ position: 'absolute', top: lables[1], left: lables[0], zIndex: 20, width: lablesSize[0], height: lablesSize[1], backgroundColor: 'rgba(253, 253, 253, 0.5)', display: 'block', border: '1px solid #fff' }}>
+                // className={`${(flicker==='red') ? 'animate-red-flicker' : ''}`}
+                style={{ position: 'absolute', top: lables[1], left: lables[0], zIndex: 20, width: lablesSize[0], height: lablesSize[1],
+                backgroundColor: flicker==='red' ? 'rgba(204, 17, 17, 0.5)' : (flicker==='green' ? 'rgba(17, 204, 76, 0.5)' : 'rgba(253, 253, 253, 0.5)'),
+                display: 'block', border: '1px solid #fff' }}>
                 </div>
             </div>
 

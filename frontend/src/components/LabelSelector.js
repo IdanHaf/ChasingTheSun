@@ -12,21 +12,11 @@ function LabelSelector(props) {
         }
     };
 
-    const [labelMode, setLabelMode] = useState(false);
-    useEffect(() => {
-        if (animationActive) {
-            // Add the animation class
-            const timer = setTimeout(() => {
-                setLabelMode(true); // Remove animation class after a delay
-            }, 1000); // Adjust the delay to match your animation duration
-            return () => clearTimeout(timer); // Cleanup the timer when the component unmounts
-        }
-    }, [animationActive]);
 
     const [lables, setLablePosition] = useState([0, 0]);
     const [lablesSize, setLableSize] = useState([0, 0]);
     const [mouseDown, setMouseDown] = useState(false);
-
+    const [flicker, setFlicker] = useState('none');
 
     const handlePageClick = (e) => {
         if (animationActive) {
@@ -45,25 +35,34 @@ function LabelSelector(props) {
             if (props.onLabelSelect) {
                 props.onLabelSelect(lables, lablesSize);
             }
-            setMouseDown(false);
-            setAnimationActive(false);
-            setLabelMode(false);
-            setLablePosition([0, 0]);
-            setLableSize([0, 0]);
+            // flicker animation
+            setFlicker('red');
+            // set timer to remove animation
+            // setTimeout(() => {
+                setFlicker('none');
+                setMouseDown(false);
+                setAnimationActive(false);
+                setLablePosition([0, 0]);
+                setLableSize([0, 0]);
+            // }, 1000);
+
+        
         }
     }
     
     return (
         <>
             <div
-                className={`${animationActive ? 'animate-fade-in' : 'hidden'} bg-black w-full h-full hole ${labelMode ? 'opacity-50' : ''} `}
+                className={`${animationActive ? 'animate-fade-in' : 'hidden'} bg-transparent-black w-full h-full hole `}
                 onMouseDown={handlePageClick}
                 onMouseMove={handlePageSelect}
                 onMouseUp={handlePageFinish}
                 style={{cursor: 'crosshair'}}
             >
                 
-                <div style={{ position: 'absolute', top: lables[1], left: lables[0], zIndex: 20, width: lablesSize[0], height: lablesSize[1], backgroundColor: 'rgba(253, 253, 253)', opacity: '0.5', display: 'block' }}>
+                <div 
+                // className={`${(flicker==='red') ? 'bg-red-500' : ''}`}
+                style={{ position: 'absolute', top: lables[1], left: lables[0], zIndex: 20, width: lablesSize[0], height: lablesSize[1], backgroundColor: 'rgba(253, 253, 253, 0.5)', display: 'block', border: '1px solid #fff' }}>
                 </div>
             </div>
 

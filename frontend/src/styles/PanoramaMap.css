@@ -22,12 +22,33 @@
       display: none;
     }
     100% {
-      opacity: 50%;
+      opacity: 100%;
     }
   }
   
   .animate-fade-in {
     animation: fadeIn 1s ease-in-out; /* Adjust the duration as needed */
+  }
+
+  .bg-transparent-black {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+
+  @keyframes red-flicker {
+    0% {
+      background-color: rgba(255, 255, 255, 0.5);
+    }
+    50% {
+      background-color: rgba(204, 17, 17, 0.5);
+    }
+    100% {
+      background-color: rgba(255, 255, 255, 0.5);
+    }
+  }
+  
+  .animate-red-flicker {
+    background-color: aquamarine;
+    animation: flicker 1s ease-in-out; /* Adjust the duration as needed */
   }
 
 /* @keyframes fadeOut {

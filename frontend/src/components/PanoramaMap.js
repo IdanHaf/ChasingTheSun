@@ -42,7 +42,7 @@ function PanoramaMap() {
 
     // Try adding more panorama windows.
     return (
-        <div className="container" >
+        <div className="absolute w-full h-full -z-10" >
             <div className="mapContainer" ref={panoRef} onKeyDown={handleKeyDown} if="pano"></div>
             <LabelSelector/>
             {/* <LabelObject onClick={startAnimation}></LabelObject> */}

@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 function App() {
 
   return (
-        <Router>
+        <Router >
             <Link to="/intelligenceMode">intelligence mode</Link>
 
             <Routes>

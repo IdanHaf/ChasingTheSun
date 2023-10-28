@@ -24,6 +24,7 @@ function LabelSelector(props) {
             setMouseDown(true);
         }
     };
+    // allow the user to select upwords
     const handlePageSelect = (e) => {
         if (mouseDown && flicker==='none') {
             setLableSize([e.clientX - lables[0], e.clientY - lables[1]]);

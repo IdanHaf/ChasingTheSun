@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import {useRef, useState} from 'react';
 import { Loader } from "@googlemaps/js-api-loader"
 
@@ -110,12 +110,6 @@ function usePanorama(startId="", startPosition={ lat: 37.869, lng: -122.255 }, s
     
     }, []);
     
- 
-function Map() {
-    return (
-     <div ref={panoRef} if="pano" style={{ height: '400px' }}></div>
-    );
-}
 
 return [panoRef, panoramaState, setPov, setZoom];
 }

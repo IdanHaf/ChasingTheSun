@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import usePanorama from '../utility/usePanorama';
 import '../styles/PanoramaMap.css';
 import LabelSelector from './LabelSelector';
@@ -12,12 +12,13 @@ import LabelSelector from './LabelSelector';
 
 function PanoramaMap() {
     const [panoRef, , setPov, setZoom] = usePanorama();
+    const [ctrlPressed, setCtrlPressed] = useState(false);
+
     function handleKeyDown(event) {
         // looking up/down keys
         if (event.key === 'i') {
             event.preventDefault();
             event.stopPropagation();
-            console.log('i') // for debugging
             setPov((oldH, oldpP) => { return { heading: oldH, pitch: oldpP + 3 } })
 
         }
@@ -37,15 +38,37 @@ function PanoramaMap() {
             event.stopPropagation();
             setZoom((oldZ) => { return oldZ - 1 })
         }
+
     }
+
+    const handleKeyUp = () => {
+        setCtrlPressed(false);
+    }
+
+    const ctrlHandle = (e) => {
+        if (e.ctrlKey) {
+            if (!ctrlPressed) {
+                setCtrlPressed(true);
+            }
+        }
+    }
+
+    useEffect(() => {
+        window.addEventListener("keydown", ctrlHandle);
+
+        //Cleanup function
+        return () => {
+            window.removeEventListener("keydown", ctrlHandle);
+        };
+    }, []);
+
 
 
     // Try adding more panorama windows.
     return (
         <div className="container" >
-            <div className="mapContainer" ref={panoRef} onKeyDown={handleKeyDown} if="pano"></div>
-            <LabelSelector/>
-            {/* <LabelObject onClick={startAnimation}></LabelObject> */}
+            <div className="mapContainer" ref={panoRef} onKeyDown={handleKeyDown} onKeyUp={handleKeyUp} if="pano"></div>
+            <LabelSelector ctrlPressed = {ctrlPressed}/>
         </div>
     );
 }

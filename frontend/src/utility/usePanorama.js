@@ -23,7 +23,7 @@ function usePanorama(startId="", startPosition={ lat: 37.869, lng: -122.255 }, s
     }); 
 
     const panoRef = useRef(null);
-    const API_KEY = "AIzaSyD4J0LPRji3WKllVxLji7YDbd5LSt6HA7o";//For now - AIzaSyD4J0LPRji3WKllVxLji7YDbd5LSt6HA7o
+    const API_KEY = "";//For now - AIzaSyD4J0LPRji3WKllVxLji7YDbd5LSt6HA7o
 
     
     const [loaded, setLoaded] = useState(false);

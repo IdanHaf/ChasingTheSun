@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import '../styles/LabelObject.css'
+import React, { useEffect, useState } from 'react';
+import '../styles/LabelSelector.css'
 /*
     An upgraded LabelObject component, with darkening animation and a resizable label.
 */
@@ -8,9 +8,21 @@ function LabelSelector(props) {
     const startAnimation = () => {
         if(!animationActive)
         {
-        setAnimationActive(true);
+            setAnimationActive(true);
         }
     };
+
+    //Using ctrlPressed prop to know if ctrl was clicked.
+    const ctrlPressed = props.ctrlPressed;
+
+    useEffect(() => {
+        if(ctrlPressed) {
+            setAnimationActive(true);
+        }
+
+        //Cleanup function
+        return () => {};
+    }, [ctrlPressed]);
 
 
     const [lables, setLablePosition] = useState([0, 0]);
@@ -45,9 +57,7 @@ function LabelSelector(props) {
             {
                 setFlicker('red');
             }
-            setTimeout(() => {
-                setFlicker('empty');        
-            }, 100);
+
             setTimeout(() => {
                 setFlicker('none');
                 setMouseDown(false);
@@ -55,11 +65,9 @@ function LabelSelector(props) {
                 setLablePosition([0, 0]);
                 setLableSize([0, 0]);
             }, 200);
-
-        
         }
     }
-    
+
     return (
         <>
             <div
@@ -69,16 +77,14 @@ function LabelSelector(props) {
                 onMouseUp={handlePageFinish}
                 style={{cursor: 'crosshair'}}
             >  
-                <div 
-                // className={`${(flicker==='red') ? 'animate-red-flicker' : ''}`}
-                style={{ position: 'absolute', top: lables[1], left: lables[0], zIndex: 20, width: lablesSize[0], height: lablesSize[1],
-                backgroundColor: flicker==='red' ? 'rgba(204, 17, 17, 0.5)' : (flicker==='green' ? 'rgba(17, 204, 76, 0.5)' : 'rgba(253, 253, 253, 0.5)'),
-                display: 'block', border: '1px solid #fff' }}>
+                <div className = 'labelDiv'
+                style={{ top: lables[1], left: lables[0], width: lablesSize[0], height: lablesSize[1],
+                backgroundColor: flicker==='red' ? 'rgba(204, 17, 17, 0.5)' :
+                (flicker==='green' ? 'rgba(17, 204, 76, 0.5)' : 'rgba(253, 253, 253, 0.5)') }}>
                 </div>
             </div>
 
-            <button className="labelButton absolute bottom-5 left-5 opacity-70 bg-black rounded-2xl text-white py-1 px-2 w-16 h-16 text-center text-xl m-2 cursor-pointer transition duration-300 hover:text-green-500 hover:opacity-100" 
-            onClick={startAnimation}>[ ]</button>
+            <button className="labelButton" onClick={startAnimation}>[ ]</button>
         </>
     )
 }

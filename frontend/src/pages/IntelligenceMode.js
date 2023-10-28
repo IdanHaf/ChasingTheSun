@@ -4,6 +4,7 @@ import PanoramaMap from '../components/PanoramaMap';
 
 
 function IntelligenceMode(){
+
     return (
         <div>
             <PanoramaMap />

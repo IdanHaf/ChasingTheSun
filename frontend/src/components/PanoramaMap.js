@@ -39,34 +39,43 @@ function PanoramaMap() {
             setZoom((oldZ) => { return oldZ - 1 })
         }
 
+        /*
+        Bug with ctrl twice in the same place.
+        else if(event.ctrlKey) {
+            setCtrlPressed(true);
+        }
+        */
     }
 
     const handleKeyUp = () => {
         setCtrlPressed(false);
     }
 
+
+    // Solution to ctrl bug.
     const ctrlHandle = (e) => {
         if (e.ctrlKey) {
-            if (!ctrlPressed) {
-                setCtrlPressed(true);
-            }
+            setCtrlPressed(true);
         }
     }
 
+
     useEffect(() => {
         window.addEventListener("keydown", ctrlHandle);
+        window.addEventListener("keyup", handleKeyUp);
+
 
         //Cleanup function
         return () => {
             window.removeEventListener("keydown", ctrlHandle);
+            window.removeEventListener("keyup", handleKeyUp);
         };
     }, []);
 
 
 
-    // Try adding more panorama windows.
     return (
-        <div className="container" >
+        <div className="absolute w-full h-full -z-10" >
             <div className="mapContainer" ref={panoRef} onKeyDown={handleKeyDown} onKeyUp={handleKeyUp} if="pano"></div>
             <LabelSelector ctrlPressed = {ctrlPressed}/>
         </div>

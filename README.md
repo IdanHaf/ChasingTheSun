@@ -4,6 +4,7 @@ Welcome to our super cool project.
 # Install
 To install:
 - clone project.
+- cd frontend
 - npm install (if not working can see in errors - npm install ...  --peep somthing...)
 
 # Run

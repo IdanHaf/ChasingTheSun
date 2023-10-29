@@ -30,3 +30,8 @@ a template repository for React+Tailwind
 
 **In order to change the project's name:**
 change the folder's name + change the *name* key in package.json + change the *<title>* in index.html
+
+**for deployment**
+get rid of all the commands
+get rid of unnecessary tailwind plugins
+get rid of css

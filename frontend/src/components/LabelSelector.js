@@ -71,7 +71,8 @@ function LabelSelector(props) {
             }, 200);
         }
     }
-
+    // make sure doesn't clash with clues
+    // handle ctrl+tab edge case
     return (
         <>
             <div
@@ -88,7 +89,7 @@ function LabelSelector(props) {
                 </div>
             </div>
 
-            <button className="labelButton" onClick={startAnimation}>[ ]</button>
+            <button className="labelButton select-none" onClick={startAnimation}>[ ]</button>
         </>
     )
 }

@@ -5,9 +5,11 @@ Welcome to our super cool project.
 To install:
 - clone project.
 - npm install (if not working can see in errors - npm install ...  --peep somthing...)
+
+# Run
+To run the application:
+- cd frontend
 - npm start
-
-
 
 # React-Tailwind
 a template repository for React+Tailwind

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import usePanorama from '../utility/usePanorama';
 import '../styles/PanoramaMap.css';
 import LabelSelector from './LabelSelector';
@@ -12,12 +12,13 @@ import LabelSelector from './LabelSelector';
 
 function PanoramaMap() {
     const [panoRef, , setPov, setZoom] = usePanorama();
+    const [ctrlPressed, setCtrlPressed] = useState(false);
+
     function handleKeyDown(event) {
         // looking up/down keys
         if (event.key === 'i') {
             event.preventDefault();
             event.stopPropagation();
-            console.log('i') // for debugging
             setPov((oldH, oldpP) => { return { heading: oldH, pitch: oldpP + 3 } })
 
         }
@@ -37,15 +38,46 @@ function PanoramaMap() {
             event.stopPropagation();
             setZoom((oldZ) => { return oldZ - 1 })
         }
+
+        /*
+        Bug with ctrl twice in the same place.
+        else if(event.ctrlKey) {
+            setCtrlPressed(true);
+        }
+        */
+    }
+
+    const handleKeyUp = () => {
+        setCtrlPressed(false);
     }
 
 
-    // Try adding more panorama windows.
+    // Solution to ctrl bug.
+    const ctrlHandle = (e) => {
+        if (e.ctrlKey) {
+            setCtrlPressed(true);
+        }
+    }
+
+
+    useEffect(() => {
+        window.addEventListener("keydown", ctrlHandle);
+        window.addEventListener("keyup", handleKeyUp);
+
+
+        //Cleanup function
+        return () => {
+            window.removeEventListener("keydown", ctrlHandle);
+            window.removeEventListener("keyup", handleKeyUp);
+        };
+    }, []);
+
+
+
     return (
         <div className="absolute w-full h-full -z-10" >
-            <div className="mapContainer" ref={panoRef} onKeyDown={handleKeyDown} if="pano"></div>
-            <LabelSelector/>
-            {/* <LabelObject onClick={startAnimation}></LabelObject> */}
+            <div className="mapContainer" ref={panoRef} onKeyDown={handleKeyDown} onKeyUp={handleKeyUp} if="pano"></div>
+            <LabelSelector ctrlPressed = {ctrlPressed}/>
         </div>
     );
 }

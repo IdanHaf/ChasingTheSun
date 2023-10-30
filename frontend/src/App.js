@@ -14,11 +14,13 @@ function App() {
             <Link to="/intelligenceMode">intelligence mode</Link>
 
             <Routes>
+                
             <Route path="/" element={<Panorama/>}/>
             <Route path="/keymap" element={<KeyMap/>}/>
             <Route path="/intelligenceMode" element={<IntelligenceMode/>}/>
             <Route path="/clues" element={<Clues/>}/>
-          </Routes>
+
+            </Routes>
         </Router>
   );
 }

@@ -83,12 +83,12 @@ function LabelSelector(props) {
             >
                 <div className = 'labelDiv'
                 style={{ top: lables[1], left: lables[0], width: lablesSize[0], height: lablesSize[1],
-                backgroundColor: flicker==='red' ? 'rgba(204, 17, 17, 0.5)' :
+                    backgroundColor: flicker==='red' ? 'rgba(204, 17, 17, 0.5)' :
                 (flicker==='green' ? 'rgba(17, 204, 76, 0.5)' : 'rgba(253, 253, 253, 0.5)') }}>
                 </div>
             </div>
 
-            <button className="labelButton" onClick={startAnimation}>[ ]</button>
+            <button className="labelButton select-none" onClick={startAnimation}>[ ]</button>
         </>
     )
 }

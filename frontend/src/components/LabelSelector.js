@@ -71,7 +71,8 @@ function LabelSelector(props) {
             }, 200);
         }
     }
-
+    // make sure doesn't clash with clues
+    // handle ctrl+tab edge case
     return (
         <>
             <div

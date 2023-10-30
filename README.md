@@ -4,10 +4,13 @@ Welcome to our super cool project.
 # Install
 To install:
 - clone project.
+- cd frontend
 - npm install (if not working can see in errors - npm install ...  --peep somthing...)
+
+# Run
+To run the application:
+- cd frontend
 - npm start
-
-
 
 # React-Tailwind
 a template repository for React+Tailwind
@@ -27,3 +30,8 @@ a template repository for React+Tailwind
 
 **In order to change the project's name:**
 change the folder's name + change the *name* key in package.json + change the *<title>* in index.html
+
+**for deployment**
+get rid of all the commands
+get rid of unnecessary tailwind plugins
+get rid of css

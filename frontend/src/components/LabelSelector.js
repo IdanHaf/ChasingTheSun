@@ -76,11 +76,10 @@ function LabelSelector(props) {
     return (
         <>
             <div
-                className={`${animationActive ? 'animate-fade-in' : 'hidden'} w-full h-full hole `}
+                className={`${animationActive ? 'animate-fade-in' : 'hidden'} w-full h-full hole bg-black/30 cursor-crosshair`}
                 onMouseDown={handlePageClick}
                 onMouseMove={handlePageSelect}
                 onMouseUp={handlePageFinish}
-                style={{cursor: 'crosshair', backgroundColor: 'rgba(0, 0, 0, 0.3)'}}
             >
                 <div className = 'labelDiv'
                 style={{ top: lables[1], left: lables[0], width: lablesSize[0], height: lablesSize[1],

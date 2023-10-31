@@ -40,10 +40,19 @@ module.exports = {
           "0%": { opacity: 1 },
           "100%": { opacity: 0 },
         },
+        shrink: {
+          "0%": {
+            transform: "scale(1)",
+          },
+          "100%": {
+            transform: "scale(0)",
+          },
+        },
       },
       animation: {
         "fade-in": "fadeIn 1s ease-in-out", // Adjust the duration as needed
         "fade-out": "fadeOut 1s ease-in-out", // Adjust the duration as needed
+        shrink: "shrink 0.5s ease-in-out", // Adjust the duration as needed
       },
     },
   },

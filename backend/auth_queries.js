@@ -40,7 +40,8 @@ async function login(req, res) {
           console.log("User logged in");
           // create a session token for the client
           const token = jwt.sign(
-            { username: user.username },
+            { username: user.username,
+              score: user.score },
             "your-secret-key"
           );
           res.status(200).json({ token });
@@ -53,4 +54,20 @@ async function login(req, res) {
   );
 }
 
-export { register, login };
+function authenticate(req, res, next) {
+  const token = req.header("Authorization");
+
+  if (!token) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+
+  try {
+    const decoded = jwt.verify(token, "your-secret-key");
+    req.user = decoded;
+    next();
+  } catch (error) {
+    res.status(401).json({ error: "Invalid token" });
+  }
+}
+
+export { register, login, authenticate };

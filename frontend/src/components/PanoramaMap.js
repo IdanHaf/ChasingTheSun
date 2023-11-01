@@ -11,7 +11,7 @@ import LabelSelector from './LabelSelector';
  */
 
 function PanoramaMap() {
-    const [panoRef, , setPov, setZoom] = usePanorama();
+    const [panoRef, panoramaState, setPov, setZoom] = usePanorama();
     const [ctrlPressed, setCtrlPressed] = useState(false);
 
     function handleKeyDown(event) {
@@ -72,7 +72,18 @@ function PanoramaMap() {
         };
     }, []);
 
-
+    // works kind of wierd with looking left and right
+    useEffect(() => {
+        // only 0.6,1,2 zoom levels are allowed
+        if (setZoom && panoramaState.zoom) {
+                // console.log(panoramaState.zoom);
+                setZoom((oldZ) => {
+                    return panoramaState.zoom;
+                });
+           
+        }
+      }, [panoramaState.zoom]);
+    
 
     return (
         <div className="absolute w-full h-full -z-10" >

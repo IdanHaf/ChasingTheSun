@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import { register, login } from "./auth_queries.js";
+import { register, login, authenticate } from "./auth_queries.js";
 
 const app = express();
 app.use(cors());
@@ -21,4 +21,10 @@ app.post("/register", async (req, res) => {
 
 app.post("/login", async (req, res) => {
   await login(req, res);
+});
+
+app.get("/profile", authenticate, (req, res) => {
+  // This route can only be accessed by authenticated users
+  const username = req.user.username;
+  res.json({ message: `Welcome, ${username}!` });
 });

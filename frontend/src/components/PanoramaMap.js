@@ -72,11 +72,23 @@ function PanoramaMap() {
         };
     }, []);
 
+    // works kind of wierd with looking left and right
+    useEffect(() => {
+        // only 0.6,1,2 zoom levels are allowed
+        if (setZoom && panoramaState.zoom) {
+                // console.log(panoramaState.zoom);
+                setZoom((oldZ) => {
+                    return panoramaState.zoom;
+                });
+           
+        }
+      }, [panoramaState.zoom]);
+    
 
     return (
-        <div className="absolute w-full h-full -z-10">
+        <div className="absolute w-full h-full -z-10" >
             <div className="mapContainer" ref={panoRef} onKeyDown={handleKeyDown} onKeyUp={handleKeyUp} if="pano"></div>
-            <LabelSelector ctrlPressed = {ctrlPressed} panoramaState = {panoramaState}/>
+            <LabelSelector ctrlPressed = {ctrlPressed}/>
         </div>
     );
 }

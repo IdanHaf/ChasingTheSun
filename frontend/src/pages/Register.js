@@ -1,14 +1,14 @@
-// log in page
+// lregister page
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { twJoin } from "tailwind-merge";
-function Login() {
+function Register() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [clicked, setClicked] = useState(false);
+  const [score, setScore] = useState("");
   const [error, setError] = useState(false);
-  function handleLogin() {
-    fetch("/login", {
+  function handleRegister() {
+    fetch("/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -20,10 +20,9 @@ function Login() {
         if (data.error) {
           console.error(data.error);
           setError(true);
-          setTimeout(() => setError(false), 2000);
+          setTimeout(() => setError(false), 2000);  
         } else {
           console.log(data);
-          setClicked(true);
         }
       });
   }
@@ -33,13 +32,12 @@ function Login() {
       <div
         className={twJoin(
           "flex flex-col justify-center items-center gap-8 font-mono",
-          clicked && "animate-shrink fill-mode-forwards"
         )}
       >
         <h1 className="font-bold text-4xl">
           Join the <span className="text-red-500 italic">mission</span>
         </h1>
-        <h2>for hamas terrorists, please enter 1 :)</h2>
+        <h2>Enter a username, password and how much did you score!</h2>
         <form
           className="flex flex-col gap-4"
           onSubmit={(e) => e.preventDefault()}
@@ -60,6 +58,14 @@ function Login() {
             required
             className="p-1 rounded-xl bg-slate-600 placeholder:text-white text-white"
           />
+            <input
+            type="score"
+            placeholder="Score"
+            value={score}
+            onChange={(e) => setScore(e.target.value)}
+            required
+            className="p-1 rounded-xl bg-slate-600 placeholder:text-white text-white"
+          />
           <div
             className={twJoin(
               "self-center text-xs text-red-500 bg-red-300/30 p-1 px-2 rounded-md shadow-sm animate-fade-in",
@@ -72,18 +78,17 @@ function Login() {
             <button
               type="submit"
               className="bg-red-400 hover:bg-red-500 px-2 rounded-lg drop-shadow text-lg"
-              onClick={() => handleLogin()}
+              onClick={() => handleRegister()}
             >
-              Log In
+              Register
             </button>
             <div className="flex items-end gap-2">
-              <p className="text-xs">don't have an account?</p>
-              <Link
-                to="/register"
+              <p className="text-xs">aleady have an account?</p>
+              <Link to="/login"
                 type="submit"
                 className="bg-red-400 hover:bg-red-500 px-2 rounded-lg drop-shadow"
               >
-                Register
+                Log In 
               </Link>
             </div>
           </div>
@@ -93,4 +98,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Register;

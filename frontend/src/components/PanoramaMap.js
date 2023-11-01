@@ -11,7 +11,7 @@ import LabelSelector from './LabelSelector';
  */
 
 function PanoramaMap() {
-    const [panoRef, , setPov, setZoom] = usePanorama();
+    const [panoRef, panoramaState, setPov, setZoom] = usePanorama();
     const [ctrlPressed, setCtrlPressed] = useState(false);
 
     function handleKeyDown(event) {
@@ -73,11 +73,10 @@ function PanoramaMap() {
     }, []);
 
 
-
     return (
-        <div className="absolute w-full h-full -z-10" >
+        <div className="absolute w-full h-full -z-10">
             <div className="mapContainer" ref={panoRef} onKeyDown={handleKeyDown} onKeyUp={handleKeyUp} if="pano"></div>
-            <LabelSelector ctrlPressed = {ctrlPressed}/>
+            <LabelSelector ctrlPressed = {ctrlPressed} panoramaState = {panoramaState}/>
         </div>
     );
 }

@@ -54,6 +54,10 @@ function LabelSelector(props) {
     const panoramaState = props.panoramaState;
     const [[xTrack, yTrack], setTrack] = useState([0,0]);
 
+    const hasDetected = () => {
+
+    }
+
     /*
         TODO:: calculate the max pitch and end pitch using the ratio of pitch to height.
         TODO:: move inside of useEffect, with zoom and lat & lng dependencies.
@@ -64,7 +68,7 @@ function LabelSelector(props) {
 
         returns true if the object was found, false otherwise.
      */
-    const wasDetected = (labelYSize, labelXpos) =>{
+    const wasDetected = (labelYSize, labelXpos) => {
         // Y - axis calculation.
         // TODO:: need to receive from db.
         const minPitch = -41.696;

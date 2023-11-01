@@ -52,10 +52,6 @@ function Panorama() {
     const handlePageClick = (e, x) => {
             setStartPos(e.clientY);
             setStartPitch(panoramaState?.pov?.pitch);
-            console.log("bottom-pitch:");
-            if(x == 1)
-                console.log(40 + (window.innerHeight - 40)*(e.clientY - 40)/(window.innerHeight -40));
-
     };
 
     const handlePageUp = (e) => {

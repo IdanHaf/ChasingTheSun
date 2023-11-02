@@ -28,7 +28,7 @@ function usePanorama(
   });
 
   const panoRef = useRef(null);
-  const API_KEY = ""; //For now - AIzaSyD4J0LPRji3WKllVxLji7YDbd5LSt6HA7o
+  const API_KEY = "AIzaSyD4J0LPRji3WKllVxLji7YDbd5LSt6HA7o"; //For now - AIzaSyD4J0LPRji3WKllVxLji7YDbd5LSt6HA7o
 
   const [loaded, setLoaded] = useState(false);
   const [setPov, setPovLoader] = useState((a, b) => {});
@@ -98,46 +98,43 @@ function usePanorama(
         });
 
         function inRange(x, base) {
-            return (x >= base - 0.01 && x <= base + 0.01);
+          return x >= base - 0.01 && x <= base + 0.01;
         }
         function outOfRange(x, base) {
-            return (x < base - 0.01 || x > base + 0.01);
+          return x < base - 0.01 || x > base + 0.01;
         }
         function beforeRange(x, base) {
-            return (x < base - 0.01);
+          return x < base - 0.01;
         }
         function afterRange(x, base) {
-            return (x > base + 0.01);
+          return x > base + 0.01;
         }
 
         function normalizeZoom(zoom) {
           // allow only 0.6,1,2 zoom levels
-        //   console.log(zoom);
-        if(inRange(zoom, 1)) return 1;
-        if (inRange(zoom, 2) || afterRange(zoom, 2)) return zoom;
-        if (inRange(zoom, 0) || beforeRange(zoom, 0)) return 0;
+          //   console.log(zoom);
+          if (inRange(zoom, 1)) return 1;
+          if (inRange(zoom, 2) || afterRange(zoom, 2)) return zoom;
+          if (inRange(zoom, 0) || beforeRange(zoom, 0)) return 0;
 
-        if(afterRange(zoom, 1) && beforeRange(zoom, 2)){
-            if(zoom < 1.5) return 2;
+          if (afterRange(zoom, 1) && beforeRange(zoom, 2)) {
+            if (zoom < 1.5) return 2;
             else return 1;
-        }
-        else if(beforeRange(zoom, 1) && afterRange(zoom, 0)){
-            if(zoom < 0.5) return 1;
+          } else if (beforeRange(zoom, 1) && afterRange(zoom, 0)) {
+            if (zoom < 0.5) return 1;
             else return 0;
-        }
-        else {
+          } else {
             return 0;
-        }
-            
+          }
 
-        //   if (inRange(zoom, 1) || (afterRange(zoom, 1) && beforeRange(zoom, 2) ) || (beforeRange(zoom, 1) && afterRange(zoom, 0))) {
-        //     console.log("hi!")
-        //     return 1;
-        //   } else if (inRange(zoom, 2) || (beforeRange(zoom, 2) && afterRange(zoom, 1))) {
-        //     return 2;
-        //   } else {
-        //     return 0;
-        //   }
+          //   if (inRange(zoom, 1) || (afterRange(zoom, 1) && beforeRange(zoom, 2) ) || (beforeRange(zoom, 1) && afterRange(zoom, 0))) {
+          //     console.log("hi!")
+          //     return 1;
+          //   } else if (inRange(zoom, 2) || (beforeRange(zoom, 2) && afterRange(zoom, 1))) {
+          //     return 2;
+          //   } else {
+          //     return 0;
+          //   }
         }
         setZoomLoader((p) => {
           return (newZoomFunc) => {

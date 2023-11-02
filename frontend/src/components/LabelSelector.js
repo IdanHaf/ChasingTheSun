@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import '../styles/LabelSelector.css'
+import zoomToPitch from '../data/ZoomToPitch.json'
 
 /*
     An upgraded LabelObject component, with darkening animation and a resizable label.
@@ -39,7 +40,6 @@ function LabelSelector(props) {
         if (animationActive) {
             setLablePosition([e.clientX, e.clientY]);
             setMouseDown(true);
-            console.log("x:" +e.clientX + " y: " + e.clientY);
         }
     };
     // allow the user to select upwords
@@ -69,14 +69,42 @@ function LabelSelector(props) {
         returns true if the object was found, false otherwise.
      */
     const wasDetected = (labelYSize, labelXpos) => {
+        // console.log("x:" +labelXpos + " y: " + labelYSize);
+         console.log("pitch:" + panoramaState.pov.pitch);
+         console.log("zoom:" + panoramaState.zoom);
+        //console.log("ratio:");
+        //console.log(labelYSize/window.innerHeight);
         // Y - axis calculation.
-        // TODO:: need to receive from db.
-        const minPitch = -41.696;
-        const maxPitch = 30.5026;
+        // TODO:: need to calculate base on ratio and pitch from db.
+        //const minPitch = -41.696;
+        //const maxPitch = 30.5026;
+
+        console.log("window height:");
+        console.log(window.innerHeight);
+
+        //Calculate try.
+        let yAxisRatio = 0.6906666666666667;//receives from db.
+        let objectLabeledPitch = 14.746001332508243;//receives from db.
+        let zPitch = "0.6";
+
+        if(panoramaState.zoom > 0.9)
+        {
+            yAxisRatio = 0.76;
+            objectLabeledPitch = 8.912548190430712;
+            zPitch = "1";
+        }
+
+        //750 = window innerHeight of the manager that set the data.
+        const minPitch =  objectLabeledPitch - yAxisRatio*(zoomToPitch[zPitch]);
+        const maxPitch = minPitch + zoomToPitch[zPitch];
+
+        // console.log("max and min pitch:");
+        // console.log(minPitch);
+        // console.log(maxPitch);
 
         // TODO:: need to retrieve according to panoramaMap location.
         const windowHeightStart = 0;
-        const windowHeightEnd = window.innerHeight + 40;
+        const windowHeightEnd = window.innerHeight;
 
         let pitch = panoramaState?.pov?.pitch;
 
@@ -87,8 +115,8 @@ function LabelSelector(props) {
 
         // X - axis calculation.
         // TODO:: need to receive from db.
-        const leftHeading = 39;
-        const rightHeading = 308;
+        let leftHeading = 44;
+        let rightHeading = 300;
 
         let heading = panoramaState?.pov?.heading;
 
@@ -112,8 +140,6 @@ function LabelSelector(props) {
 
         let objectXposition = windowRight - (windowRight - windowLeft) * xRatio + windowLeft;
 
-        console.log("x position of object is: " + objectXposition);
-
         setTrack([objectXposition, objectYposition]);
 
         //  TODO:: need to change to be according to the label size;
@@ -124,8 +150,6 @@ function LabelSelector(props) {
 
     const handlePageFinish = (e) => {
         if (mouseDown) {
-
-            console.log("release position of x is: " + e.clientX);
 
             // check if props has onLabelSelect
             if (props.onLabelSelect) {
@@ -156,9 +180,8 @@ function LabelSelector(props) {
     // handle ctrl+tab edge case
     return (
         <>
-            <div> {JSON.stringify(panoramaState?.position)}</div>
             <div onMouseDown={(e) => {wasDetected(e.clientY, e.clientX)}}
-                 style={{position: "absolute", top: yTrack, left: xTrack, color: "green"}}
+                 style={{background: "black", position: "absolute", top: yTrack, left: xTrack, color: "green"}}
             >+</div>
 
             <div

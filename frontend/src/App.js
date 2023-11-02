@@ -12,7 +12,7 @@ function App() {
 
   return (
         <Router >
-            <Link to="/intelligenceMode">intelligence mode</Link>
+            {/*<Link to="/intelligenceMode">intelligence mode</Link>*/}
 
             <Routes>
             <Route path="/" element={<Panorama/>}/>

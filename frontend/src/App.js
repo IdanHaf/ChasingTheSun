@@ -4,6 +4,7 @@ import KeyMap from './pages/KeyMap';
 import Clues from './pages/Clues';
 import IntelligenceMode from './pages/IntelligenceMode';
 import Login from './pages/Login';
+import Register from './pages/Register';
 import {BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Link } from "react-router-dom";
 
@@ -20,6 +21,7 @@ function App() {
             <Route path="/intelligenceMode" element={<IntelligenceMode/>}/>
             <Route path="/clues" element={<Clues/>}/>
             <Route path="/login" element={<Login/>}/>
+            <Route path="/register" element={<Register/>}/>
           </Routes>
         </Router>
   );

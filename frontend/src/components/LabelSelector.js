@@ -181,7 +181,7 @@ function LabelSelector(props) {
     return (
         <>
             <div onMouseDown={(e) => {wasDetected(e.clientY, e.clientX)}}
-                 style={{background: "black", position: "absolute", top: yTrack, left: xTrack, color: "green"}}
+                 style={{background: "black",opacity:0.2, position: "absolute", top: yTrack, left: xTrack, color: "green"}}
             >+</div>
 
             <div

@@ -8,7 +8,7 @@ function Login() {
   const [clicked, setClicked] = useState(false);
   const [error, setError] = useState(false);
   function handleLogin() {
-    fetch("/login", {
+    fetch("/api/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -5,7 +5,7 @@ import {
   setObjectData,
   objectPositionOnScreen,
   closest,
-} from "../helpFunctions/LabelSelectorHelpers";
+} from "../utility/LabelSelectorHelpers";
 
 /*
     An upgraded LabelObject component, with darkening animation and a resizable label.
@@ -13,11 +13,6 @@ import {
 
 function LabelSelector(props) {
   const [animationActive, setAnimationActive] = useState(false);
-  const startAnimation = () => {
-    if (!animationActive) {
-      setAnimationActive(true);
-    }
-  };
 
   //Using ctrlPressed prop to know if ctrl was clicked.
   const ctrlPressed = props.ctrlPressed;
@@ -25,6 +20,7 @@ function LabelSelector(props) {
   useEffect(() => {
     if (ctrlPressed) {
       setAnimationActive(true);
+      zoomTo1();
     }
     if (!ctrlPressed) {
       setAnimationActive(false);
@@ -57,6 +53,30 @@ function LabelSelector(props) {
   const panoramaState = props.panoramaState;
   const [[xTrack, yTrack], setTrack] = useState([0, 0]);
 
+  const zoomTo1 = () => {
+    if (props.setZoom && panoramaState.zoom && panoramaState.zoom < 1) {
+        // console.log(panoramaState.zoom);
+  
+        const timer = setInterval(() => {
+          props.setZoom((oldZ) => {
+            return oldZ + 0.1;
+          });
+        }, 10);
+        // stop after got to 1
+        const stopTime = (1 - panoramaState.zoom) * 100;
+        setTimeout(() => {
+          clearInterval(timer);  
+        }, stopTime);
+      }
+  }
+  
+  const startAnimation = () => {
+    if (!animationActive) {
+      setAnimationActive(true);
+      zoomTo1();
+    }
+  };
+
   /*
         TODO:: check if in the right lat&lon.
         The function receives event of mouseUp.
@@ -85,12 +105,16 @@ function LabelSelector(props) {
     //TODO:: change to be relative to window size & zoom.
     const delta = 120;
     const outSquare =
-      lables[1] >= squareStartY - delta && yEndPos <= squareEndY + delta &&
-      lables[0] >= squareStartX - delta && xEndPos <= squareEndX + delta;
+      lables[1] >= squareStartY - delta &&
+      yEndPos <= squareEndY + delta &&
+      lables[0] >= squareStartX - delta &&
+      xEndPos <= squareEndX + delta;
 
     const inSquare =
-      lables[1] <= squareStartY && yEndPos >= squareEndY &&
-      lables[0] <= squareStartX && xEndPos >= squareEndX;
+      lables[1] <= squareStartY &&
+      yEndPos >= squareEndY &&
+      lables[0] <= squareStartX &&
+      xEndPos >= squareEndX;
 
     return outSquare && inSquare;
   };
@@ -98,16 +122,14 @@ function LabelSelector(props) {
   const handlePageFinish = (e) => {
     if (mouseDown) {
       // flicker animation
-      if(props.isManager){
+      if (props.isManager) {
         // Manager sets object data.
         setObjectData(e, panoramaState, lables);
         setFlicker("orange");
-      }
-      else if (wasDetected(e)) {
+      } else if (wasDetected(e)) {
         // player found the object
         setFlicker("green");
-      }
-      else {
+      } else {
         setFlicker("red");
       }
 
@@ -134,7 +156,8 @@ function LabelSelector(props) {
           background: "rgba(220,55,55,0.5)",
           position: "absolute",
           top: yTrack - zoomToRatioData.size[closest(panoramaState.zoom)].y / 2,
-          left: xTrack - zoomToRatioData.size[closest(panoramaState.zoom)].x / 2,
+          left:
+            xTrack - zoomToRatioData.size[closest(panoramaState.zoom)].x / 2,
           width: zoomToRatioData.size[closest(panoramaState.zoom)].x,
           height: zoomToRatioData.size[closest(panoramaState.zoom)].y,
         }}
@@ -149,14 +172,14 @@ function LabelSelector(props) {
           position: "absolute",
           top:
             yTrack -
-            zoomToRatioData.size[closest(panoramaState.zoom)].y / 2 - 60,
+            zoomToRatioData.size[closest(panoramaState.zoom)].y / 2 -
+            60,
           left:
             xTrack -
-            zoomToRatioData.size[closest(panoramaState.zoom)].x / 2 - 60,
-          width:
-              zoomToRatioData.size[closest(panoramaState.zoom)].x + 120,
-          height:
-              zoomToRatioData.size[closest(panoramaState.zoom)].y + 120,
+            zoomToRatioData.size[closest(panoramaState.zoom)].x / 2 -
+            60,
+          width: zoomToRatioData.size[closest(panoramaState.zoom)].x + 120,
+          height: zoomToRatioData.size[closest(panoramaState.zoom)].y + 120,
         }}
       ></div>
       <div
@@ -197,7 +220,7 @@ function LabelSelector(props) {
                 ? "rgba(17, 204, 76, 0.5)"
                 : flicker === "orange"
                 ? "rgba(250,160,68,0.63)"
-                : "rgba(253, 253, 253, 0.5)"
+                : "rgba(253, 253, 253, 0.5)",
           }}
         ></div>
       </div>

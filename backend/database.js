@@ -7,6 +7,7 @@ const db = mysql
     user: "root",
     password: "amYisraelChai",
     database: "intellegence",
+    multipleStatements: true,
   });
 
 export default db;

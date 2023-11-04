@@ -9,18 +9,18 @@ CREATE TABLE users (
 -- @block
 -- Create the Objectives table
 CREATE TABLE Objectives (
-    obj_id INT PRIMARY KEY,
+    obj_id INT PRIMARY KEY AUTO_INCREMENT,
     obj_description VARCHAR(255)
 );
 
 -- @block
 -- Create the Coordinates table
 CREATE TABLE Coordinates (
-    coordinate_id INT PRIMARY KEY,
+    coordinate_id INT PRIMARY KEY AUTO_INCREMENT,
     obj_id INT,
     lng DECIMAL(10, 6),
     lat DECIMAL(10, 6),
-    FOREIGN KEY (obj_id) REFERENCES Objectives(obj_id)
+    FOREIGN KEY (obj_id) REFERENCES Objectives(obj_id) ON DELETE CASCADE
 );
 
 -- @block
@@ -28,12 +28,20 @@ CREATE TABLE Coordinates (
 CREATE TABLE ZoomLevels (
     coordinate_id INT,
     zoom INT,
-    yRatio DECIMAL(3, 5),
-    xRatio DECIMAL(1, 5),
-    pitch DECIMAL(3, 5),
-    heading DECIMAL(3, 5),
-    labelH DECIMAL(3, 5),
-    labelW DECIMAL(3, 5),
+    yRatio DECIMAL(8, 5),
+    xRatio DECIMAL(6, 5),
+    pitch DECIMAL(8, 5),
+    heading DECIMAL(8, 5),
+    labelH DECIMAL(8, 5),
+    labelW DECIMAL(8, 5),
     PRIMARY KEY (coordinate_id, zoom),
-    FOREIGN KEY (coordinate_id) REFERENCES Coordinates(coordinate_id)   
+    FOREIGN KEY (coordinate_id) REFERENCES Coordinates(coordinate_id) ON DELETE CASCADE
 );
+
+
+
+-- @block
+DROP TABLE IF EXISTS ZoomLevels;
+DROP TABLE IF EXISTS Coordinates;
+DROP TABLE IF EXISTS Objectives;
+

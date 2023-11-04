@@ -36,6 +36,7 @@ function PanoramaMap() {
         else if (event.key === 'j') {
             event.preventDefault();
             event.stopPropagation();
+            if(panoramaState.zoom -1 >= 1)
             setZoom((oldZ) => { return oldZ - 1 })
         }
 
@@ -74,16 +75,15 @@ function PanoramaMap() {
 
     // works kind of wierd with looking left and right
 
-    // useEffect(() => {
-    //     // only 0.6,1,2 zoom levels are allowed
-    //     if (setZoom && panoramaState.zoom) {
-    //             // console.log(panoramaState.zoom);
-    //             setZoom((oldZ) => {
-    //                 return panoramaState.zoom;
-    //             });
-    //
-    //     }
-    //   }, [panoramaState.zoom]);
+    useEffect(() => {
+        // only 0.6,1,2 zoom levels are allowed
+        if (setZoom && panoramaState.zoom && (panoramaState.zoom < 1) ) {
+                // console.log(panoramaState.zoom);
+            setZoom((oldZ) => {
+                return 1;
+            });
+        }
+      }, [panoramaState.zoom]);
 
 
     return (

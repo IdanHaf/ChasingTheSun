@@ -110,41 +110,43 @@ function usePanorama(
             return (x > base + 0.01);
         }
 
-        function normalizeZoom(zoom) {
-          // allow only 0.6,1,2 zoom levels
-        //   console.log(zoom);
-        if(inRange(zoom, 1)) return 1;
-        if (inRange(zoom, 2) || afterRange(zoom, 2)) return zoom;
-        if (inRange(zoom, 0) || beforeRange(zoom, 0)) return 0;
+        // function normalizeZoom(zoom) {
+        //   // allow only 0.6,1,2 zoom levels
+        // //   console.log(zoom);
+        // console.log(zoom);
+        // if(inRange(zoom, 1)) return 1;
+        // if (inRange(zoom, 2) || afterRange(zoom, 2)) return zoom;
+        // if (inRange(zoom, 0) || beforeRange(zoom, 0)) return 0;
 
-        if(afterRange(zoom, 1) && beforeRange(zoom, 2)){
-            if(zoom < 1.5) return 2;
-            else return 1;
-        }
-        else if(beforeRange(zoom, 1) && afterRange(zoom, 0)){
-            if(zoom < 0.5) return 1;
-            else return 0;
-        }
-        else {
-            return 0;
-        }
+        // if(afterRange(zoom, 1) && beforeRange(zoom, 2)){
+        //     if(zoom < 1.5) return 2;
+        //     else return 1;
+        // }
+        // else if(beforeRange(zoom, 1) && afterRange(zoom, 0)){
+        //     if(zoom < 0.5) return 1;
+        //     else return 0;
+        // }
+        // else {
+        //     return 0;
+        // }
             
 
-        //   if (inRange(zoom, 1) || (afterRange(zoom, 1) && beforeRange(zoom, 2) ) || (beforeRange(zoom, 1) && afterRange(zoom, 0))) {
-        //     console.log("hi!")
-        //     return 1;
-        //   } else if (inRange(zoom, 2) || (beforeRange(zoom, 2) && afterRange(zoom, 1))) {
-        //     return 2;
-        //   } else {
-        //     return 0;
-        //   }
-        }
+        // //   if (inRange(zoom, 1) || (afterRange(zoom, 1) && beforeRange(zoom, 2) ) || (beforeRange(zoom, 1) && afterRange(zoom, 0))) {
+        // //     console.log("hi!")
+        // //     return 1;
+        // //   } else if (inRange(zoom, 2) || (beforeRange(zoom, 2) && afterRange(zoom, 1))) {
+        // //     return 2;
+        // //   } else {
+        // //     return 0;
+        // //   }
+        // }
         setZoomLoader((p) => {
           return (newZoomFunc) => {
             setPanoramaState((prevPano) => {
               //   console.log("prev:", prevPano.zoom);
               //   console.log("new:", newZoomFunc(prevPano.zoom));
-              const newZoom = normalizeZoom(newZoomFunc(prevPano.zoom));
+              const newZoom = newZoomFunc(prevPano.zoom);
+              console.log(newZoom);
               //   console.log(newZoom);
               panorama.setZoom(newZoom);
               return { ...prevPano, zoom: newZoom };

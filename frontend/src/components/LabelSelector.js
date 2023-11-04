@@ -90,7 +90,6 @@ function LabelSelector(props) {
       lables[1] <= squareStartY && yPos >= squareEndY &&
       lables[0] <= squareStartX && xPos >= squareEndX;
 
-    //  TODO:: need to add inner square.
     return outSquare && inSquare;
   };
 

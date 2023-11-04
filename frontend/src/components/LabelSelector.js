@@ -81,18 +81,14 @@ function LabelSelector(props) {
     const squareStartY = objectYposition - size[zPitch].y / 2;
     const squareEndY = objectYposition + size[zPitch].y / 2;
 
-    const delta = 100;
+    const delta = 120;
     const outSquare =
-      lables[1] >= squareStartY - delta &&
-      yPos <= squareEndY + delta &&
-      lables[0] >= squareStartX - delta &&
-      xPos <= squareEndX + delta;
+      lables[1] >= squareStartY - delta && yPos <= squareEndY + delta &&
+      lables[0] >= squareStartX - delta && xPos <= squareEndX + delta;
 
     const inSquare =
-      lables[1] <= squareStartY &&
-      yPos >= squareEndY &&
-      lables[0] <= squareStartX &&
-      xPos >= squareEndX;
+      lables[1] <= squareStartY && yPos >= squareEndY &&
+      lables[0] <= squareStartX && xPos >= squareEndX;
 
     //  TODO:: need to add inner square.
     return outSquare && inSquare;
@@ -131,8 +127,7 @@ function LabelSelector(props) {
           background: "rgba(220,55,55,0.5)",
           position: "absolute",
           top: yTrack - zoomToRatioData.size[closest(panoramaState.zoom)].y / 2,
-          left:
-            xTrack - zoomToRatioData.size[closest(panoramaState.zoom)].x / 2,
+          left: xTrack - zoomToRatioData.size[closest(panoramaState.zoom)].x / 2,
           width: zoomToRatioData.size[closest(panoramaState.zoom)].x,
           height: zoomToRatioData.size[closest(panoramaState.zoom)].y,
         }}
@@ -147,14 +142,14 @@ function LabelSelector(props) {
           position: "absolute",
           top:
             yTrack -
-            zoomToRatioData.size[closest(panoramaState.zoom)].y / 2 -
-            40,
+            zoomToRatioData.size[closest(panoramaState.zoom)].y / 2 - 60,
           left:
             xTrack -
-            zoomToRatioData.size[closest(panoramaState.zoom)].x / 2 -
-            40,
-          width: zoomToRatioData.size[closest(panoramaState.zoom)].x + 80,
-          height: zoomToRatioData.size[closest(panoramaState.zoom)].y + 80,
+            zoomToRatioData.size[closest(panoramaState.zoom)].x / 2 - 60,
+          width:
+              zoomToRatioData.size[closest(panoramaState.zoom)].x + 120,
+          height:
+              zoomToRatioData.size[closest(panoramaState.zoom)].y + 120,
         }}
       ></div>
       <div
@@ -197,6 +192,7 @@ function LabelSelector(props) {
           }}
         ></div>
       </div>
+
       <button className="labelButton select-none" onClick={startAnimation}>
         [ ]
       </button>

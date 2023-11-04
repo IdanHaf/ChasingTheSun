@@ -15,7 +15,6 @@ const closest = (currentZoom) => {
 }
 
 /*
-    TODO:: move inside of useEffect, with zoom and lat & lng dependencies.
     For later - console.log(panoramaState?.position.lat() === 37.868996731655);
 
     The function receives the mouseUp event.

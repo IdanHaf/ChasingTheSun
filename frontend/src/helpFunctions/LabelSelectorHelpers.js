@@ -1,6 +1,38 @@
 import zoomToRangeData from "../data/ZoomToRange.json";
 import zoomToRatioData from "../data/RatioData.json";
 
+
+/*
+    TODO:: set the data in db.
+
+    The function receives mouseUp event and panorama state.
+    Set the needed values of the labeled object in the db.
+ */
+const setObjectData = (e, panoramaState, [xStart, yStart]) => {
+    const [lat, lng] = [panoramaState?.position?.lat(), panoramaState?.position?.lng()];
+    const currentZoom = panoramaState?.zoom;
+    const [pitch, heading] = [panoramaState?.pov?.pitch, panoramaState?.pov?.heading];
+    const [xCenter, yCenter] = [(xStart + (e.clientX - xStart)/2),(yStart + (e.clientY - yStart)/2)];
+    const [xRatio, yRatio] = [(xCenter/window.innerWidth), (yCenter/window.innerHeight)];
+    const [xLabelSize, yLabelSize] = [((e.clientX - xStart)/window.innerWidth)
+                                     ,((e.clientY - yStart)/window.innerHeight)]
+
+    const dataToSet = {
+        "lat": lat,
+        "lng": lng,
+        "zoom": currentZoom,
+        "pitch": pitch,
+        "heading": heading,
+        "xRatio": xRatio,
+        "yRatio": yRatio,
+        "xLabelSize": xLabelSize,
+        "yLabelSize": yLabelSize
+    }
+
+    console.log(dataToSet);
+}
+
+
 /*
     TODO:: for zoom > 1, seems like a connection between the zoom to the pitch range ( 1 + zoom = pitch / 2).
 
@@ -102,4 +134,4 @@ const objectPositionOnScreen = (e, panoramaState) => {
 }
 
 
-export { objectPositionOnScreen, closest };
+export { setObjectData, objectPositionOnScreen, closest };

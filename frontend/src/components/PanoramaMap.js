@@ -89,7 +89,7 @@ function PanoramaMap() {
     return (
         <div className="absolute w-full h-full -z-10" >
             <div className="mapContainer" ref={panoRef} onKeyDown={handleKeyDown} onKeyUp={handleKeyUp} if="pano"></div>
-            <LabelSelector ctrlPressed = {ctrlPressed} panoramaState = {panoramaState}/>
+            <LabelSelector ctrlPressed = {ctrlPressed} panoramaState = {panoramaState} isManager = {false}/>
         </div>
     );
 }

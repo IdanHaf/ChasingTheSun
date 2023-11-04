@@ -28,10 +28,12 @@ CREATE TABLE Coordinates (
 CREATE TABLE ZoomLevels (
     coordinate_id INT,
     zoom INT,
-    pitch DECIMAL(5, 2),
-    heading DECIMAL(5, 2),
-    topLeft VARCHAR(50),
-    bottomRight VARCHAR(50),
+    yRatio DECIMAL(3, 5),
+    xRatio DECIMAL(1, 5),
+    pitch DECIMAL(3, 5),
+    heading DECIMAL(3, 5),
+    labelH DECIMAL(3, 5),
+    labelW DECIMAL(3, 5),
     PRIMARY KEY (coordinate_id, zoom),
-    FOREIGN KEY (coordinate_id) REFERENCES Coordinates(coordinate_id)
+    FOREIGN KEY (coordinate_id) REFERENCES Coordinates(coordinate_id)   
 );

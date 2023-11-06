@@ -1,4 +1,4 @@
-# Progect-Name (yet to be specified)
+# Project-Name (yet to be specified)
 Welcome to our super cool project.
 
 # Install

@@ -2,6 +2,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { twJoin } from "tailwind-merge";
+import PasswordStrengthBar from "react-password-strength-bar";
+
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -52,14 +54,14 @@ function Login() {
             required
             className="p-1 rounded-xl bg-slate-600 placeholder:text-white text-white"
           />
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            className="p-1 rounded-xl bg-slate-600 placeholder:text-white text-white"
-          />
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              className="p-1 rounded-xl bg-slate-600 placeholder:text-white text-white w-full"
+            />
           <div
             className={twJoin(
               "self-center text-xs text-red-500 bg-red-300/30 p-1 px-2 rounded-md shadow-sm animate-fade-in",

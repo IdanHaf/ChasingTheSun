@@ -1,7 +1,13 @@
 import express from "express";
 import cors from "cors";
 import { register, login, authenticate } from "./auth_queries.js";
-import { add_objective, get_random_objective, get_objective_by_id, remove_objective } from "./objective_queries.js";
+import {
+  add_objective,
+  get_random_objective,
+  get_objective_by_id,
+  remove_objective,
+} from "./objective_queries.js";
+import { objective_validator } from "./validators.js";
 
 const app = express();
 app.use(cors());
@@ -29,18 +35,23 @@ app.get("/api/profile", authenticate, async (req, res) => {
   res.json({ message: `Welcome, ${username}!` });
 });
 
-app.post("/api/objectives", async (req, res) => {
+app.post("/api/objective", async (req, res) => {
+  const { body } = req;
+  if (!objective_validator(body)) {
+    res.status(400).json({ error: objective_validator.errors });
+    return;
+  }
   await add_objective(req, res);
 });
 
-app.get("/api/objectives/random", async (req, res) => {
+app.get("/api/objective/random", async (req, res) => {
   await get_random_objective(req, res);
 });
 
-app.get("/api/objectives/:id", async (req, res) => {
+app.get("/api/objective/:id", async (req, res) => {
   await get_objective_by_id(req, res);
 });
 
-app.delete("/api/objectives/:id", async (req, res) => {
+app.delete("/api/objective/:id", async (req, res) => {
   await remove_objective(req, res);
 });

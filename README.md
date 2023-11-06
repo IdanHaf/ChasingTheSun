@@ -12,6 +12,9 @@ To run the application:
 - cd frontend
 - npm start
 
+- cd backend
+- npm run dev
+
 # React-Tailwind
 a template repository for React+Tailwind
 - npx create-react-app my-app

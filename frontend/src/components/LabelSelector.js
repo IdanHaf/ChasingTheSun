@@ -53,6 +53,7 @@ function LabelSelector(props) {
   const panoramaState = props.panoramaState;
   const [[xTrack, yTrack], setTrack] = useState([0, 0]);
 
+  // TODO: fix bug - doesn't go all the way to 1.
   const zoomTo1 = () => {
     if (props.setZoom && panoramaState.zoom && panoramaState.zoom < 1) {
         // console.log(panoramaState.zoom);

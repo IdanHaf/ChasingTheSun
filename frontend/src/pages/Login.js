@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { twJoin } from "tailwind-merge";
-import PasswordStrengthBar from "react-password-strength-bar";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -25,7 +24,11 @@ function Login() {
           setTimeout(() => setError(false), 2000);
         } else {
           console.log(data);
-          setClicked(true);
+          if(data.token) 
+          {
+            localStorage.setItem("token", data.token);
+            setClicked(true);
+          }
         }
       });
   }

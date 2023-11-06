@@ -8,7 +8,7 @@ function Register() {
   const [score, setScore] = useState("");
   const [error, setError] = useState(false);
   function handleRegister() {
-    fetch("/register", {
+    fetch("/api/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

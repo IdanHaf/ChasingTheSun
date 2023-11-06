@@ -81,7 +81,7 @@ function LabelSelector(props) {
         TODO:: check if in the right lat&lon.
         The function receives event of mouseUp.
         Returns true if object was labeled, else false.
-     */
+   */
   const wasDetected = (e) => {
     const [objectXposition, objectYposition] = objectPositionOnScreen(
       e,
@@ -105,16 +105,12 @@ function LabelSelector(props) {
     //TODO:: change to be relative to window size & zoom.
     const delta = 120;
     const outSquare =
-      lables[1] >= squareStartY - delta &&
-      yEndPos <= squareEndY + delta &&
-      lables[0] >= squareStartX - delta &&
-      xEndPos <= squareEndX + delta;
+      lables[1] >= squareStartY - delta && yEndPos <= squareEndY + delta &&
+      lables[0] >= squareStartX - delta && xEndPos <= squareEndX + delta;
 
     const inSquare =
-      lables[1] <= squareStartY &&
-      yEndPos >= squareEndY &&
-      lables[0] <= squareStartX &&
-      xEndPos >= squareEndX;
+      lables[1] <= squareStartY && yEndPos >= squareEndY &&
+      lables[0] <= squareStartX && xEndPos >= squareEndX;
 
     return outSquare && inSquare;
   };
@@ -126,10 +122,12 @@ function LabelSelector(props) {
         // Manager sets object data.
         setObjectData(e, panoramaState, lables);
         setFlicker("orange");
-      } else if (wasDetected(e)) {
+      }
+      else if (wasDetected(e)) {
         // player found the object
         setFlicker("green");
-      } else {
+      }
+      else {
         setFlicker("red");
       }
 

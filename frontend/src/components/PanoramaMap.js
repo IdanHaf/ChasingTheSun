@@ -99,7 +99,7 @@ function PanoramaMap() {
       <LabelSelector
         ctrlPressed={ctrlPressed}
         panoramaState={panoramaState}
-        isManager={false}
+        isManager={true}
         setZoom={setZoom}
       />
     </div>

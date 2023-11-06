@@ -2,8 +2,6 @@ import zoomToRangeData from "../data/ZoomToRange.json";
 import zoomToRatioData from "../data/RatioData.json";
 
 /*
-    TODO:: set the data in db.
-
     The function receives mouseUp event and panorama state.
     Set the needed values of the labeled object in the db.
  */
@@ -25,7 +23,7 @@ const setObjectData = (e, panoramaState, [xStart, yStart]) => {
     xCenter / window.innerWidth,
     yCenter / window.innerHeight,
   ];
-  const [xLabelSize, yLabelSize] = [
+  const [labelH, labelW] = [
     (e.clientX - xStart) / window.innerWidth,
     (e.clientY - yStart) / window.innerHeight,
   ];
@@ -35,15 +33,49 @@ const setObjectData = (e, panoramaState, [xStart, yStart]) => {
     lat: lat,
     lng: lng,
     zoom: currentZoom,
-    pitch: pitch,
-    heading: heading,
     xRatio: xRatio,
     yRatio: yRatio,
-    labelW: xLabelSize,
-    labelH: yLabelSize,
+    pitch: pitch,
+    heading: heading,
+    labelH: labelH,
+    labelW: labelW,
   };
 
   console.log(dataToSet);
+
+  //Enter the data to the db.
+  // fetch("/api/objectives", {
+  //   method: "POST",
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //   },
+  //   body: JSON.stringify(dataToSet),
+  // })
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       if (data.error) {
+  //         console.error(data.error);
+  //       } else {
+  //         console.log(data);
+  //       }
+  //     });
+
+  fetch("/api/objectives/4", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.error) {
+          console.error(data.error);
+        } else {
+          console.log("returns: ");
+          console.log(data[0].zoom);
+        }
+      });
+
 };
 
 /*
@@ -54,18 +86,13 @@ const setObjectData = (e, panoramaState, [xStart, yStart]) => {
  */
 
 const closest = (currentZoom) => {
-  return currentZoom > 0.8 && currentZoom < 1.25
-    ? "1"
-    : currentZoom < 0.8
-    ? "0.6"
-    : currentZoom < 1.8
-    ? "1.5"
+  return (currentZoom > 0.8 && currentZoom < 1.25) ? "1"
+    : currentZoom < 0.8 ? "0.6"
+    : currentZoom < 1.8 ? "1.5"
     : "2";
 };
 
 /*
-    For later - console.log(panoramaState?.position.lat() === 37.868996731655);
-
     The function receives the mouseUp event.
     Calculating the objects location based on pitch and heading.
 
@@ -107,8 +134,7 @@ const objectPositionOnScreen = (e, panoramaState) => {
   let ratio = (Math.abs(minPitch) + pitch) / (maxPitch - minPitch);
 
   let objectYposition =
-    (windowHeightEnd - windowHeightStart) * ratio +
-    windowHeightStart -
+    (windowHeightEnd - windowHeightStart) * ratio + windowHeightStart -
     (25 * yPos) / window.innerHeight;
 
   // X - axis calculation.

@@ -3,15 +3,20 @@ import cors from "cors";
 import { register, login, authenticate } from "./auth_queries.js";
 import {
   add_objective,
+  get_all_objectives,
   get_random_objective,
   get_objective_by_id,
   remove_objective,
 } from "./objective_queries.js";
-import { objective_validator } from "./validators.js";
+import { objective_schema } from "./schemas.js";
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+// schema validation
+import Ajv from "ajv";
+const ajv = new Ajv();
 
 app.get("/api", (req, res) => {
   res.send({ numbers: [1, 2, 3] });
@@ -37,11 +42,15 @@ app.get("/api/profile", authenticate, async (req, res) => {
 
 app.post("/api/objective", async (req, res) => {
   const { body } = req;
-  if (!objective_validator(body)) {
-    res.status(400).json({ error: objective_validator.errors });
+  if (!ajv.validate(objective_schema, body)) {
+    res.status(400).json({ error: ajv.errors[0]?.message });
     return;
   }
   await add_objective(req, res);
+});
+
+app.get("/api/objective", async (req, res) => {
+  await get_all_objectives(req, res);
 });
 
 app.get("/api/objective/random", async (req, res) => {

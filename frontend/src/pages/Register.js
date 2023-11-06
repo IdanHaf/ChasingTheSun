@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { twJoin } from "tailwind-merge";
+import PasswordStrengthBar from "react-password-strength-bar";
 function Register() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -50,14 +51,17 @@ function Register() {
             required
             className="p-1 rounded-xl bg-slate-600 placeholder:text-white text-white"
           />
+          <div className="flex flex-col gap-2 items-center">
           <input
             type="password"
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            className="p-1 rounded-xl bg-slate-600 placeholder:text-white text-white"
+            className="p-1 rounded-xl bg-slate-600 placeholder:text-white text-white w-full"
           />
+           <PasswordStrengthBar password={password} className="w-11/12" />
+           </div>
             <input
             type="score"
             placeholder="Score"

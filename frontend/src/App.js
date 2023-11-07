@@ -5,6 +5,7 @@ import Clues from './pages/Clues';
 import IntelligenceMode from './pages/IntelligenceMode';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import Profile from './pages/Profile';
 import {BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Link } from "react-router-dom";
 
@@ -22,6 +23,7 @@ function App() {
             <Route path="/clues" element={<Clues/>}/>
             <Route path="/login" element={<Login/>}/>
             <Route path="/register" element={<Register/>}/>
+            <Route path="/profile" element={<Profile/>}/>
           </Routes>
         </Router>
   );

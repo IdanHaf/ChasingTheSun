@@ -1,8 +1,8 @@
-import mysql from "mysql2";
+import mysql from "mysql2/promise";
 
-
-const db = mysql
-  .createPool({
+// TODO: check need for db.end()
+const db = await mysql
+  .createConnection({
     host: "localhost",
     user: "root",
     password: "amYisraelChai",
@@ -11,5 +11,3 @@ const db = mysql
   });
 
 export default db;
-// const result = StylePropertyMapReadOnly.query("SELECT * FROM users");
-// console.log(result);

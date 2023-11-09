@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import "../styles/LabelSelector.css";
-import zoomToRatioData from "../data/RatioData.json";
 import {
   getObjectData,
   setObjectData,

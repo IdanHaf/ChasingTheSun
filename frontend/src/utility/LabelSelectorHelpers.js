@@ -1,16 +1,13 @@
 import zoomToRangeData from "../data/ZoomToRange.json";
-import zoomToRatioData from "../data/RatioData.json";
 
 /*
-    TODO:: set the data in db.
-
     The function receives mouseUp event and panorama state.
-    Set the needed values of the labeled object in the db.
+    Returns the labeled object data.
  */
-const setObjectData = (e, panoramaState, [xStart, yStart]) => {
+const getObjectData = (e, panoramaState, [xStart, yStart]) => {
   const [lat, lng] = [
-    panoramaState?.position?.lat(),
-    panoramaState?.position?.lng(),
+    Math.floor(panoramaState?.position?.lat() * 1e12) / 1e12,
+    Math.floor(panoramaState?.position?.lng() * 1e12) / 1e12,
   ];
   const currentZoom = panoramaState?.zoom;
   const [pitch, heading] = [
@@ -25,25 +22,52 @@ const setObjectData = (e, panoramaState, [xStart, yStart]) => {
     xCenter / window.innerWidth,
     yCenter / window.innerHeight,
   ];
-  const [xLabelSize, yLabelSize] = [
+  const [labelW, labelH] = [
     (e.clientX - xStart) / window.innerWidth,
     (e.clientY - yStart) / window.innerHeight,
   ];
-  const description = "test";
-  const dataToSet = {
-    description: description,
+
+  const objectData = {
     lat: lat,
     lng: lng,
     zoom: currentZoom,
-    pitch: pitch,
-    heading: heading,
     xRatio: xRatio,
     yRatio: yRatio,
-    labelW: xLabelSize,
-    labelH: yLabelSize,
+    pitch: pitch,
+    heading: heading,
+    labelH: labelH,
+    labelW: labelW,
   };
 
-  console.log(dataToSet);
+  return objectData;
+}
+
+/*
+    The function receives array of labeled object data.
+    Set the needed values of the labeled object in the db.
+ */
+const setObjectData = (objectData) => {
+
+  const description = "test";
+  const dataToSet = {description: description, info: objectData}
+
+  // Enter the data to the db.
+  fetch("/api/objective", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(dataToSet),
+  })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.error) {
+          console.error(data.error);
+        } else {
+          console.log("returns: ");
+          console.log(data);
+        }
+      });
 };
 
 /*
@@ -52,26 +76,20 @@ const setObjectData = (e, panoramaState, [xStart, yStart]) => {
     The function receives the current zoom.
     Returns the zoom with zoom to pitch range function.
  */
-
 const closest = (currentZoom) => {
-  return currentZoom > 0.8 && currentZoom < 1.25
-    ? "1"
-    : currentZoom < 0.8
-    ? "0.6"
-    : currentZoom < 1.8
-    ? "1.5"
+  return (currentZoom > 0.8 && currentZoom < 1.25) ? "1"
+    : currentZoom < 0.8 ? "0.6"
+    : currentZoom < 1.8 ? "1.5"
     : "2";
 };
 
 /*
-    For later - console.log(panoramaState?.position.lat() === 37.868996731655);
-
     The function receives the mouseUp event.
     Calculating the objects location based on pitch and heading.
 
     returns true if the object was found, false otherwise.
  */
-const objectPositionOnScreen = (e, panoramaState) => {
+const objectPositionOnScreen = (e, panoramaState, objectData) => {
   // Debugging.
   // console.log("x:" + e.clientX + " y: " + e.clientY);
   // console.log("pitch:" + panoramaState.pov.pitch);
@@ -82,17 +100,16 @@ const objectPositionOnScreen = (e, panoramaState) => {
 
   // Y - axis calculation.
   // TODO:: need to calculate base on ratio and pitch from db.
-
   let zPitch = closest(panoramaState.zoom);
+
   //const xPos = e.clientX;
   const yPos = e.clientY;
 
   //Calculate min and max pitch.
   const zoomToPitchRange = zoomToRangeData.pitch;
-  const zoomToRatioPitch = zoomToRatioData.pitch;
 
-  let yAxisRatio = zoomToRatioPitch[zPitch].ratio; //receives from db.
-  let objectLabeledPitch = zoomToRatioPitch[zPitch].pitch; //receives from db.
+  let yAxisRatio = parseFloat(objectData.yRatio); //receives from db.
+  let objectLabeledPitch = parseFloat(objectData.pitch); //receives from db.
 
   //Object min and max pitch.
   const minPitch = objectLabeledPitch - yAxisRatio * zoomToPitchRange[zPitch];
@@ -107,19 +124,17 @@ const objectPositionOnScreen = (e, panoramaState) => {
   let ratio = (Math.abs(minPitch) + pitch) / (maxPitch - minPitch);
 
   let objectYposition =
-    (windowHeightEnd - windowHeightStart) * ratio +
-    windowHeightStart -
+    (windowHeightEnd - windowHeightStart) * ratio + windowHeightStart -
     (25 * yPos) / window.innerHeight;
 
   // X - axis calculation.
   // TODO:: need to receive from db.
 
   //Calculate min and max heading.
-  const zoomToRatioHeading = zoomToRatioData.heading;
   const zoomToHeadingRange = zoomToRangeData.heading;
 
-  let xAxisRatio = zoomToRatioHeading[zPitch].ratio; //receives from db.
-  let objectLabeledHeading = zoomToRatioHeading[zPitch].heading; //receives from db.
+  let xAxisRatio = parseFloat(objectData.xRatio); //receives from db.
+  let objectLabeledHeading = parseFloat(objectData.heading); //receives from db.
 
   let maxHeading =
     (objectLabeledHeading + xAxisRatio * zoomToHeadingRange[zPitch]) % 360;
@@ -154,4 +169,4 @@ const objectPositionOnScreen = (e, panoramaState) => {
   return [objectXposition, objectYposition];
 };
 
-export { setObjectData, objectPositionOnScreen, closest };
+export { getObjectData, setObjectData, objectPositionOnScreen, closest };

@@ -18,8 +18,8 @@ CREATE TABLE Objectives (
 CREATE TABLE Coordinates (
     coordinate_id INT PRIMARY KEY AUTO_INCREMENT,
     obj_id INT,
-    lng DECIMAL(10, 6),
-    lat DECIMAL(10, 6),
+    lng DECIMAL(15, 12),
+    lat DECIMAL(15, 12),
     FOREIGN KEY (obj_id) REFERENCES Objectives(obj_id) ON DELETE CASCADE
 );
 

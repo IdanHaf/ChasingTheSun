@@ -39,6 +39,8 @@ async function add_objective(req, res) {
           "INSERT INTO Coordinates (obj_id, lng, lat) VALUES (?, ?, ?)",
           [objectiveId, coordinate.lng, coordinate.lat]
         );
+
+        console.log("twice?");
         const coordinateId = insertCoordinatesResult.insertId;
 
         await db.query(
@@ -109,7 +111,7 @@ async function get_objective_by_id(req, res) {
       return;
     }
     console.log("Objectives retrieved");
-    res.status(200).json(result[0]);
+    res.status(200).json(result);
   } catch (err) {
     res.status(500).json({ error: err });
   }

@@ -71,7 +71,10 @@ function Clues() {
   // get clicked[style] out of jsx? (make it a variable)
   return (
     <div>
-      <PanoramaMap />
+      <PanoramaMap
+          isManager={false}
+          setData={false}
+      />
       <div className="absolute right-10 top-10 flex justify-center items-start h-16 w-96 select-none">
         <button
           onClick={currentClue ? () => {} : handleClick}

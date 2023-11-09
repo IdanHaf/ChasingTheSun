@@ -9,6 +9,7 @@ import Profile from './pages/Profile';
 import { useMap, Map } from './utility/useMap';
 import {BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Link } from "react-router-dom";
+import ManagersPage from "./pages/ManagersPage";
 
 
 function App() {
@@ -25,8 +26,8 @@ function App() {
             <Route path="/login" element={<Login/>}/>
             <Route path="/register" element={<Register/>}/>
             <Route path="/profile" element={<Profile/>}/>
+            <Route path="/managers" element={<ManagersPage/>}/>
             <Route path="/map" element={<Map/>}/>
-
           </Routes>
         </Router>
   );

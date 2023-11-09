@@ -10,9 +10,9 @@ import LabelSelector from "./LabelSelector";
         html div component of the map that covers the screen.
  */
 
-function PanoramaMap() {
-  const [panoRef, panoramaState, setPov, setZoom] = usePanorama();
-  const [ctrlPressed, setCtrlPressed] = useState(false);
+function PanoramaMap(props) {
+
+  const [panoRef, panoramaState, setPov, setZoom, objectData] = usePanorama();
 
   function handleKeyDown(event) {
     // looking up/down keys
@@ -53,6 +53,8 @@ function PanoramaMap() {
         */
   }
 
+  const [ctrlPressed, setCtrlPressed] = useState(false);
+
   const handleKeyUp = () => {
     setCtrlPressed(false);
   };
@@ -74,6 +76,7 @@ function PanoramaMap() {
       window.removeEventListener("keyup", handleKeyUp);
     };
   }, []);
+
 
   // works kind of wierd with looking left and right
 
@@ -99,8 +102,10 @@ function PanoramaMap() {
       <LabelSelector
         ctrlPressed={ctrlPressed}
         panoramaState={panoramaState}
-        isManager={false}
+        isManager={props.isManager}
         setZoom={setZoom}
+        data={objectData}
+        setData={props.setData}
       />
     </div>
   );

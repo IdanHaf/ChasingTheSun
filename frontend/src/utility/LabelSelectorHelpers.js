@@ -1,6 +1,9 @@
 import zoomToRangeData from "../data/ZoomToRange.json";
 
-
+/*
+    The function receives mouseUp event and panorama state.
+    Returns the labeled object data.
+ */
 const getObjectData = (e, panoramaState, [xStart, yStart]) => {
   const [lat, lng] = [
     Math.floor(panoramaState?.position?.lat() * 1e12) / 1e12,
@@ -38,16 +41,15 @@ const getObjectData = (e, panoramaState, [xStart, yStart]) => {
 
   return objectData;
 }
+
 /*
-    The function receives mouseUp event and panorama state.
+    The function receives array of labeled object data.
     Set the needed values of the labeled object in the db.
  */
 const setObjectData = (objectData) => {
 
   const description = "test";
   const dataToSet = {description: description, info: objectData}
-
-  console.log(dataToSet);
 
   // Enter the data to the db.
   fetch("/api/objective", {
@@ -66,7 +68,6 @@ const setObjectData = (objectData) => {
           console.log(data);
         }
       });
-
 };
 
 /*

@@ -17,7 +17,7 @@ function ManagersPage(){
                 setData={sendData}
             />
 
-            <button className="labelButton select-none" onClick={handleButtonClick}>
+            <button className="addButton select-none" onClick={handleButtonClick}>
                 Add Data
             </button>
         </div>

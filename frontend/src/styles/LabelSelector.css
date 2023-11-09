@@ -1,4 +1,4 @@
-.labelButton{
+.labelButton, .addButton{
     position: absolute;
     bottom: 5%;
     left: 0.5%;
@@ -20,6 +20,19 @@
 .labelButton:hover {
     color: limegreen;
     opacity: 0.9;
+}
+
+.addButton{
+    background-color: limegreen;
+    color: white;
+    position: absolute;
+    bottom: 15%;
+    opacity: 0.9;
+}
+
+.addButton:hover {
+    color: black;
+    opacity: 1;
 }
 
 .labelDiv{

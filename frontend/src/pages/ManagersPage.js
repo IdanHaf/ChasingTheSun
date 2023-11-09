@@ -10,7 +10,7 @@ function ManagersPage(){
         setSendData(true);
     }
 
-        return (
+    return (
         <div>
             <PanoramaMap
                 isManager={true}

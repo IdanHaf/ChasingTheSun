@@ -102,9 +102,10 @@ function PanoramaMap(props) {
       <LabelSelector
         ctrlPressed={ctrlPressed}
         panoramaState={panoramaState}
-        isManager={false}
+        isManager={props.isManager}
         setZoom={setZoom}
         data={objectData}
+        setData={props.setData}
       />
     </div>
   );

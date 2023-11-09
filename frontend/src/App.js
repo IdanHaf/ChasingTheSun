@@ -8,6 +8,7 @@ import Register from './pages/Register';
 import Profile from './pages/Profile';
 import {BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Link } from "react-router-dom";
+import ManagersPage from "./pages/ManagersPage";
 
 
 function App() {
@@ -24,7 +25,8 @@ function App() {
             <Route path="/login" element={<Login/>}/>
             <Route path="/register" element={<Register/>}/>
             <Route path="/profile" element={<Profile/>}/>
-          </Routes>
+            <Route path="/managers" element={<ManagersPage/>}/>
+            </Routes>
         </Router>
   );
 }

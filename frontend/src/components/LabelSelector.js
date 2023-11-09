@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../styles/LabelSelector.css";
 import zoomToRatioData from "../data/RatioData.json";
 import {
+  getObjectData,
   setObjectData,
   objectPositionOnScreen,
   closest,
@@ -34,6 +35,7 @@ function LabelSelector(props) {
   const [lablesSize, setLableSize] = useState([0, 0]);
   const [mouseDown, setMouseDown] = useState(false);
   const [flicker, setFlicker] = useState("none");
+  const [[widthSize, heightSize], setWH] = useState([0, 0]);
 
   const handlePageClick = (e) => {
     if (animationActive) {
@@ -79,7 +81,6 @@ function LabelSelector(props) {
   };
 
   /*
-        TODO:: check if in the right lat&lon.
         The function receives event of mouseUp.
         Returns true if object was labeled, else false.
    */
@@ -114,13 +115,17 @@ function LabelSelector(props) {
 
     setTrack([objectXposition, objectYposition]);
 
-    const size = zoomToRatioData.size;
+    const wSize = (objectData.labelW)*window.innerWidth;
+    const hSize = (objectData.labelH)*window.innerHeight;
 
-    const squareStartX = objectXposition - size[currentZoom].x / 2;
-    const squareEndX = objectXposition + size[currentZoom].x / 2;
+    //TODO:: can remove when removing green and red squares.
+    setWH([wSize, hSize]);
 
-    const squareStartY = objectYposition - size[currentZoom].y / 2;
-    const squareEndY = objectYposition + size[currentZoom].y / 2;
+    const squareStartX = objectXposition - wSize / 2;
+    const squareEndX = objectXposition + wSize / 2;
+
+    const squareStartY = objectYposition - hSize / 2;
+    const squareEndY = objectYposition + hSize / 2;
 
     //TODO:: change to be relative to window size & zoom.
     const delta = 120;
@@ -135,12 +140,14 @@ function LabelSelector(props) {
     return outSquare && inSquare;
   };
 
+  const [objectDataArray, setObjectDataArray] = useState([]);
   const handlePageFinish = (e) => {
     if (mouseDown) {
       // flicker animation
       if (props.isManager) {
         // Manager sets object data.
-        setObjectData(e, panoramaState, lables);
+        objectDataArray.push(getObjectData(e, panoramaState, lables))
+        setObjectDataArray(objectDataArray);
         setFlicker("orange");
       }
       else if (wasDetected(e)) {
@@ -161,6 +168,13 @@ function LabelSelector(props) {
     }
   };
 
+  useEffect(() => {
+    // Enter the data to the db.
+    if(props.setData) {
+      setObjectData(objectDataArray);
+    }
+  }, [props.setData])
+
   // make sure doesn't clash with clues
   // handle ctrl+tab edge case
   return (
@@ -173,11 +187,11 @@ function LabelSelector(props) {
         style={{
           background: "rgba(220,55,55,0.5)",
           position: "absolute",
-          top: yTrack - zoomToRatioData.size[closest(panoramaState.zoom)].y / 2,
+          top: yTrack - heightSize / 2,
           left:
-            xTrack - zoomToRatioData.size[closest(panoramaState.zoom)].x / 2,
-          width: zoomToRatioData.size[closest(panoramaState.zoom)].x,
-          height: zoomToRatioData.size[closest(panoramaState.zoom)].y,
+            xTrack - widthSize / 2,
+          width: widthSize,
+          height: heightSize,
         }}
       ></div>
       <div
@@ -190,14 +204,14 @@ function LabelSelector(props) {
           position: "absolute",
           top:
             yTrack -
-            zoomToRatioData.size[closest(panoramaState.zoom)].y / 2 -
+              heightSize / 2 -
             60,
           left:
             xTrack -
-            zoomToRatioData.size[closest(panoramaState.zoom)].x / 2 -
+              widthSize / 2 -
             60,
-          width: zoomToRatioData.size[closest(panoramaState.zoom)].x + 120,
-          height: zoomToRatioData.size[closest(panoramaState.zoom)].y + 120,
+          width: widthSize + 120,
+          height: heightSize + 120,
         }}
       ></div>
       <div

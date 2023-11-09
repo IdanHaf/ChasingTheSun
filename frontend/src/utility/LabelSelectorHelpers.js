@@ -7,8 +7,8 @@ import zoomToRatioData from "../data/RatioData.json";
  */
 const setObjectData = (e, panoramaState, [xStart, yStart]) => {
   const [lat, lng] = [
-    panoramaState?.position?.lat(),
-    panoramaState?.position?.lng(),
+    Math.floor(panoramaState?.position?.lat() * 1e12) / 1e12,
+    Math.floor(panoramaState?.position?.lng() * 1e12) / 1e12,
   ];
   const currentZoom = panoramaState?.zoom;
   const [pitch, heading] = [
@@ -27,9 +27,9 @@ const setObjectData = (e, panoramaState, [xStart, yStart]) => {
     (e.clientX - xStart) / window.innerWidth,
     (e.clientY - yStart) / window.innerHeight,
   ];
+
   const description = "test";
-  const dataToSet = {
-    description: description,
+  const objectData = {
     lat: lat,
     lng: lng,
     zoom: currentZoom,
@@ -41,10 +41,40 @@ const setObjectData = (e, panoramaState, [xStart, yStart]) => {
     labelW: labelW,
   };
 
+  const objectData2 = {
+    lat: lat,
+    lng: lng,
+    zoom: currentZoom + 1,
+    xRatio: xRatio + 1,
+    yRatio: yRatio,
+    pitch: pitch,
+    heading: heading,
+    labelH: labelH,
+    labelW: labelW,
+  };
+
+  const dataToSet = {description: description, info: [objectData, objectData2]}
+
   console.log(dataToSet);
 
-  //Enter the data to the db.
-  // fetch("/api/objectives", {
+  // fetch("/api/objective/random", {
+  //   method: "GET",
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //   },
+  // })
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       if (data.error) {
+  //         console.error(data.error);
+  //       } else {
+  //         console.log("return:");
+  //         console.log(data);
+  //       }
+  //     });
+
+  // Enter the data to the db.
+  // fetch("/api/objective", {
   //   method: "POST",
   //   headers: {
   //     "Content-Type": "application/json",
@@ -56,25 +86,10 @@ const setObjectData = (e, panoramaState, [xStart, yStart]) => {
   //       if (data.error) {
   //         console.error(data.error);
   //       } else {
+  //         console.log("returns: ");
   //         console.log(data);
   //       }
   //     });
-
-  fetch("/api/objectives/4", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.error) {
-          console.error(data.error);
-        } else {
-          console.log("returns: ");
-          console.log(data[0].zoom);
-        }
-      });
 
 };
 

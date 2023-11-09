@@ -12,7 +12,7 @@ import LabelSelector from "./LabelSelector";
 
 function PanoramaMap(props) {
 
-  const [panoRef, panoramaState, setPov, setZoom, setPosition] = usePanorama();
+  const [panoRef, panoramaState, setPov, setZoom, objectData] = usePanorama();
 
   function handleKeyDown(event) {
     // looking up/down keys
@@ -104,6 +104,7 @@ function PanoramaMap(props) {
         panoramaState={panoramaState}
         isManager={false}
         setZoom={setZoom}
+        data={objectData}
       />
     </div>
   );

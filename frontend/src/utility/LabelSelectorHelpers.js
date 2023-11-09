@@ -57,39 +57,23 @@ const setObjectData = (e, panoramaState, [xStart, yStart]) => {
 
   console.log(dataToSet);
 
-  // fetch("/api/objective/random", {
-  //   method: "GET",
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //   },
-  // })
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       if (data.error) {
-  //         console.error(data.error);
-  //       } else {
-  //         console.log("return:");
-  //         console.log(data);
-  //       }
-  //     });
-
   // Enter the data to the db.
-  // fetch("/api/objective", {
-  //   method: "POST",
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //   },
-  //   body: JSON.stringify(dataToSet),
-  // })
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       if (data.error) {
-  //         console.error(data.error);
-  //       } else {
-  //         console.log("returns: ");
-  //         console.log(data);
-  //       }
-  //     });
+  fetch("/api/objective", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(dataToSet),
+  })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.error) {
+          console.error(data.error);
+        } else {
+          console.log("returns: ");
+          console.log(data);
+        }
+      });
 
 };
 
@@ -99,7 +83,6 @@ const setObjectData = (e, panoramaState, [xStart, yStart]) => {
     The function receives the current zoom.
     Returns the zoom with zoom to pitch range function.
  */
-
 const closest = (currentZoom) => {
   return (currentZoom > 0.8 && currentZoom < 1.25) ? "1"
     : currentZoom < 0.8 ? "0.6"
@@ -113,7 +96,7 @@ const closest = (currentZoom) => {
 
     returns true if the object was found, false otherwise.
  */
-const objectPositionOnScreen = (e, panoramaState) => {
+const objectPositionOnScreen = (e, panoramaState, objectData) => {
   // Debugging.
   // console.log("x:" + e.clientX + " y: " + e.clientY);
   // console.log("pitch:" + panoramaState.pov.pitch);
@@ -124,17 +107,17 @@ const objectPositionOnScreen = (e, panoramaState) => {
 
   // Y - axis calculation.
   // TODO:: need to calculate base on ratio and pitch from db.
-
   let zPitch = closest(panoramaState.zoom);
+
   //const xPos = e.clientX;
   const yPos = e.clientY;
 
   //Calculate min and max pitch.
   const zoomToPitchRange = zoomToRangeData.pitch;
-  const zoomToRatioPitch = zoomToRatioData.pitch;
+  // const zoomToRatioPitch = zoomToRatioData.pitch;
 
-  let yAxisRatio = zoomToRatioPitch[zPitch].ratio; //receives from db.
-  let objectLabeledPitch = zoomToRatioPitch[zPitch].pitch; //receives from db.
+  let yAxisRatio = parseFloat(objectData.yRatio); //receives from db.
+  let objectLabeledPitch = parseFloat(objectData.pitch); //receives from db.
 
   //Object min and max pitch.
   const minPitch = objectLabeledPitch - yAxisRatio * zoomToPitchRange[zPitch];
@@ -156,11 +139,11 @@ const objectPositionOnScreen = (e, panoramaState) => {
   // TODO:: need to receive from db.
 
   //Calculate min and max heading.
-  const zoomToRatioHeading = zoomToRatioData.heading;
+  // const zoomToRatioHeading = zoomToRatioData.heading;
   const zoomToHeadingRange = zoomToRangeData.heading;
 
-  let xAxisRatio = zoomToRatioHeading[zPitch].ratio; //receives from db.
-  let objectLabeledHeading = zoomToRatioHeading[zPitch].heading; //receives from db.
+  let xAxisRatio = parseFloat(objectData.xRatio); //receives from db.
+  let objectLabeledHeading = parseFloat(objectData.heading); //receives from db.
 
   let maxHeading =
     (objectLabeledHeading + xAxisRatio * zoomToHeadingRange[zPitch]) % 360;

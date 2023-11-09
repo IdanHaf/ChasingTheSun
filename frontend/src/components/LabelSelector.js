@@ -84,12 +84,31 @@ function LabelSelector(props) {
         Returns true if object was labeled, else false.
    */
   const wasDetected = (e) => {
+
+    const lat = Math.floor(panoramaState?.position?.lat() * 1e12) / 1e12;
+    const lng = Math.floor(panoramaState?.position?.lng() * 1e12) / 1e12;
+    const currentZoom = closest(panoramaState.zoom);
+
+    let data = props.data.filter((d) => {
+      return (
+          parseFloat(d.lat) === lat &&
+          parseFloat(d.lng) === lng &&
+          d.zoom === parseFloat(currentZoom)
+      )
+    });
+
+    //Position is wrong.
+    if(data.length <= 0){
+      return false;
+    }
+
+    const objectData = data[0];
     const [objectXposition, objectYposition] = objectPositionOnScreen(
       e,
-      panoramaState
+      panoramaState,
+      objectData
     );
 
-    const currentZoom = closest(panoramaState.zoom);
     const xEndPos = e.clientX;
     const yEndPos = e.clientY;
 

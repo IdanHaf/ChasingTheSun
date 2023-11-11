@@ -81,7 +81,6 @@ function usePanorama(
 
               //Set start position.
               setPanoramaState((prevPano) => {
-                console.log("hi!");
                 return { ...prevPano, position: panorama.getPosition() };
               });
 

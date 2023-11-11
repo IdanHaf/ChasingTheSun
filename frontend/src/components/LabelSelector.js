@@ -90,6 +90,12 @@ function LabelSelector(props) {
     const currentZoom = closest(panoramaState.zoom);
 
     let data = props.data.filter((d) => {
+
+      console.log(parseFloat(d.lat));
+      console.log(lat);
+      console.log(d.zoom === parseFloat(currentZoom));
+      console.log("-----");
+
       return (
           parseFloat(d.lat) === lat &&
           parseFloat(d.lng) === lng &&

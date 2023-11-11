@@ -10,7 +10,7 @@ import { useMap, Map } from "./utility/useMap";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Link } from "react-router-dom";
 import ManagersPage from "./pages/ManagersPage";
-import Homepage from "./pages/Homepage";
+import Homepage from "./pages/HomePage";
 
 function App() {
   return (

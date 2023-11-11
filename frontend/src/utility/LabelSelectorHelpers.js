@@ -100,21 +100,24 @@ const objectPositionOnScreen = (e, panoramaState, objectData) => {
   // console.log("heading: " + panoramaState.pov.heading);
 
   // Y - axis calculation.
-  // TODO:: need to calculate base on ratio and pitch from db.
   let zPitch = closest(panoramaState.zoom);
 
-  //const xPos = e.clientX;
   const yPos = e.clientY;
 
   //Calculate min and max pitch.
   const zoomToPitchRange = zoomToRangeData.pitch;
 
+  //Handle high object edge case.
+  const pitchDelta = (parseFloat(objectData.labelH) > 0.1 && zPitch >= 2 && objectData.pitch > 10)
+                      ? zoomToPitchRange[zPitch]*(1.4 + parseFloat(objectData.labelH))
+                      : zoomToPitchRange[zPitch];
+
   let yAxisRatio = parseFloat(objectData.yRatio); //receives from db.
   let objectLabeledPitch = parseFloat(objectData.pitch); //receives from db.
 
   //Object min and max pitch.
-  const minPitch = objectLabeledPitch - yAxisRatio * zoomToPitchRange[zPitch];
-  const maxPitch = minPitch + zoomToPitchRange[zPitch];
+  const minPitch = objectLabeledPitch - yAxisRatio * pitchDelta;
+  const maxPitch = minPitch + pitchDelta;
 
   // TODO:: need to retrieve according to panoramaMap location.
   const windowHeightStart = 0;

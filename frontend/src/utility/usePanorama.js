@@ -58,6 +58,7 @@ function usePanorama(
         } else {
           //Set the data of the object.
           setObjectData(data);
+
           console.log("before library");
           //Load the street view map.
           loader.importLibrary("streetView").then(async (streetViewLibrary) => {
@@ -76,6 +77,12 @@ function usePanorama(
                 disableDefaultUI: true,
                 motionTracking: false,
                 motionTrackingControl: false,
+              });
+
+              //Set start position.
+              setPanoramaState((prevPano) => {
+                console.log("hi!");
+                return { ...prevPano, position: panorama.getPosition() };
               });
 
               panorama.addListener("pano_changed", () => {

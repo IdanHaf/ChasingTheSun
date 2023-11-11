@@ -42,10 +42,10 @@ function ManagersPage(){
         }
     }
 
-    // TODO:: remove when db is not empty.
-    // useEffect(() => {
-    //     dbEmpty();
-    // }, [])
+    //TODO:: remove when db is not empty.
+    useEffect(() => {
+        dbEmpty();
+    }, [])
 
     return (
         <div>

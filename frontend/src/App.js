@@ -1,7 +1,7 @@
 import React from "react";
 import Panorama from "./pages/Panorama";
 import KeyMap from "./pages/KeyMap";
-import Clues from "./pages/Clues";
+import { Clues } from "./pages/Clues";
 import IntelligenceMode from "./pages/IntelligenceMode";
 import Login from "./pages/Login";
 import Register from "./pages/Register";

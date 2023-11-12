@@ -105,7 +105,6 @@ function PanoramaMap(props) {
         isManager={props.isManager}
         setZoom={setZoom}
         data={objectData}
-        setData={props.setData}
       />
     </div>
   );

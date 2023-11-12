@@ -139,6 +139,8 @@ function LabelSelector(props) {
     return outSquare && inSquare;
   };
 
+  //States for manager Case.
+  const [sendData, setSendData] = useState(false);
   const [objectDataArray, setObjectDataArray] = useState([]);
   const handlePageFinish = (e) => {
     if (mouseDown) {
@@ -148,6 +150,9 @@ function LabelSelector(props) {
         objectDataArray.push(getObjectData(e, panoramaState, lables))
         setObjectDataArray(objectDataArray);
         setFlicker("orange");
+        if(!sendData) {
+          setSendData(true);
+        }
       }
       else if (wasDetected(e)) {
         // player found the object
@@ -167,12 +172,14 @@ function LabelSelector(props) {
     }
   };
 
-  useEffect(() => {
-    // Enter the data to the db.
-    if(props.setData) {
+  //Managers "Add data" button was clicked.
+  const handleAddDataClick = () => {
+    if(sendData) {
       setObjectData(objectDataArray);
+      setObjectDataArray([]);
+      setSendData(false);
     }
-  }, [props.setData])
+  }
 
   // make sure doesn't clash with clues
   // handle ctrl+tab edge case
@@ -256,11 +263,23 @@ function LabelSelector(props) {
         ></div>
       </div>
 
+      {
+        props.isManager &&
+        <button className="addButton select-none"
+                style={sendData ?
+                      {background: "limegreen"} :
+                      {background: "darkgreen", color: "black", opacity: 1, cursor: "default"}}
+                onClick={handleAddDataClick}>
+          Add Data
+        </button>
+      }
+
       <button className="labelButton select-none" onClick={startAnimation}>
         [ ]
       </button>
     </>
   );
 }
+
 
 export default LabelSelector;

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import usePanorama from "../utility/usePanorama";
 import "../styles/PanoramaMap.css";
 import LabelSelector from "./LabelSelector";
+import ManagerLabelSelector from "./ManagerLabelSelector"
 /*
     The "PanoramaMap" React component presents Google Street View in your React app.
     It uses the "usePanorama" hook to allow moving around the map using the keyboard.
@@ -99,13 +100,22 @@ function PanoramaMap(props) {
         onKeyUp={handleKeyUp}
         if="pano"
       ></div>
-      <LabelSelector
-        ctrlPressed={ctrlPressed}
-        panoramaState={panoramaState}
-        isManager={props.isManager}
-        setZoom={setZoom}
-        data={objectData}
-      />
+      {
+        (props.isManager) ?
+            <ManagerLabelSelector
+                ctrlPressed={ctrlPressed}
+                panoramaState={panoramaState}
+                setZoom={setZoom}
+                data={objectData}
+            />
+            :
+            <LabelSelector
+                ctrlPressed={ctrlPressed}
+                panoramaState={panoramaState}
+                setZoom={setZoom}
+                data={objectData}
+            />
+      }
     </div>
   );
 }

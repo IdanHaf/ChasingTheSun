@@ -1,16 +1,187 @@
 import React, { useEffect, useState } from "react";
 import "../styles/LabelSelector.css";
 import {
-  getObjectData,
   setObjectData,
   objectPositionOnScreen,
   closest,
 } from "../utility/LabelSelectorHelpers";
+import useLabelSelector from "../utility/useLabelSelector";
 
 /*
     An upgraded LabelObject component, with darkening animation and a resizable label.
 */
+function LabelSelector(props) {
+  const customHookProps = {
+    ctrlPressed: props.ctrlPressed,
+    isManager: false,
+    panoramaState: props.panoramaState,
+    setZoom: props.setZoom,
+  }
 
+  const {
+    animationActive,
+    lables,
+    lablesSize,
+    flicker,
+    startAnimation,
+    handlePageClick,
+    handlePageSelect,
+    handlePageFinish
+  } = useLabelSelector(customHookProps);
+
+  const [[widthSize, heightSize], setWH] = useState([0, 0]);
+
+  // Checking if the object was labeled.
+  const panoramaState = props.panoramaState;
+  const [[xTrack, yTrack], setTrack] = useState([0, 0]);
+
+  /*
+    //TODO:: when removing the debugging squares add if labelSize != [0, 0] and can even remove.
+
+      The function receives event of mouseUp.
+      Returns true if object was labeled, else false.
+ */
+  const wasDetected = (e) => {
+    const lat = Math.floor(panoramaState?.position?.lat() * 1e12) / 1e12;
+    const lng = Math.floor(panoramaState?.position?.lng() * 1e12) / 1e12;
+    const currentZoom = closest(panoramaState.zoom);
+
+    let data = props.data.filter((d) => {
+      return (
+          parseFloat(d.lat) === lat &&
+          parseFloat(d.lng) === lng &&
+          d.zoom === parseFloat(currentZoom)
+      )
+    });
+
+    //Position is wrong.
+    if(data.length <= 0){
+      return false;
+    }
+
+    const objectData = data[0];
+    const [objectXposition, objectYposition] = objectPositionOnScreen(
+      e,
+      panoramaState,
+      objectData
+    );
+
+    const xEndPos = e.clientX;
+    const yEndPos = e.clientY;
+
+    setTrack([objectXposition, objectYposition]);
+
+    const wSize = (objectData.labelW)*window.innerWidth;
+    const hSize = (objectData.labelH)*window.innerHeight;
+
+    //TODO:: can remove when removing green and red squares.
+    setWH([wSize, hSize]);
+
+    const squareStartX = objectXposition - wSize / 2;
+    const squareEndX = objectXposition + wSize / 2;
+
+    const squareStartY = objectYposition - hSize / 2;
+    const squareEndY = objectYposition + hSize / 2;
+
+    //TODO:: change to be relative to window size & zoom.
+    const delta = 120;
+    const outSquare =
+      lables[1] >= squareStartY - delta && yEndPos <= squareEndY + delta &&
+      lables[0] >= squareStartX - delta && xEndPos <= squareEndX + delta;
+
+    const inSquare =
+      lables[1] <= squareStartY && yEndPos >= squareEndY &&
+      lables[0] <= squareStartX && xEndPos >= squareEndX;
+
+    return outSquare && inSquare;
+  };
+
+  const handleMouseUp = (e) =>{
+    handlePageFinish(e, wasDetected(e));
+  }
+
+  // make sure doesn't clash with clues
+  // handle ctrl+tab edge case
+  return (
+    <>
+      <div
+        className="select-none"
+        style={{
+          background: "rgba(220,55,55,0.5)",
+          position: "absolute",
+          top: yTrack - heightSize / 2,
+          left:
+            xTrack - widthSize / 2,
+          width: widthSize,
+          height: heightSize,
+        }}
+      ></div>
+      <div
+        className="select-none"
+        style={{
+          background: "rgba(31,71,27,0.5)",
+          position: "absolute",
+          top:
+            yTrack -
+              heightSize / 2 -
+            60,
+          left:
+            xTrack -
+              widthSize / 2 -
+            60,
+          width: widthSize + 120,
+          height: heightSize + 120,
+        }}
+      ></div>
+      <div
+        className="select-none"
+        style={{
+          background: "rgba(0,0,0)",
+          position: "absolute",
+          top: yTrack,
+          left: xTrack,
+          color: "green",
+        }}
+      >
+        +
+      </div>
+
+      <div
+        className={`${
+          animationActive ? "animate-fade-in" : "hidden"
+        } w-full h-full hole bg-black/30 cursor-crosshair`}
+        onMouseDown={handlePageClick}
+        onMouseMove={handlePageSelect}
+        onMouseUp={handleMouseUp}
+      >
+        <div
+          className="labelDiv"
+          style={{
+            top: lables[1],
+            left: lables[0],
+            width: lablesSize[0],
+            height: lablesSize[1],
+            backgroundColor:
+              flicker === "red"
+                ? "rgba(204, 17, 17, 0.5)"
+                : flicker === "green"
+                ? "rgba(17, 204, 76, 0.5)"
+                : "rgba(253, 253, 253, 0.5)",
+          }}
+        ></div>
+      </div>
+
+      <button className="labelButton select-none" onClick={startAnimation}>
+        [ ]
+      </button>
+    </>
+  );
+}
+
+export default LabelSelector;
+
+//Older working version of label selector.
+/*
 function LabelSelector(props) {
   const [animationActive, setAnimationActive] = useState(false);
 
@@ -57,21 +228,21 @@ function LabelSelector(props) {
   // TODO: fix bug - doesn't go all the way to 1.
   const zoomTo1 = () => {
     if (props.setZoom && panoramaState.zoom && panoramaState.zoom < 1) {
-        // console.log(panoramaState.zoom);
-  
-        const timer = setInterval(() => {
-          props.setZoom((oldZ) => {
-            return oldZ + 0.1;
-          });
-        }, 10);
-        // stop after got to 1
-        const stopTime = (1 - panoramaState.zoom) * 100;
-        setTimeout(() => {
-          clearInterval(timer);  
-        }, stopTime);
-      }
+      // console.log(panoramaState.zoom);
+
+      const timer = setInterval(() => {
+        props.setZoom((oldZ) => {
+          return oldZ + 0.1;
+        });
+      }, 10);
+      // stop after got to 1
+      const stopTime = (1 - panoramaState.zoom) * 100;
+      setTimeout(() => {
+        clearInterval(timer);
+      }, stopTime);
+    }
   }
-  
+
   const startAnimation = () => {
     if (!animationActive) {
       setAnimationActive(true);
@@ -79,10 +250,10 @@ function LabelSelector(props) {
     }
   };
 
-  /*
-        The function receives event of mouseUp.
-        Returns true if object was labeled, else false.
-   */
+/*
+      The function receives event of mouseUp.
+      Returns true if object was labeled, else false.
+ *//*
   const wasDetected = (e) => {
 
     const lat = Math.floor(panoramaState?.position?.lat() * 1e12) / 1e12;
@@ -280,6 +451,4 @@ function LabelSelector(props) {
     </>
   );
 }
-
-
-export default LabelSelector;
+*/

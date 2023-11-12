@@ -2,7 +2,6 @@ import { useRef, useState, useEffect } from "react";
 import { Loader } from "@googlemaps/js-api-loader";
 
 /*
-
     The "usePanorama" React hook allows you to show a Google Street View panorama in your React app.
     It accepts the start Id , position, pov, and zoom as parameters, 
     and returns: 

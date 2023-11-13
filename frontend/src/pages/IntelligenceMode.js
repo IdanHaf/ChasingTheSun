@@ -9,7 +9,6 @@ function IntelligenceMode(){
         <div>
             <PanoramaMap
               isManager={false}
-              setData={false}
             />
         </div>
     );

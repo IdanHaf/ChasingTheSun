@@ -7,12 +7,7 @@ import {
 
 
 function ManagersPage(){
-    const [sendData, setSendData] = useState(false);
     const [isEmpty, setIsEmpty] = useState(true);
-
-    const handleButtonClick = () => {
-        setSendData(true);
-    }
 
     //TODO:: remove when db is not empty.
     const dbEmpty = () =>{
@@ -42,7 +37,7 @@ function ManagersPage(){
         }
     }
 
-    // TODO:: remove when db is not empty.
+    //TODO:: remove when db is not empty.
     // useEffect(() => {
     //     dbEmpty();
     // }, [])
@@ -51,12 +46,7 @@ function ManagersPage(){
         <div>
             <PanoramaMap
                 isManager={true}
-                setData={sendData}
             />
-
-            <button className="addButton select-none" onClick={handleButtonClick}>
-                Add Data
-            </button>
         </div>
     );
 }

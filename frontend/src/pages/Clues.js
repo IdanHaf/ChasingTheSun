@@ -89,6 +89,7 @@ function Clues() {
               />
             );
           })}
+          <Map lat={40.78} lng={-73.9806} />
         </CluesButton>
         {currentClue ? (
           <Clue
@@ -98,7 +99,6 @@ function Clues() {
             clue={currentClue.clue}
           />
         ) : null}
-        <Map lat={40.78} lng={-73.9806} />
       </div>
     </div>
   );

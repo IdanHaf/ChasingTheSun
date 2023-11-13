@@ -1,6 +1,6 @@
-import  Body  from "../components/homePage/Body";
-import  Footer  from "../components/homePage/Footer";
-import  Header  from "../components/homePage/Header";
+import Body from "../components/homePage/Body";
+import Footer from "../components/homePage/Footer";
+import Header from "../components/homePage/Header";
 
 const HomePage = () => {
   return (

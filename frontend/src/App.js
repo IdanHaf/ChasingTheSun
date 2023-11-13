@@ -10,7 +10,7 @@ import { useMap, Map } from "./utility/useMap";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Link } from "react-router-dom";
 import ManagersPage from "./pages/ManagersPage";
-import Homepage from "./pages/Homepage";
+import HomePage from "./pages/HomePage";
 
 function App() {
   return (
@@ -18,7 +18,7 @@ function App() {
       {/*<Link to="/intelligenceMode">intelligence mode</Link>*/}
 
       <Routes>
-        <Route path="/" element={<Homepage/>} />
+        <Route path="/" element={<HomePage />} />
         <Route path="/Panorama" element={<Panorama />} />
         <Route path="/keymap" element={<KeyMap />} />
         <Route path="/intelligenceMode" element={<IntelligenceMode />} />

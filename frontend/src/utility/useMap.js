@@ -423,17 +423,20 @@ function Map(props) {
   const map_url = `https://maps.googleapis.com/maps/api/staticmap?sensor=false&center=${lat},${lng}&zoom=20&size=400x400&markers=color:0x10645C%7Clabel:O%7C${lat},${lng}&maptype=roadmap&key=AIzaSyD4J0LPRji3WKllVxLji7YDbd5LSt6HA7o`;
   // return <div ref={mapRef} style={{ height: "100vh", width: "100%" }}></div>;
   return (
-    <div className="absolute top-52 overflow-hidden w-52 h-52">
-      <img src={map_url} alt="Map" className="w-56 h-56 pacity-80"></img>
-      <div className="absolute top-0 group">
-        <CluesButtonBorder
-          clicked={false}
-          className={twMerge(
-            "w-52 h-52 [&>*]:border-red-800",
-            clicked &&
-              "[&>*:nth-child(3)]:border-l-8 [&>*:nth-child(3)]:border-b-8"
-          )}
-        />
+    <div className="relative flex items-center gap-6">
+      <button className="">Restart</button>
+      <div className="overflow-hidden w-52 h-52">
+        <img src={map_url} alt="Map" className="w-56 h-56 opacity-80"></img>
+        <div className="absolute top-0 group">
+          <CluesButtonBorder
+            clicked={false}
+            className={twMerge(
+              "w-52 h-52 [&>*]:border-red-800",
+              clicked &&
+                "[&>*:nth-child(3)]:border-l-8 [&>*:nth-child(3)]:border-b-8"
+            )}
+          />
+        </div>
       </div>
     </div>
   );

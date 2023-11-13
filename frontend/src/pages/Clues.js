@@ -1,16 +1,16 @@
 import PanoramaMap from "../components/PanoramaMap";
 import "../styles/Clues.css";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { Map } from "../utility/useMap";
-
+import { SquareButton } from "../components/SquareButton";
 function Clue(props) {
   return (
     <div
       className={twMerge(
-        "w-80 h-16 font-mono shadow-md select-none",
-        !props.archive &&
-          "absolute top-40 opacity-60 hover:opacity-80 hover:-translate-y-1"
+        "font-mono shadow-md select-none",
+        !props.archive && "hover:opacity-80 hover:-translate-y-1",
+        props.className
       )}
     >
       <div className="bg-green-gray-700 h-3 flex justify-end">
@@ -73,15 +73,17 @@ function Clues() {
   // get clicked[style] out of jsx? (make it a variable)
   return (
     <div>
-      <PanoramaMap isManager={false}/>
-      <div className="absolute right-10 top-10 flex justify-center items-start h-16 w-96 select-none">
-        <CluesButton
+      <PanoramaMap isManager={false} />
+      <div className="absolute right-10 flex flex-col justify-start items-center w-96 h-full select-none">
+        <SquareButton
+          className="mt-10 flex-none"
           onClick={currentClue ? () => {} : handleClick}
           clicked={clicked}
         >
           {clues.map((clue, index) => {
             return (
               <Clue
+                className="w-80 h-16"
                 archive={true}
                 key={index}
                 time={clue.time}
@@ -89,91 +91,21 @@ function Clues() {
               />
             );
           })}
-          <Map lat={40.78} lng={-73.9806} />
-        </CluesButton>
+        </SquareButton>
         {currentClue ? (
           <Clue
             archive={false}
-            className="animate-fade-in"
-            time={currentClue.time}
-            clue={currentClue.clue}
+            className="absolute top-40 opacity-60 animate-fade-in"
+            time={"currentClue.time"}
+            clue={"currentClue.clue"}
           />
         ) : null}
+        <div className="flex-1 mb-10 mt-5 flex justify-center items-end">
+          <Map lat={40.78} lng={-73.9806} />
+        </div>
       </div>
     </div>
   );
 }
 
-function CluesButtonBorder(props) {
-  return (
-    <div
-      className={twMerge(
-        "transition-all delay-150 ease-in-out grid grid-cols-2",
-        props.className
-      )}
-    >
-      <div
-        className={twMerge(
-          "col-span-1 transition-all delay-150 duration-300 ease-in-out border-4 border-b-0 border-r-0",
-          props.clicked
-            ? "border-green-900 h-4 w-12"
-            : "border-green-600 h-2 w-3"
-        )}
-      />
-      <div
-        className={twMerge(
-          "col-span-1 justify-self-end transition-all delay-150 duration-300 ease-in-out border-4 border-b-0 border-l-0",
-          props.clicked
-            ? "border-green-900 h-8 w-6"
-            : "border-green-600 h-2 w-3"
-        )}
-      />
-      <div
-        className={twMerge(
-          "col-span-1 self-end transition-all delay-150 duration-300 ease-in-out border-4 border-t-0 border-r-0",
-          props.clicked
-            ? "border-green-900 h-4 w-8"
-            : "border-green-600 h-2 w-3"
-        )}
-      />
-      <div
-        className={twMerge(
-          "col-span-1 place-self-end transition-all delay-150 duration-300 ease-in-out border-4 border-t-0 border-l-0",
-          props.clicked
-            ? "border-green-900 h-4 w-6"
-            : "border-green-600 h-2 w-3"
-        )}
-      />
-    </div>
-  );
-}
-
-function CluesButton(props) {
-  return (
-    <button
-      onClick={props.onClick}
-      className={twMerge(
-        "flex relative justify-center items-start opacity-60 group",
-        props.clicked && "opacity-80 backdrop-blur-sm bg-white/10"
-      )}
-    >
-      <CluesButtonBorder
-        clicked={props.clicked}
-        className={twMerge(
-          "w-14 h-10",
-          props.clicked ? "w-96 h-96" : "group-hover:w-20"
-        )}
-      />
-      <div
-        className={twMerge(
-          "absolute h-[90%] top-5 right-0.5 w-full flex justify-start items-center gap-5 flex-col py-10 animate-fade-in overflow-y-scroll scrollbar-thin scrollbar-track-transparent scrollbar-thumb-transparent",
-          !props.clicked && "hidden"
-        )}
-      >
-        {props.children}
-      </div>
-    </button>
-  );
-}
-
-export { Clues, CluesButtonBorder };
+export { Clues };

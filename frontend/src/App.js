@@ -18,7 +18,7 @@ function App() {
       {/*<Link to="/intelligenceMode">intelligence mode</Link>*/}
 
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<Homepage />} />
         <Route path="/Panorama" element={<Panorama />} />
         <Route path="/keymap" element={<KeyMap />} />
         <Route path="/intelligenceMode" element={<IntelligenceMode />} />

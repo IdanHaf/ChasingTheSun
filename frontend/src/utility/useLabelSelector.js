@@ -84,8 +84,8 @@ function useLabelSelector({ctrlPressed, isManager, panoramaState, setZoom}) {
     const handlePageFinish = (e, wasDetected = false) => {
         if (mouseDown) {
             if (isManager) {
-                objectDataArray.push(getObjectData(e, panoramaState, lables));
-                setObjectDataArray(objectDataArray);
+                const newObjectData = getObjectData(e, panoramaState, lables);
+                setObjectDataArray(prevDataArray => [...prevDataArray, newObjectData]);
                 setFlicker("orange");
             }
             else if (wasDetected) {

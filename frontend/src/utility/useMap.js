@@ -44,7 +44,7 @@ function Map(props) {
       loader.importLibrary("marker").then(async (markerLibrary) => {
         if (markerLibrary && mapRef.current) {
           let { Marker } = markerLibrary;
-          const image = "empty.png";
+          const image = {url: "./circle.ico ",size: {width: 20,height: 20}};
           for (let i in props.circles) {
             let circle = props.circles[i];
             new Marker({
@@ -52,6 +52,7 @@ function Map(props) {
               position: { lat: circle.lat - 0.002, lng: circle.lng },
               title: "Uluru",
               icon: image,
+              
               label: circle.precentage + "%",
             });
           }

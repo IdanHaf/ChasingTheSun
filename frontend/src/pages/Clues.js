@@ -4,6 +4,7 @@ import { useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { Map } from "../utility/useMap";
 import { SquareButton } from "../components/SquareButton";
+
 function Clue(props) {
   return (
     <div
@@ -101,7 +102,14 @@ function Clues() {
           />
         ) : null}
         <div className="flex-1 mb-10 mt-5 flex justify-center items-end">
-          <Map lat={40.78} lng={-73.9806} />
+          <Map
+            lat={40.759425}
+            lng={-73.980829}
+            circles={[
+              { lat: 40.749425, lng: -73.980829, radius: 1000, precentage: 90, color: "blue" },
+              { lat: 40.759425, lng: -73.990829, radius: 300, precentage: 10 },
+            ]}
+          />
         </div>
       </div>
     </div>

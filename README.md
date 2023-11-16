@@ -2,7 +2,7 @@
 
 Welcome to our super cool project.
 
-<img src="images/intelligenceMode">
+<img src="images/intelligenceMode.png">
 
 **important notes to all developers**
 

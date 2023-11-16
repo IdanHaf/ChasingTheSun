@@ -30,7 +30,9 @@ If an error occurs, try the recommended solution (usually involves --peep someth
  npm install
 ```
 
-Note: MySQL needed to be installed separately.
+Note: 
+  - MySQL needed to be installed separately.
+  - Node.js needed to be installed separately.
 
 
 ## Developers usage

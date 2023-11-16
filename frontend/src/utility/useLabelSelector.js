@@ -81,6 +81,7 @@ function useLabelSelector({ctrlPressed, isManager, panoramaState, setZoom}) {
     //For managers.
     const [objectDataArray, setObjectDataArray] = useState([]);
 
+    //TODO:: check that object inserted isn't already exist.
     const handlePageFinish = (e, wasDetected = false) => {
         if (mouseDown) {
             if (isManager) {

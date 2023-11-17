@@ -50,7 +50,6 @@ const setObjectData = (objectData) => {
 
   const description = "test";
   const dataToSet = {description: description, info: objectData}
-  console.log(objectData);
 
   // Enter the data to the db.
   fetch("/api/objective", {

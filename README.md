@@ -2,6 +2,8 @@
 
 Welcome to our super cool project.
 
+<img src="images/intelligenceMode.png">
+
 **important notes to all developers**
 
 - To check if user is logged in and access authorized endpoints,
@@ -12,23 +14,37 @@ Welcome to our super cool project.
   })
 - To remove the token (logout): localStorage.removeItem('token);
 
-# Install
+## Install
 
 To install:
+```
+ git clone https://github.com/OriBenjamin/Intelligence.git
+ cd frontend
+ npm install
+```
 
-- clone project.
-- cd frontend
-- npm install (if not working can see in errors - npm install ... --peep somthing...)
+If an error occurs, try the recommended solution (usually involves --peep something).
 
-# Run
+```
+ cd ../backend
+ npm install
+```
+
+Note: 
+  - MySQL needed to be installed separately.
+  - Node.js needed to be installed separately.
+
+
+## Developers usage
 
 To run the application:
+```
+ cd frontend
+ npm start
 
-- cd frontend
-- npm start
-
-- cd backend
-- npm run dev
+ cd ../backend
+ npm run dev
+```
 
 # React-Tailwind
 

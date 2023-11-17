@@ -28,7 +28,7 @@ function usePanorama(
   const [objectData, setObjectData] = useState([]);
 
   const panoRef = useRef(null);
-  const API_KEY = ""; //For now - AIzaSyD4J0LPRji3WKllVxLji7YDbd5LSt6HA7o
+  const API_KEY = "AIzaSyD4J0LPRji3WKllVxLji7YDbd5LSt6HA7o"; //For now - AIzaSyD4J0LPRji3WKllVxLji7YDbd5LSt6HA7o
 
   const [loaded, setLoaded] = useState(false);
   const [setPov, setPovLoader] = useState((a, b) => {});

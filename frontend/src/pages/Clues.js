@@ -1,78 +1,74 @@
 import PanoramaMap from "../components/PanoramaMap";
 import "../styles/Clues.css";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { twMerge } from "tailwind-merge";
-import { Map } from "../utility/useMap";
+import { Map } from "../utility/Map";
 import { SquareButton } from "../components/SquareButton";
+import HoverVideoPlayer from "react-hover-video-player";
+import { Clue, AudioClue, FootageClue } from "../components/Clue";
 
-function Clue(props) {
+function LoadingBar(props) {
   return (
-    <div
-      className={twMerge(
-        "font-mono shadow-md select-none",
-        !props.archive && "hover:opacity-80 hover:-translate-y-1",
-        props.className
-      )}
-    >
-      <div className="bg-green-gray-700 h-3 flex justify-end">
-        <div className="bg-green-gray-600 h-3 w-3 text-xs text-center">X</div>
-      </div>
-      <div className="border border-slate-700 bg-black px-2 py-1 flex justify-center items-center">
-        <div className="flex-1">
-          <p className="text-xs text-yellow-300 cursor-default">
-            New location info!
-          </p>
-          <p className="text-sm text-white cursor-default">{props.clue}</p>
-        </div>
-        <div className="text-xs text-gray-200 cursor-default ">{props.time}</div>
-      </div>
+    <div className={twMerge("border border-white/20", props.className)}>
+      <div
+        className="bg-green-700/50 h-full"
+        style={{ width: `${props.precentage}%` }}
+      ></div>
     </div>
   );
 }
 
-function FootageClue(props) {
-  // const [lat, lng] = [
-  // props.lat ?? 40.75986013487,
-  // props.lng ?? -73.980449311431,
-  // ];
-  const map_url = `https://maps.googleapis.com/maps/api/staticmap?sensor=false&center=${props.lat},${props.lng}&zoom=20&size=480x400&maptype=satellite&key=AIzaSyD4J0LPRji3WKllVxLji7YDbd5LSt6HA7o`;
+function PartialImage(props) {
+  const images = props.images;
+  const [imgIndex, setImgIndex] = useState(0);
+  // increase precentage until next index
+  const [precentage, setPrecentage] = useState(0);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (imgIndex >= images.length) {
+        console.log("clear");
+        clearInterval(interval);
+        return;
+      } else {
+        setPrecentage((precentage) => {
+          if (precentage >= 100) {
+            setImgIndex((ind) => ind + 1);
+            return 0;
+          }
+          return precentage + 1;
+        });
+      }
+    }, 200);
+    return () => clearInterval(interval);
+  }, [imgIndex]);
+  // useEffect(() => {
+  //   if(imgIndex >= images.length) return;
+  //   const timer = setTimeout(() => {
+  //     setImgIndex((imgIndex + 1) % images.length);
+  //     console.log(images[imgIndex])
+  //   }, 20000);
+  //   return () => clearTimeout(timer);
+  // }, [imgIndex]);
   return (
-    <div>
-      <Clue className="w-80 h-16" key={0} time={"9:33"} clue={"The object is here"} archive={true} />
-      <div className="border border-slate-700">
-        <div className="font-mono bg-black px-2 flex items-center w-80">
-          <div className="h-8 align-middle items-center flex">
-            <p className="text-sm text-white cursor-default">
-              Here is what we found
-            </p>
+    <div className="absolute left-20 top-10 flex flex-col justify-center items-center gap-1 w-48 h-48 group">
+      {imgIndex < images.length ? (
+        <>
+          <div className="flex flex-col justify-center opacity-80 items-center w-40 h-40 select-none border backdrop-blur-sm group-hover:w-48 group-hover:h-48 transition-all">
+            <img
+              src={images[imgIndex]}
+              className="h-36 w-36 bg-black group-hover:h-40 group-hover:w-40 transition-all contrast-[.8]"
+            />
+            {/* <div className="bg-red-500 h-4 w-4"></div> */}
           </div>
-        </div>
-        <div className="relative select-none shadow-md ">
-          <img
-            src={map_url}
-            alt="Map"
-            className="w-80 h-60 grayscale brightness-150"
-          ></img>
-          <div className="absolute h-40 w-40 top-10 left-10 rounded-full bg-blue-300/20 border-white border-4"></div>
-          <div className="bg-red-800 h-4 absolute w-full bottom-0"></div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function AudioClue(props) {
-  return (
-    <div className="absolute right-10 top-40 border border-slate-700 bg-black opacity-60 hover:opacity-80 hover:-translate-y-1 rounded-xl px-2 w-80 h-16 flex gap-2 items-center font-mono shadow-md">
-      <div>
-        <p className="text-xs text-yellow-300 cursor-default">
-          New location info!
-        </p>
-        <img src="../../public/audio.png" alt="audio" className="w-4 h-4" />
-        <p className="text-sm text-white cursor-default">{props.clue}</p>
-      </div>
-      <div className="text-xs text-gray-200 cursor-default">8:22</div>]
+          <LoadingBar
+            className="w-40 h-2 group-hover:w-48 transition-all"
+            precentage={precentage}
+          />{" "}
+        </>
+      ) : (
+        <div className="flex flex-col justify-center opacity-80 items-center w-32 h-32 select-none border backdrop-blur-sm transition-all"></div>
+      )}
     </div>
   );
 }
@@ -97,7 +93,7 @@ function Clues() {
       setCurrentClue(false);
     }, 4000);
   }
-
+  
   // useEffect(() => gotClueEvent({ clue: "The object is near a lake. go find it before everyone will die.", time: "8:22" }), []);
 
   // bug: button can be selected with arrows :(
@@ -107,6 +103,15 @@ function Clues() {
   return (
     <div>
       <PanoramaMap isManager={false} />
+      <PartialImage
+        images={[
+          "person_on_bike.png",
+          "bike-0.png",
+          "bike-1.png",
+          "bike-2.png",
+          "bike-3.png",
+        ]}
+      />
       <div className="absolute right-10 flex flex-col justify-start items-center w-96 h-full select-none">
         <SquareButton
           className="mt-10 flex-none"
@@ -125,6 +130,15 @@ function Clues() {
             );
           })}
           <FootageClue lat={40.759425} lng={-73.980829} />
+          <AudioClue
+            className="w-80 h-16"
+            archive={true}
+            clicked={clicked}
+            clue={
+              "The object is near a lake. go find it before everyone will die."
+            }
+            time={"8:22"}
+          />
         </SquareButton>
         {currentClue ? (
           <Clue

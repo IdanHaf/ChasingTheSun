@@ -1,7 +1,6 @@
 {
   "name": "intelligence",
   "version": "0.1.0",
-  "proxy": "http://localhost:5000",
   "private": true,
   "dependencies": {
     "@googlemaps/js-api-loader": "^1.16.2",
@@ -11,7 +10,7 @@
     "is-my-json-valid": "^2.20.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-google-maps": "^9.4.5",
+    "react-hover-video-player": "^10.0.1",
     "react-password-strength-bar": "^0.4.1",
     "react-router-dom": "^6.17.0",
     "react-scripts": "^5.0.1",
@@ -22,7 +21,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "all": "concurrently \"npm start\" \"cd .. && cd backend && npm run dev\""
   },
   "eslintConfig": {
     "extends": [
@@ -44,6 +44,7 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "concurrently": "^8.2.2",
     "prettier": "^3.0.3",
     "prettier-plugin-tailwindcss": "^0.5.6",
     "tailwind-scrollbar": "^3.0.5",

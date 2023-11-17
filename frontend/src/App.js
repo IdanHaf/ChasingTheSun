@@ -6,12 +6,11 @@ import IntelligenceMode from "./pages/IntelligenceMode";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Profile from "./pages/Profile";
-import { useMap, Map } from "./utility/useMap";
+import { Map } from "./utility/Map";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Link } from "react-router-dom";
 import ManagersPage from "./pages/ManagersPage";
 import Homepage from "./pages/HomePage";
-import MapMap from "./utility/MapComponent";
 
 function App() {
   return (
@@ -29,7 +28,6 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/managers" element={<ManagersPage />} />
         <Route path="/map" element={<Map />} />
-        <Route path="/mapmap" element={<MapMap />} />
       </Routes>
     </Router>
   );

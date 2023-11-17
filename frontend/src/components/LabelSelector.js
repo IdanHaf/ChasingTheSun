@@ -6,6 +6,7 @@ import {
   closest,
 } from "../utility/LabelSelectorHelpers";
 import useLabelSelector from "../utility/useLabelSelector";
+import { twMerge } from "tailwind-merge";
 
 /*
     An upgraded LabelObject component, with darkening animation and a resizable label.
@@ -147,9 +148,9 @@ function LabelSelector(props) {
       </div>
 
       <div
-        className={`${
-          animationActive ? "animate-fade-in" : "hidden"
-        } w-full h-full hole bg-black/30 cursor-crosshair`}
+        className={twMerge(
+          animationActive ? "animate-fade-in" : "hidden",
+        "w-full h-full hole bg-black/30 cursor-crosshair")}
         onMouseDown={handlePageClick}
         onMouseMove={handlePageSelect}
         onMouseUp={handleMouseUp}

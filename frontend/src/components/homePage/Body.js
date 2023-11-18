@@ -6,34 +6,38 @@ import { twMerge } from "tailwind-merge";
 export default function Body() {
   return (
     <>
-    <Home />
-    <Modes />
+      <Home />
+      <Modes />
     </>
   );
 }
 
 function Home() {
   return (
-    <div className="flex items-center justify-center h-screen gap-8">
+    <div id="home" className="flex items-center justify-center h-screen gap-8">
       <img src={Labels} className="h-60 w-80" />
       <div className="flex flex-col items-center">
-      <p className="text-white flex-col flex gap-5 text-xl font-mono h-60  justify-center">
-      <span>We will give you the target.</span>
-      
-      <span>You will have to find it on your own.</span>
-     
-      <span>You have 5 minutes.</span>
+        <p className="text-white flex-col flex gap-5 text-xl font-mono h-60  justify-center">
+          <span>We will give you the target.</span>
 
-      </p>
-      <button className="bg-[#10645C] text-[#FBE5D6] p-2 rounded-lg font-semibold mr-8 hover:-translate-y-1">Start the game</button>
+          <span>You will have to find it on your own.</span>
+
+          <span>You have 5 minutes.</span>
+        </p>
+        <a
+          className="bg-[#10645C] text-[#FBE5D6] p-2 rounded-lg font-semibold mr-8 hover:-translate-y-1"
+          href="#modes"
+        >
+          Start the game
+        </a>
       </div>
     </div>
-  )
+  );
 }
 function Modes() {
   return (
     <>
-      <div className="flex items-center justify-center h-screen">
+      <div id="modes" className="flex items-center justify-center h-screen">
         <Card
           text="Intelligence"
           img={IdTicket}

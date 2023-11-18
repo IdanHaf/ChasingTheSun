@@ -3,6 +3,7 @@ import usePanorama from "../utility/usePanorama";
 import "../styles/PanoramaMap.css";
 import LabelSelector from "./LabelSelector";
 import ManagerLabelSelector from "./ManagerLabelSelector"
+import YellowCarLabelSelector from "../components/YellowCarLabelSelector";
 /*
     The "PanoramaMap" React component presents Google Street View in your React app.
     It uses the "usePanorama" hook to allow moving around the map using the keyboard.
@@ -45,13 +46,6 @@ function PanoramaMap(props) {
           return oldZ - 1;
         });
     }
-
-    /*
-        Bug with ctrl twice in the same place.
-        else if(event.ctrlKey) {
-            setCtrlPressed(true);
-        }
-        */
   }
 
   const [ctrlPressed, setCtrlPressed] = useState(false);
@@ -79,18 +73,6 @@ function PanoramaMap(props) {
   }, []);
 
 
-  // works kind of wierd with looking left and right
-
-  // useEffect(() => {
-  //     // only 0.6,1,2 zoom levels are allowed
-  //     if (setZoom && panoramaState.zoom && (panoramaState.zoom < 1) ) {
-  //             // console.log(panoramaState.zoom);
-  //         setZoom((oldZ) => {
-  //             return 1;
-  //         });
-  //     }
-  //   }, [panoramaState.zoom]);
-
   return (
     <div className="absolute w-full h-full -z-10">
       <div
@@ -101,20 +83,27 @@ function PanoramaMap(props) {
         if="pano"
       ></div>
       {
-        (props.isManager) ?
+        (props.mapMode === "manager") ?
             <ManagerLabelSelector
                 ctrlPressed={ctrlPressed}
                 panoramaState={panoramaState}
                 setZoom={setZoom}
                 data={objectData}
             />
-            :
-            <LabelSelector
-                ctrlPressed={ctrlPressed}
-                panoramaState={panoramaState}
-                setZoom={setZoom}
-                data={objectData}
-            />
+            : (props.mapMode === "intelligence") ?
+                <LabelSelector
+                    ctrlPressed={ctrlPressed}
+                    panoramaState={panoramaState}
+                    setZoom={setZoom}
+                    data={objectData}
+                />
+                :
+                <YellowCarLabelSelector
+                    ctrlPressed={ctrlPressed}
+                    panoramaState={panoramaState}
+                    setZoom={setZoom}
+                    data={objectData}
+                />
       }
     </div>
   );

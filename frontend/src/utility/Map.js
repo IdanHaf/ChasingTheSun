@@ -6,7 +6,7 @@ import { Loader } from "@googlemaps/js-api-loader";
 
 function Map(props) {
   const mapRef = useRef(null);
-  const API_KEY = "AIzaSyD4J0LPRji3WKllVxLji7YDbd5LSt6HA7o"; //For now - AIzaSyD4J0LPRji3WKllVxLji7YDbd5LSt6HA7o
+  const API_KEY = ""; //For now - AIzaSyD4J0LPRji3WKllVxLji7YDbd5LSt6HA7o
   // const [clicked, setClicked] = useState(false);
   const loader = new Loader({
     apiKey: API_KEY,

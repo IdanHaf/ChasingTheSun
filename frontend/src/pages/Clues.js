@@ -6,6 +6,7 @@ import { Map } from "../utility/Map";
 import { SquareButton } from "../components/SquareButton";
 import HoverVideoPlayer from "react-hover-video-player";
 import { Clue, AudioClue, FootageClue } from "../components/Clue";
+import intelligenceMode from "./IntelligenceMode";
 
 function LoadingBar(props) {
   return (
@@ -102,7 +103,7 @@ function Clues() {
   // get clicked[style] out of jsx? (make it a variable)
   return (
     <div>
-      <PanoramaMap isManager={false} />
+      <PanoramaMap mapMode={"intelligence"} />
       <PartialImage
         images={[
           "person_on_bike.png",

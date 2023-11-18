@@ -10,7 +10,7 @@ function ManagerLabelSelector(props) {
     //States for manager Case.
     const customHookProps = {
         ctrlPressed: props.ctrlPressed,
-        isManager: true,
+        getData: true,
         panoramaState: props.panoramaState,
         setZoom: props.setZoom,
     }
@@ -50,8 +50,7 @@ function ManagerLabelSelector(props) {
     const handleRemoveWindowSize = () =>{
         if(!openRemoveWindow){
             setOpenRemoveWindow(true);
-        }
-        else{
+        } else{
             setOpenRemoveWindow(false);
         }
     }

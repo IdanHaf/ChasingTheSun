@@ -5,7 +5,7 @@ import {
 
 /*
     The "useLabelSelector" React custom hook allows you to use the label selector animation and data.
-    It accepts object with ctrlPressed, isManager, panoramaState and setZoom function.
+    It accepts object with ctrlPressed, getData, panoramaState and setZoom function.
     and returns:
         -   animationActive - true if button/ctrl was clicked.
         -   lables - start pos of label.
@@ -18,7 +18,7 @@ import {
         -   handlePageSelect - function that handles size of label.
         -   handlePageFinish - function that handles end of label drawing (check if right object was labeled).
 */
-function useLabelSelector({ctrlPressed, isManager, panoramaState, setZoom}) {
+function useLabelSelector({ctrlPressed, getData, panoramaState, setZoom}) {
     //Using ctrlPressed prop to know if ctrl was clicked.
     const [animationActive, setAnimationActive] = useState(false);
 
@@ -84,7 +84,7 @@ function useLabelSelector({ctrlPressed, isManager, panoramaState, setZoom}) {
     //TODO:: check that object inserted isn't already exist.
     const handlePageFinish = (e, wasDetected = false) => {
         if (mouseDown) {
-            if (isManager) {
+            if (getData) {
                 const newObjectData = getObjectData(e, panoramaState, lables);
                 setObjectDataArray(prevDataArray => [...prevDataArray, newObjectData]);
                 setFlicker("orange");

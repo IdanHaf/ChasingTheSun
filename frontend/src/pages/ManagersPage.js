@@ -45,7 +45,7 @@ function ManagersPage(){
     return (
         <div>
             <PanoramaMap
-                isManager={true}
+                mapMode={"manager"}
             />
         </div>
     );

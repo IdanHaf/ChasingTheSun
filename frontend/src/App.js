@@ -11,6 +11,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Link } from "react-router-dom";
 import ManagersPage from "./pages/ManagersPage";
 import Homepage from "./pages/HomePage";
+import YellowCarMode from "./pages/YellowCarMode";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/managers" element={<ManagersPage />} />
         <Route path="/map" element={<Map />} />
+        <Route path="/yellowCarMode" element={<YellowCarMode />} />
       </Routes>
     </Router>
   );

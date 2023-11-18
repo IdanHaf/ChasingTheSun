@@ -3,16 +3,15 @@ import PanoramaMap from '../components/PanoramaMap';
 
 
 
-function IntelligenceMode(){
+function YellowCarMode(){
 
     return (
         <div>
             <PanoramaMap
-              mapMode={"intelligence"}
+                mapMode={"YellowCar"}
             />
         </div>
     );
 }
 
-export default IntelligenceMode;
-
+export default YellowCarMode;

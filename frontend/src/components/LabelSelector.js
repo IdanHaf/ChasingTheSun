@@ -14,7 +14,7 @@ import { twMerge } from "tailwind-merge";
 function LabelSelector(props) {
   const customHookProps = {
     ctrlPressed: props.ctrlPressed,
-    isManager: false,
+    getData: false,
     panoramaState: props.panoramaState,
     setZoom: props.setZoom,
   }
@@ -31,9 +31,9 @@ function LabelSelector(props) {
   } = useLabelSelector(customHookProps);
 
   const [[widthSize, heightSize], setWH] = useState([0, 0]);
-
-  // Checking if the object was labeled.
   const panoramaState = props.panoramaState;
+
+  //TODO:: can be removed later.
   const [[xTrack, yTrack], setTrack] = useState([0, 0]);
 
   /*
@@ -72,8 +72,8 @@ function LabelSelector(props) {
 
     setTrack([objectXposition, objectYposition]);
 
-    const wSize = (objectData.labelW)*window.innerWidth;
-    const hSize = (objectData.labelH)*window.innerHeight;
+    const wSize = (objectData.labelW)*window.innerWidth/2;
+    const hSize = (objectData.labelH)*window.innerHeight/2;
 
     //TODO:: can remove when removing green and red squares.
     setWH([wSize, hSize]);
@@ -85,10 +85,11 @@ function LabelSelector(props) {
     const squareEndY = objectYposition + hSize / 2;
 
     //TODO:: change to be relative to window size & zoom.
-    const delta = 120;
+    const Ydelta = hSize/2 + 120;
+    const Xdelta = wSize/2 + 120;
     const outSquare =
-      lables[1] >= squareStartY - delta && yEndPos <= squareEndY + delta &&
-      lables[0] >= squareStartX - delta && xEndPos <= squareEndX + delta;
+      lables[1] >= squareStartY - Ydelta && yEndPos <= squareEndY + Ydelta &&
+      lables[0] >= squareStartX - Xdelta && xEndPos <= squareEndX + Xdelta;
 
     const inSquare =
       lables[1] <= squareStartY && yEndPos >= squareEndY &&
@@ -124,14 +125,14 @@ function LabelSelector(props) {
           position: "absolute",
           top:
             yTrack -
-              heightSize / 2 -
-            60,
+              heightSize -
+            120,
           left:
             xTrack -
-              widthSize / 2 -
-            60,
-          width: widthSize + 120,
-          height: heightSize + 120,
+              widthSize -
+            120,
+          width: (widthSize + 120)*2,
+          height: (heightSize + 120)*2,
         }}
       ></div>
       <div

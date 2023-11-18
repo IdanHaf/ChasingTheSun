@@ -23,7 +23,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "all": "concurrently \"npm start\" \"cd .. && cd backend && npm run dev\""
+    "all": "concurrently \"npm start\" \"cd .. && cd backend && npm run dev\" \"cd .. && cd backend && npm run devStart\""
   },
   "eslintConfig": {
     "extends": [

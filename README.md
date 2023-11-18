@@ -38,7 +38,7 @@ To run the application:
 ## deploy
 get rid of all the comments
 get rid of unnecessary tailwind plugins
-get rid of css
+get rid of css - ori is a bully
 
 
 **important notes to all developers**

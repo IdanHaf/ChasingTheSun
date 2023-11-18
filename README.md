@@ -31,7 +31,10 @@ Note: Node.js needed to be installed separately.
 To run the application:
 
 ```
- cd frontend
+ cd backend
+ npm run startDev
+
+ cd ../frontend
  npm run all
 ```
 

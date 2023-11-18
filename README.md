@@ -32,7 +32,7 @@ To run the application:
 
 ```
  cd backend
- npm run startDev
+ npm run devStart
 
  cd ../frontend
  npm run all

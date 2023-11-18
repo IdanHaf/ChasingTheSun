@@ -1,3 +1,5 @@
+import { twMerge } from "tailwind-merge";
+
 export default function Header() {
   return (
     <nav className="fixed flex flex-row items-center w-full text-white p-4">
@@ -14,8 +16,8 @@ export default function Header() {
 
 function Button(props) {
   return (
-    <button>
-      <a href={props.href} className="capitalize">
+    <button className="flex flex-col items-center">
+      <a href={props.href} className={"capitalize"}>
         {props.name}
       </a>
     </button>

@@ -2,14 +2,50 @@ import React, { useState, useEffect, useRef } from "react";
 import { twMerge } from "tailwind-merge";
 import HoverVideoPlayer from "react-hover-video-player";
 
-function Clue(props) {
+function Clue ({ clue, className, archive, clicked }) {
+  return (
+    clue ? (
+      (clue.type === "text" && (
+        <TextClue
+          archive={archive}
+          className={className}
+          time={clue.time}
+          text={clue.text}
+        />
+      )) ||
+      (clue.type === "audio" && (
+        <AudioClue
+          archive={archive}
+          className={className}
+          clicked={clicked}
+          time={clue.time}
+          audio={clue.audio}
+        />
+      )) ||
+      (clue.type === "footage" && (
+        <FootageClue
+          archive={archive}
+          className={className}
+          time={clue.time}
+          lat={clue.lat}
+          lng={clue.lng}
+        />
+      )) ||
+      (clue.type === "map" && (
+        <></>
+      ))
+    ) : null
+  );
+}
+  
+function TextClue(props) {
   return (
     <div
       className={twMerge(
         "font-mono shadow-md select-none",
-        !props.archive && "hover:opacity-80 hover:-translate-y-1",
+        !props.archive && "opacity-80 hover:opacity-100 hover:-translate-y-1",
         props.className,    
-        "w-80 h-16"
+        "w-80 h-fit"
       )}
     >
       <div className="bg-green-gray-700 h-3 flex justify-end">
@@ -20,7 +56,7 @@ function Clue(props) {
           <p className="text-xs text-yellow-300 cursor-default">
             New location info!
           </p>
-          <p className="text-sm text-white cursor-default">{props.clue}</p>
+          <p className="text-sm text-white cursor-default">{props.text}</p>
         </div>
         <div className="text-xs text-gray-200 cursor-default ">
           {props.time}
@@ -30,20 +66,20 @@ function Clue(props) {
   );
 }
 
+// TODO: cache the map image (in general, all static api calls should go through the server to cache them)
+// TODO: random circle location / let the developer mark the location
+// TODO: design for non-archived
 function FootageClue(props) {
-  // const [lat, lng] = [
-  // props.lat ?? 40.75986013487,
-  // props.lng ?? -73.980449311431,
-  // ];
+
   const map_url = `https://maps.googleapis.com/maps/api/staticmap?sensor=false&center=${props.lat},${props.lng}&zoom=20&size=480x400&maptype=satellite&key=AIzaSyD4J0LPRji3WKllVxLji7YDbd5LSt6HA7o`;
 
   return (
     <div>
-      <Clue
+      <TextClue
         className="w-80 h-16"
         key={0}
         time={"9:33"}
-        clue={"The object is here"}
+        text={"The object is here"}
         archive={true}
       />
       <div className="border border-slate-700">
@@ -69,7 +105,7 @@ function FootageClue(props) {
 }
 
 function AudioClue(props) {
-  const [audio] = useState(new Audio("concert-audio.mp3"));
+  const [audio] = useState(new Audio(props.audio || "concert-audio.mp3"));
   const hoverVideoRef = useRef(null);
 
   useEffect(() => {
@@ -157,4 +193,4 @@ function AudioClue(props) {
   );
 }
 
-export { Clue, FootageClue, AudioClue };
+export { Clue, TextClue, FootageClue, AudioClue };

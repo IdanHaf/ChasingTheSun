@@ -6,12 +6,12 @@ import IntelligenceMode from "./pages/IntelligenceMode";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Profile from "./pages/Profile";
-import { Map } from "./utility/Map";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Link } from "react-router-dom";
 import ManagersPage from "./pages/ManagersPage";
 import Homepage from "./pages/HomePage";
 import YellowCarMode from "./pages/YellowCarMode";
+import CluesGame from "./pages/CluesGame";
 
 function App() {
   return (
@@ -28,8 +28,8 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/managers" element={<ManagersPage />} />
-        <Route path="/map" element={<Map />} />
         <Route path="/yellowCarMode" element={<YellowCarMode />} />
+        <Route path="/cluesGame" element={<CluesGame />} />
       </Routes>
     </Router>
   );

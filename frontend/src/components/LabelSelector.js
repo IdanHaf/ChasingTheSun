@@ -102,8 +102,7 @@ function LabelSelector(props) {
     handlePageFinish(e, wasDetected(e));
   }
 
-  // make sure doesn't clash with clues
-  // handle ctrl+tab edge case
+  // TODO: handle ctrl+tab edge case
   return (
     <>
       <div

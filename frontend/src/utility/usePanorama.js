@@ -12,6 +12,7 @@ import { Loader } from "@googlemaps/js-api-loader";
         - objectData: an array of objects which holds data.
 */
 
+// Todo: check when the component is re-rendered, if the panorama is already loaded, don't load it again.
 function usePanorama(
   startId = "",
   startPosition = { lat: 40.759425, lng: -73.980829 },
@@ -33,7 +34,6 @@ function usePanorama(
   const [loaded, setLoaded] = useState(false);
   const [setPov, setPovLoader] = useState((a, b) => {});
   const [setZoom, setZoomLoader] = useState((a) => {});
-  // let panorama = null;
 
   useEffect(() => {
     if (loaded) return;
@@ -77,6 +77,11 @@ function usePanorama(
                 motionTracking: false,
                 motionTrackingControl: false,
               });
+              // transfer panorama object to json
+              // console.log(panorama)
+              // jsonPanorama = JSON.stringify(panorama);
+              // // transfer json to object
+              // panorama = JSON.parse(jsonPanorama);
 
               //Set start position.
               setPanoramaState((prevPano) => {
@@ -99,12 +104,6 @@ function usePanorama(
                 });
               });
               panorama.addListener("zoom_changed", () => {
-                // console.log(panorama.getZoom());
-
-                //   if (panorama.getZoom() !== 0 && panorama.getZoom() !== 1 && panorama.getZoom() !== 2 && setZoom) {
-                //       setZoom((oldZ) => {panorama.getZoom()});
-                //   }
-
                 setPanoramaState((prevPano) => {
                   return { ...prevPano, zoom: panorama.getZoom() };
                 });
@@ -123,48 +122,6 @@ function usePanorama(
                 };
               });
 
-              function inRange(x, base) {
-                return x >= base - 0.01 && x <= base + 0.01;
-              }
-              function outOfRange(x, base) {
-                return x < base - 0.01 || x > base + 0.01;
-              }
-              function beforeRange(x, base) {
-                return x < base - 0.01;
-              }
-              function afterRange(x, base) {
-                return x > base + 0.01;
-              }
-
-              // function normalizeZoom(zoom) {
-              //   // allow only 0.6,1,2 zoom levels
-              // //   console.log(zoom);
-              // console.log(zoom);
-              // if(inRange(zoom, 1)) return 1;
-              // if (inRange(zoom, 2) || afterRange(zoom, 2)) return zoom;
-              // if (inRange(zoom, 0) || beforeRange(zoom, 0)) return 0;
-
-              // if(afterRange(zoom, 1) && beforeRange(zoom, 2)){
-              //     if(zoom < 1.5) return 2;
-              //     else return 1;
-              // }
-              // else if(beforeRange(zoom, 1) && afterRange(zoom, 0)){
-              //     if(zoom < 0.5) return 1;
-              //     else return 0;
-              // }
-              // else {
-              //     return 0;
-              // }
-
-              // //   if (inRange(zoom, 1) || (afterRange(zoom, 1) && beforeRange(zoom, 2) ) || (beforeRange(zoom, 1) && afterRange(zoom, 0))) {
-              // //     console.log("hi!")
-              // //     return 1;
-              // //   } else if (inRange(zoom, 2) || (beforeRange(zoom, 2) && afterRange(zoom, 1))) {
-              // //     return 2;
-              // //   } else {
-              // //     return 0;
-              // //   }
-              // }
               setZoomLoader((p) => {
                 return (newZoomFunc) => {
                   setPanoramaState((prevPano) => {
@@ -178,8 +135,6 @@ function usePanorama(
                   });
                 };
               });
-
-              // setPovLoader((p) => 1);
             } else {
               console.error("Google Maps API or StreetViewPanorama not loaded");
             }

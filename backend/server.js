@@ -12,7 +12,7 @@ const io = new Server(3001, {
 
 let players = new Map();
 const maxPlayersInLobby = 4;
-let LobbiesArr = []; // Objects: {id, playersArr}.
+let LobbiesArr = []; // Objects: {LobbyId, playersArr}.
 
 io.on("connection", socket => {
 
@@ -25,8 +25,8 @@ io.on("connection", socket => {
         if(LobbiesArr.length > 0){
             lobby = LobbiesArr[LobbiesArr.length - 1];
             roomId = lobby.id;
-            lobby.playersArr.push(("player" + numPlayersInLobby));
             numPlayersInLobby = lobby.playersArr.length;
+            lobby.playersArr.push(("player" + numPlayersInLobby));
         }else{
             //Create a new lobby.
             roomId = uuidV4();
@@ -39,6 +39,7 @@ io.on("connection", socket => {
             LobbiesArr.pop();
         }
 
+        console.log(LobbiesArr);
         callback(roomId);
     });
 
@@ -51,12 +52,38 @@ io.on("connection", socket => {
 
             if(playersInRoom.length >= maxPlayersInLobby){
                 players.delete(roomId);
+                //Solution - just for now.
+                for(const lobby of LobbiesArr){
+                    if(lobby.id === roomId){
+                        const index = LobbiesArr.indexOf(lobby);
+                        if (index > -1) {
+                            LobbiesArr.splice(index, 1);
+                        }
+
+                        break;
+                    }
+                }
             }
 
             socket.join(roomId);
             io.to(roomId).emit("playerJoinedLobby", playersInRoom);
         }else{
             console.log("invalid lobby Id.");
+        }
+    });
+
+    socket.on("disconnecting", () => {
+        // the Set, socket.rooms, contains at least the socket ID
+        for(const roomId of socket.rooms) {
+            if (players.has(roomId)) {
+                let playersInRoom = players.get(roomId);
+                playersInRoom.pop();
+
+                if (playersInRoom.length !== 0) {
+                    players.set(roomId, playersInRoom);// Can remove.
+                    io.to(roomId).emit("playerJoinedLobby", playersInRoom);
+                }
+            }
         }
     });
 

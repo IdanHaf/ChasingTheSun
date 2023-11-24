@@ -4,7 +4,7 @@ import MultiplayerLobby from "./MultiplayerLobby";
 import {io} from "socket.io-client";
 import {useParams} from "react-router-dom";
 
-//TODO:: fix refresh bug.
+//TODO:: fix back-arrow bug, using the players uniq name.
 function YellowCarLobby(){
     const [socket, setSocket] = useState(null);
     const {id: lobbyId} = useParams();

@@ -77,7 +77,7 @@ function YellowCarLabelSelector(props) {
             <div
                 className=
                     "fixed top-0 left-0 flex w-64 flex-col space-y-4
-                     items-center text-center text-white select-none"
+                     items-center text-center text-white select-none bg-white/80 rounded-lg p-4"
             >
                 <div className= {`${
                     (objectDataArray.length < otherLabelNumber) ? "bg-red-500" : "bg-green-400"

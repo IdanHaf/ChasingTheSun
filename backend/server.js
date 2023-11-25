@@ -12,27 +12,33 @@ const io = new Server(3001, {
 //TODO:: use namespaces for better readability.
 
 let lobbies = new Map(); // LobbyId -> PlayersNamesArr.
-// let lobbies = new Map(); // LobbyId -> NumberOfPlayers.
 const maxPlayersInLobby = 4;
+// let lobbies = new Map(); // LobbyId -> NumberOfPlayers.
 //let availableLobbiesId = [];
+
+const getAvailableLobbyId = () =>{
+    let roomId = uuidV4();
+
+    for (let [id, playersInLobby] of lobbies) {
+        if(playersInLobby.length < maxPlayersInLobby){
+            roomId = id;
+            break;
+        }
+    }
+
+
+    if(!lobbies.has(roomId)){
+        lobbies.set(roomId, []);
+    }
+
+    return roomId;
+}
 
 io.on("connection", socket => {
 
     //TODO:: change and add a check for race condition.
     socket.on("getAvailableRoomId", (callback) =>{
-        let roomId = uuidV4();
-
-        for (let [id, playersInLobby] of lobbies) {
-            if(playersInLobby.length < maxPlayersInLobby){
-                roomId = id;
-                break;
-            }
-        }
-
-        if(!lobbies.has(roomId)){
-            lobbies.set(roomId, []);
-        }
-
+        let roomId = getAvailableLobbyId();
         callback(roomId);
     });
 
@@ -43,14 +49,15 @@ io.on("connection", socket => {
             playersInRoom.push(("player" + playersInRoom.length));
             lobbies.set(roomId, playersInRoom);// Can remove.
 
-            // if(playersInRoom.length >= maxPlayersInLobby){
-            //     lobbies.delete(roomId);
-            // }
+            if(playersInRoom.length >= maxPlayersInLobby){
+                lobbies.delete(roomId);
+            }
 
             socket.join(roomId);
             io.to(roomId).emit("playerJoinedLobby", playersInRoom);
         }else{
-            console.log("invalid room id");
+            console.log("join new lobby");
+            socket.emit("joinNewLobby", (getAvailableLobbyId()));
         }
     });
 

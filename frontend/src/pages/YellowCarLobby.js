@@ -2,39 +2,40 @@ import React, { useEffect, useState } from 'react';
 import PanoramaMap from '../components/PanoramaMap';
 import MultiplayerLobby from "./MultiplayerLobby";
 import {io} from "socket.io-client";
-import {useParams} from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 //TODO:: fix back-arrow bug, using the players uniq name.
 function YellowCarLobby(){
     const [socket, setSocket] = useState(null);
-    const {id: lobbyId} = useParams();
-    const [roomId, setRoomId] = useState("");
     let join = false;
 
     //Server connection.
     useEffect(() => {
         const newSocket = io("http://localhost:3001");
         setSocket(newSocket);
-        setRoomId(lobbyId);
 
         return () => {
             newSocket.disconnect();
         }
     }, []);
 
+    let {id: lobbyId} = useParams();
+
     //Get all the players in the lobby to the same room.
     useEffect(()=>{
-        if(socket === null || roomId === "") return;
+        if(socket === null) return;
 
         if(!join) {
-            socket.emit("joinRoom-req", roomId);
+            socket.emit("joinRoom-req", lobbyId);
             join = true;
         }
 
-    }, [socket, roomId])
+    }, [socket, lobbyId])
 
     const [players, setPlayers] = useState([]);
     const [startGame, setStartGame] = useState(false);
+    const navigate = useNavigate();
+
 
     useEffect(() => {
         if(socket == null) return;
@@ -43,8 +44,13 @@ function YellowCarLobby(){
             setPlayers(playersNames);
         });
 
+        socket.on("joinNewLobby", (roomId) => {
+            navigate(("/yellowCarMode/" + roomId));
+        })
+
         return () => {
             socket.removeAllListeners("playerJoinedLobby");
+            socket.removeAllListeners("joinNewLobby");
         }
     }, [socket])
 

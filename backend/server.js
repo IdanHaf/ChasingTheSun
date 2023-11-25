@@ -11,8 +11,8 @@ const io = new Server(3001, {
 
 //TODO:: use namespaces for better readability.
 
-let players = new Map();
-let lobbies = new Map(); // LobbyId -> NumberOfPlayers.
+let lobbies = new Map(); // LobbyId -> PlayersNamesArr.
+// let lobbies = new Map(); // LobbyId -> NumberOfPlayers.
 const maxPlayersInLobby = 4;
 //let availableLobbiesId = [];
 
@@ -22,16 +22,15 @@ io.on("connection", socket => {
     socket.on("getAvailableRoomId", (callback) =>{
         let roomId = uuidV4();
 
-        for (let [id, numberOfPlayers] of lobbies) {
-            if(numberOfPlayers < maxPlayersInLobby){
+        for (let [id, playersInLobby] of lobbies) {
+            if(playersInLobby.length < maxPlayersInLobby){
                 roomId = id;
                 break;
             }
         }
 
         if(!lobbies.has(roomId)){
-            lobbies.set(roomId, 0);
-            players.set(roomId, []);
+            lobbies.set(roomId, []);
         }
 
         callback(roomId);
@@ -39,12 +38,14 @@ io.on("connection", socket => {
 
     socket.on("joinRoom-req", roomId => {
         if(lobbies.has(roomId)) {
-            let playersInRoom = players.get(roomId);
+            let playersInRoom = lobbies.get(roomId);
 
             playersInRoom.push(("player" + playersInRoom.length));
-            players.set(roomId, playersInRoom);// Can remove.
+            lobbies.set(roomId, playersInRoom);// Can remove.
 
-            lobbies.set(roomId, playersInRoom.length);
+            // if(playersInRoom.length >= maxPlayersInLobby){
+            //     lobbies.delete(roomId);
+            // }
 
             socket.join(roomId);
             io.to(roomId).emit("playerJoinedLobby", playersInRoom);
@@ -57,12 +58,11 @@ io.on("connection", socket => {
         // the Set, socket.rooms, contains at least the socket ID
         for(const roomId of socket.rooms) {
             if (lobbies.has(roomId)) {
-                let playersInRoom = players.get(roomId);
+                let playersInRoom = lobbies.get(roomId);
                 playersInRoom.pop();
-                lobbies.set(roomId, playersInRoom.length);
 
                 if (playersInRoom.length !== 0) {
-                    players.set(roomId, playersInRoom);// Can remove.
+                    lobbies.set(roomId, playersInRoom);// Can remove.
                     io.to(roomId).emit("playerJoinedLobby", playersInRoom);
                 }
             }

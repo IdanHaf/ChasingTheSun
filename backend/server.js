@@ -1,5 +1,6 @@
-import { v4 as uuidV4 } from "uuid";
 import { Server } from "socket.io";
+import {v4 as uuidV4} from "uuid";
+
 
 const io = new Server(3001, {
     cors: {
@@ -11,73 +12,54 @@ const io = new Server(3001, {
 //TODO:: use namespaces for better readability.
 
 let players = new Map();
+let lobbies = new Map(); // LobbyId -> NumberOfPlayers.
 const maxPlayersInLobby = 4;
-let LobbiesArr = []; // Objects: {LobbyId, playersArr}.
+//let availableLobbiesId = [];
 
 io.on("connection", socket => {
 
     //TODO:: change and add a check for race condition.
     socket.on("getAvailableRoomId", (callback) =>{
-        let lobby;
-        let roomId;
-        let numPlayersInLobby = 1;
+        let roomId = uuidV4();
 
-        if(LobbiesArr.length > 0){
-            lobby = LobbiesArr[LobbiesArr.length - 1];
-            roomId = lobby.id;
-            numPlayersInLobby = lobby.playersArr.length;
-            lobby.playersArr.push(("player" + numPlayersInLobby));
-        }else{
-            //Create a new lobby.
-            roomId = uuidV4();
-            lobby = {id: roomId, playersArr: ["player0"]};
-            LobbiesArr.push(lobby);
+        for (let [id, numberOfPlayers] of lobbies) {
+            if(numberOfPlayers < maxPlayersInLobby){
+                roomId = id;
+                break;
+            }
+        }
+
+        if(!lobbies.has(roomId)){
+            lobbies.set(roomId, 0);
             players.set(roomId, []);
         }
 
-        if(numPlayersInLobby >= maxPlayersInLobby){
-            LobbiesArr.pop();
-        }
-
-        console.log(LobbiesArr);
         callback(roomId);
     });
 
     socket.on("joinRoom-req", roomId => {
-        if(players.has(roomId)) {
+        if(lobbies.has(roomId)) {
             let playersInRoom = players.get(roomId);
 
             playersInRoom.push(("player" + playersInRoom.length));
             players.set(roomId, playersInRoom);// Can remove.
 
-            if(playersInRoom.length >= maxPlayersInLobby){
-                players.delete(roomId);
-                //Solution - just for now.
-                for(const lobby of LobbiesArr){
-                    if(lobby.id === roomId){
-                        const index = LobbiesArr.indexOf(lobby);
-                        if (index > -1) {
-                            LobbiesArr.splice(index, 1);
-                        }
-
-                        break;
-                    }
-                }
-            }
+            lobbies.set(roomId, playersInRoom.length);
 
             socket.join(roomId);
             io.to(roomId).emit("playerJoinedLobby", playersInRoom);
         }else{
-            console.log("invalid lobby Id.");
+            console.log("invalid room id");
         }
     });
 
     socket.on("disconnecting", () => {
         // the Set, socket.rooms, contains at least the socket ID
         for(const roomId of socket.rooms) {
-            if (players.has(roomId)) {
+            if (lobbies.has(roomId)) {
                 let playersInRoom = players.get(roomId);
                 playersInRoom.pop();
+                lobbies.set(roomId, playersInRoom.length);
 
                 if (playersInRoom.length !== 0) {
                     players.set(roomId, playersInRoom);// Can remove.

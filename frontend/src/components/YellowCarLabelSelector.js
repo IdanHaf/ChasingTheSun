@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../styles/LabelSelector.css";
-import {
-    setObjectData,
-} from "../utility/LabelSelectorHelpers";
 import useLabelSelector from "../utility/useLabelSelector";
-import { io } from 'socket.io-client'
-import { useNavigate, useParams } from "react-router-dom";
+
 
 function YellowCarLabelSelector(props) {
     //States for yellow car mode.

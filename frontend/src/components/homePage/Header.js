@@ -8,7 +8,7 @@ export default function Header() {
         <Button href="/Panorama" name="panorama" />
         <Button href="/yellowCarMode" name="yellowCar" />
         <Button href="/intelligenceMode" name="intelligenceMode" />
-        <Button href="/clues" name="clues" />
+        <Button href="/cluesGame" name="clues" />
       </div>
     </nav>
   );

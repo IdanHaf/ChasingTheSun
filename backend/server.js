@@ -13,8 +13,7 @@ const io = new Server(3001, {
 
 let lobbies = new Map(); // LobbyId -> PlayersNamesArr.
 const maxPlayersInLobby = 4;
-// let lobbies = new Map(); // LobbyId -> NumberOfPlayers.
-//let availableLobbiesId = [];
+
 
 const getAvailableLobbyId = () =>{
     let roomId = uuidV4();

@@ -72,18 +72,30 @@ function YellowCarLabelSelector(props) {
 
             <div
                 className=
-                    "fixed top-0 left-0 flex w-64 flex-col space-y-4
-                     items-center text-center text-white select-none bg-white/80 rounded-lg p-4"
+                    "fixed top-0 left-0 flex w-full flex-row justify-center space-x-4
+                     items-center text-center text-slate-600 select-none rounded-lg p-4"
             >
                 <div className= {`${
-                    (objectDataArray.length < otherLabelNumber) ? "bg-red-500" : "bg-green-400"
-                    } w-full py-2 rounded-lg`}>
+                    (objectDataArray.length < otherLabelNumber) ? "bg-white" : "bg-white"
+                    }  shadow-lg shadow-green-300 p-2 rounded-full`}>
                     number of labels: {objectDataArray.length}
                 </div>
 
                 <div className= {`${
-                    (objectDataArray.length >= otherLabelNumber) ? "bg-red-500" : "bg-green-400"
-                    } w-full py-2 rounded-lg`}>
+                    (objectDataArray.length >= otherLabelNumber) ? "bg-white" : "bg-white"
+                    } shadow-lg shadow-orange-300 p-2 rounded-full`}>
+                    rival number of labels: {otherLabelNumber}
+                </div>
+
+                <div className= {`${
+                    (objectDataArray.length < otherLabelNumber) ? "bg-white" : "bg-white"
+                }  shadow-lg shadow-orange-300 p-2 rounded-full`}>
+                    rival number of labels: {objectDataArray.length}
+                </div>
+
+                <div className= {`${
+                    (objectDataArray.length >= otherLabelNumber) ? "bg-white" : "bg-white"
+                } shadow-lg shadow-orange-300 p-2 rounded-full`}>
                     rival number of labels: {otherLabelNumber}
                 </div>
             </div>

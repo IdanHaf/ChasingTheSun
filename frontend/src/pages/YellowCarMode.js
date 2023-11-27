@@ -5,6 +5,7 @@ import Header from "../components/homePage/Header";
 import { useNavigate } from "react-router-dom";
 
 //TODO:: maybe with useNavigate can take props such as socket.
+//TODO:: use localStorage to keep track of refresh.
 
 function YellowCarMode(){
     //Server connection.

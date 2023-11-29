@@ -113,6 +113,8 @@ function PanoramaMap(props) {
           panoramaState={panoramaState}
           setZoom={setZoom}
           data={objectData}
+          socket={props.socket}
+          roomId={props.roomId}
         />
       )}
     </div>

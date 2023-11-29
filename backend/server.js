@@ -75,8 +75,23 @@ io.on("connection", socket => {
         }
     });
 
-    socket.on("labelsNumber-changed", (labelNumber, room) => {
-        socket.to(room).emit("labelsNumber-received", labelNumber);
+    socket.on("labelsNumber-changed", (index, labelNumber, labelsNumberArr, maxLabels, room) => {
+        if(labelNumber === 1) {
+            labelsNumberArr.push(1);
+        }else {
+            labelsNumberArr[index] = labelNumber;
+        }
+
+        let maxChanged = false;
+        let maxIndex = 0;
+
+        if(labelNumber > maxLabels){
+            maxLabels = labelNumber;
+            maxIndex = index;
+            maxChanged = true;
+        }
+
+        io.to(room).emit("labelsNumber-received", labelsNumberArr, maxChanged, maxIndex, maxLabels);
     });
 
     socket.on("disconnect", () => {

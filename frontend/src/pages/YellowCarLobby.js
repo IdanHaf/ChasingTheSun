@@ -80,6 +80,8 @@ function YellowCarLobby(){
                     mapMode={"yellowCar"}
                     onCtrlPressed={handleCtrlPressed}
                     active={true}
+                    socket={socket}
+                    roomId={lobbyId}
                 />
             </div>
     );

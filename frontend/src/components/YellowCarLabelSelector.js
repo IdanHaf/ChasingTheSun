@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useRef, useState} from "react";
 import "../styles/LabelSelector.css";
 import useLabelSelector from "../utility/useLabelSelector";
 
@@ -25,24 +25,42 @@ function YellowCarLabelSelector(props) {
         handlePageFinish
     } = useLabelSelector(customHookProps);
 
-    const [otherLabelNumber, setOtherLabelNumber] = useState(0);
+    //TODO:: less props drilling.
+    const socket = props.socket;
+    const roomId = props.roomId;
 
-    // useEffect(() =>{
-    //     if(socket == null || roomId === ""){
-    //         return;
-    //     }
-    //     socket.emit("labelsNumber-changed", objectDataArray.length, roomId);
-    //
-    //     const handleReceive = (labelNumber) => {
-    //         setOtherLabelNumber(labelNumber);
-    //     }
-    //     socket.on("labelsNumber-received", handleReceive);
-    //
-    //     return () => {
-    //         //Removes the specified listener from the listener array for the event named eventName.
-    //         socket.off("labelsNumber-received", handleReceive);
-    //     }
-    // },[socket, objectDataArray.length, roomId]);
+    const index = useRef(0);
+    const maxLabels = useRef(0);
+    //TODO:: change divArray, and use - useMemo or useCallback.
+    const divArr = [1, 2, 3, 4];
+    const maxIndex = useRef(0);
+    const [labelNumberArr, setLabelNumberArr] = useState([]);
+
+    useEffect(() =>{
+        if(socket == null || roomId === ""){
+            return;
+        }
+
+        if(objectDataArray.length === 1){
+            index.current = labelNumberArr.length;
+        }
+        socket.emit("labelsNumber-changed", index.current, objectDataArray.length,
+            labelNumberArr, maxLabels.current, roomId);
+
+        const handleReceive = (labelArr, maxChanged, indexOfMax, maxNumber) => {
+            setLabelNumberArr(labelArr);
+            if(maxChanged) {
+                maxLabels.current = maxNumber;
+                maxIndex.current = indexOfMax;
+            }
+        }
+        socket.on("labelsNumber-received", handleReceive);
+
+        return () => {
+            //Removes the specified listener from the listener array for the event named eventName.
+            socket.off("labelsNumber-received", handleReceive);
+        }
+    },[socket, objectDataArray.length, roomId]);
 
 
     return (
@@ -75,30 +93,19 @@ function YellowCarLabelSelector(props) {
                     "fixed top-0 left-0 flex w-full flex-row justify-center space-x-4
                      items-center text-center text-slate-600 select-none rounded-lg p-4"
             >
-                <div className= {`${
-                    (objectDataArray.length < otherLabelNumber) ? "bg-white" : "bg-white"
-                    }  shadow-lg shadow-green-300 p-2 rounded-full`}>
-                    number of labels: {objectDataArray.length}
-                </div>
-
-                <div className= {`${
-                    (objectDataArray.length >= otherLabelNumber) ? "bg-white" : "bg-white"
-                    } shadow-lg shadow-orange-300 p-2 rounded-full`}>
-                    rival number of labels: {otherLabelNumber}
-                </div>
-
-                <div className= {`${
-                    (objectDataArray.length < otherLabelNumber) ? "bg-white" : "bg-white"
-                }  shadow-lg shadow-orange-300 p-2 rounded-full`}>
-                    rival number of labels: {objectDataArray.length}
-                </div>
-
-                <div className= {`${
-                    (objectDataArray.length >= otherLabelNumber) ? "bg-white" : "bg-white"
-                } shadow-lg shadow-orange-300 p-2 rounded-full`}>
-                    rival number of labels: {otherLabelNumber}
-                </div>
+                {
+                    divArr.map((i) =>
+                        (
+                            <div key={i} className= {`${
+                                (i === maxIndex.current) ? "shadow-lg shadow-green-300" : "shadow-lg shadow-orange-300"
+                            } bg-white p-2 rounded-full`}>
+                                number of labels: {(labelNumberArr.length > i) ? labelNumberArr[i] : 0}
+                            </div>
+                        ))
+                }
             </div>
+
+
 
             <button className="labelButton select-none" onClick={startAnimation}>
                 [ ]

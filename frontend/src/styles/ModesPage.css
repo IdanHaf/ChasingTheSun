@@ -1,0 +1,68 @@
+.parallax {
+    /* overflow: hidden; */
+    position: relative;
+    z-index: 0;
+    min-height: 100vh;
+    display: grid;
+    grid-template-areas: "stack";
+}
+
+.hero {
+    z-index: 10;
+}
+
+.parallax__bg {
+    --parallax-speed: -10;
+    width: 100%;
+
+    z-index: 1;
+    object-fit: cover;
+}
+
+
+body {
+    margin: 0;
+    font-family: "Rubik", sans-serif;
+    font-weight: 700;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+}
+
+.wrapper {
+    width: min(65rem, 100% - 4rem);
+    margin-inline: auto;
+    text-transform: uppercase;
+    color: white;
+}
+
+.button {
+    font: inherit;
+    font-style: italic;
+    text-transform: uppercase;
+    background: rgb(187, 40, 220);
+    padding: 1em 2em;
+    border: 0;
+    border-radius: 0.2em;
+    margin: 2rem 0rem;
+}
+
+.hero {
+    margin-block-start: max(40vh, 8rem);
+}
+
+.mode_title {
+    font-size: 4rem;
+    max-width: 20ch;
+    line-height: 1;
+    font-style: italic;
+    font-weight: 900;
+    position: relative;
+}
+
+.mode_title span{
+    font-size: 2rem;
+    display: block;
+}

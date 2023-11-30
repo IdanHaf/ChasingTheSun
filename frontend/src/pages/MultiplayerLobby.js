@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import Labels from "../components/homePage/labels.png";
 
 function MultiplayerLobby(props){
     const [arr, setArr] = useState([]);

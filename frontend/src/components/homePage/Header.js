@@ -2,7 +2,7 @@ import { twMerge } from "tailwind-merge";
 
 export default function Header() {
   return (
-    <nav className="fixed flex flex-row items-center w-full text-white p-4">
+    <nav className="fixed flex flex-row items-center w-full text-white p-4 z-10">
       <h1 className="flex flex-1 flex-col text-2xl">Project Name </h1>
       <div className="flex flex-row gap-4">
         <Button href="/Panorama" name="panorama" />

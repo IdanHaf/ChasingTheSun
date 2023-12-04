@@ -18,6 +18,7 @@ function IntelligenceMode(){
               mapMode={"intelligence"}
               active = {true}
               onCtrlPressed={handleCtrlPressed}
+              setActive={(t)=>{}}
             />
         </div>
     );

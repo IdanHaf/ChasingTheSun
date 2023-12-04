@@ -39,6 +39,7 @@ function useLabelSelector({ctrlPressed, getData, panoramaState, setZoom}) {
     const [lablesSize, setLableSize] = useState([0, 0]);
     const [mouseDown, setMouseDown] = useState(false);
     const [flicker, setFlicker] = useState("none");
+    const [objectWasDetected, setObjectWasDetected] = useState(false);
 
     const handlePageClick = (e) => {
         if (animationActive) {
@@ -92,6 +93,7 @@ function useLabelSelector({ctrlPressed, getData, panoramaState, setZoom}) {
             else if (wasDetected) {
                 // player found the object
                 setFlicker("green");
+                setObjectWasDetected(true);
             }
             else {
                 setFlicker("red");
@@ -112,6 +114,7 @@ function useLabelSelector({ctrlPressed, getData, panoramaState, setZoom}) {
         lables,
         lablesSize,
         flicker,
+        objectWasDetected,
         objectDataArray,
         setObjectDataArray,
         startAnimation,

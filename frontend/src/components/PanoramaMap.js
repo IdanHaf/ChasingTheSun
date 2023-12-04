@@ -106,6 +106,7 @@ function PanoramaMap(props) {
           panoramaState={panoramaState}
           setZoom={setZoom}
           data={objectData}
+          onGameEnd={props.setActive}
         />
       ) : (
         <YellowCarLabelSelector

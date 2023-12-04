@@ -9,7 +9,7 @@ import { Clue, AudioClue, FootageClue } from "../components/Clue";
 import intelligenceMode from "./IntelligenceMode";
 import PartialImage from "../components/PartialImage";
 
-function Clues({ gameActive, clues }) {
+function Clues({ gameActive, setActive, clues }) {
   const [clicked, setClicked] = useState(false);
   const [circles, setCircles] = useState([
     {
@@ -90,6 +90,7 @@ function Clues({ gameActive, clues }) {
         mapMode={"intelligence"}
         onCtrlPressed={handleCtrlPressed}
         active={gameActive}
+        setActive={setActive}
       />
       {gameActive && (
         <PartialImage

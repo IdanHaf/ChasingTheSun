@@ -2,10 +2,12 @@ import { Clues } from "./Clues";
 import { useState } from "react";
 function CluesGame() {
   const [gameActive, setGameActive] = useState(false);
+  const [closePopUp, setClosePopUp] = useState(false);
   return (
     <div className="h-screen w-full">
       <Clues
         gameActive={gameActive}
+        setActive={setGameActive}
         clues={[
           {
             type: "text",
@@ -21,7 +23,7 @@ function CluesGame() {
           },
         ]}
       />
-      {!gameActive && (
+      {!closePopUp && (
         <div className="h-full w-full flex justify-center items-center backdrop-blur-sm font-mono">
           <div className="bg-black h-3/4 w-2/3 z-10 text-white border-4 border-green-500 flex flex-col gap-8">
             <p className="text-green-500 text-lg ml-20 mt-10 flex flex-col gap-6">
@@ -35,7 +37,10 @@ function CluesGame() {
             </p>
             <button
               className="border w-30 place-self-center p-2"
-              onClick={() => setGameActive(true)}
+              onClick={() => {
+                  setGameActive(true);
+                  setClosePopUp(true);
+              }}
             >
               Start the game
             </button>

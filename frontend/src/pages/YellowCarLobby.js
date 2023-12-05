@@ -69,6 +69,12 @@ function YellowCarLobby(){
         setCtrlPressed(isPressed);
     }
 
+    const [gameActive, setGameActive] = useState(false);
+
+    const handlePlayButton = () => {
+        setGameActive(true);
+    }
+
     return (
         (!startGame) ?
             <MultiplayerLobby
@@ -83,7 +89,38 @@ function YellowCarLobby(){
                     socket={socket}
                     roomId={lobbyId}
                 />
+
+                {!gameActive && (
+                    <StartGamePopUp handlePlayButton={handlePlayButton}/>
+                )}
             </div>
+    );
+}
+
+function StartGamePopUp({handlePlayButton}){
+    return (
+        <div className="h-full w-full fixed flex justify-center items-center backdrop-blur-sm font-mono">
+            <div className="bg-white/80 h-3/4 w-2/3 z-10 p-2 rounded-lg flex flex-col justify-between gap-8
+                            border-4 border-green-200">
+                <p className="text-black text-lg flex flex-col items-center gap-6">
+                    <span>Your goal is to find as many objects as possible!</span>
+                    <img
+                        src="/person_on_bike.png"
+                        className="w-40 h-40 border border-green-500 p-2 my-4"
+                    ></img>
+                    <span>Ready?</span>
+                </p>
+                <div className="flex flex-col justify-center items-center gap-2 text-white pb-2">
+                    <button
+                        className="w-1/4 bg-green-500 p-2 text-center rounded-full
+                                    hover:bg-green-700"
+                        onClick={handlePlayButton}
+                    >
+                        Start Game
+                    </button>
+                </div>
+            </div>
+        </div>
     );
 }
 

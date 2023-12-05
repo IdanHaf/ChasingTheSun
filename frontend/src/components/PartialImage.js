@@ -22,7 +22,7 @@ function PartialImage(props) {
             return precentage + 1;
           });
         }
-      }, 200);
+      }, 300);
       return () => clearInterval(interval);
     }, [imgIndex]);
   

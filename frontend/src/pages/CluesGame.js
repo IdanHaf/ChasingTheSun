@@ -36,7 +36,7 @@ function CluesGame() {
               <span>You have: 5 minutes.</span>
             </p>
             <button
-              className="border w-30 place-self-center p-2"
+              className="border w-30 place-self-center p-2 hover:text-black hover:bg-white"
               onClick={() => {
                   setGameActive(true);
                   setClosePopUp(true);

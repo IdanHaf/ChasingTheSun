@@ -13,7 +13,6 @@ import YellowCarMode from "./pages/YellowCarMode";
 import YellowCarLobby from "./pages/YellowCarLobby";
 import CluesGame from "./pages/CluesGame";
 import MultiplayerLobby from "./pages/MultiplayerLobby";
-import ModesPage from "./pages/ModesPage";
 
 function App() {
   return (
@@ -34,7 +33,6 @@ function App() {
         <Route path="/yellowCarMode/:id" element={<YellowCarLobby />} />
         <Route path="/cluesGame" element={<CluesGame />} />
         <Route path="/MultiplayerLobby" element={<MultiplayerLobby />} />
-        <Route path="/modesPage" element={<ModesPage />} />
       </Routes>
     </Router>
   );

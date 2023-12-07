@@ -1,8 +1,32 @@
+.container_div{
+    height: 300vh;
+}
+
 .world_div{
     z-index: 2;
     border-radius: 50%;
     transition: box-shadow 1s;
     position: fixed;
+}
+
+.circle_modes_div{
+    border-radius: 50%;
+    transition: box-shadow 1s;
+    z-index: 3;
+}
+
+.slide_on_car {
+    visibility: hidden;
+    transform: translateX(105%);
+    transition: transform 0.5s ease-in-out;
+    z-index: 2;
+}
+
+.slide_on_intelligence {
+    visibility: hidden;
+    transform: translateX(-105%);
+    transition: transform 0.5s ease-in-out;
+    z-index: 2;
 }
 
 .intelligence_img{
@@ -67,6 +91,13 @@ img {
     padding: 1em 2em;
     border-radius: 0.4em;
     margin: 2rem 0rem;
+}
+
+.modes_button{
+    font: inherit;
+    font-style: italic;
+    background: rgba(255, 255, 255, 0.16);
+    padding: 2%;
 }
 
 .hero {

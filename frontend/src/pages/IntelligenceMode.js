@@ -16,7 +16,6 @@ function IntelligenceMode(){
             <Header />
 
             <div className="container_div flex flex-col">
-                <ModesCircle />
 
                 <div id="intelligence_mode_start" className="h-screen">
                     <ModesHome />
@@ -27,6 +26,8 @@ function IntelligenceMode(){
                     >
                     </div>
                 </div>
+
+                <ModesCircle />
 
                 <div id="intelligence_mode" ref={scrollRef}
                      className="flex items-center w-full h-screen relative bg-black z-10"
@@ -78,7 +79,7 @@ function ModesHome() {
                             We're going intelligence mode!
                         </h1>
 
-                        <a className="button w-1/4 text-center hover:scale-110" href="#intelligence_mode">
+                        <a className="button w-1/4 text-center hover:scale-110" href="#intelligence_mode_circle">
                             Mode Information
                         </a>
                     </div>
@@ -109,7 +110,8 @@ function ModesCircle() {
     };
 
     return (
-        <div className="flex items-center w-full h-screen relative z-10 bg-gradient-to-r from-black to-gray-800">
+        <div id="intelligence_mode_circle"
+             className="flex items-center w-full h-screen relative z-10 bg-gradient-to-r from-black to-gray-800">
             <div className="flex justify-center items-center w-full h-1/2 mx-10 text-white select-none">
                 <div ref={leftDivRef}
                      className="slide_on_car w-1/4 h-1/3 rounded-lg flex justify-center items-center
@@ -117,7 +119,7 @@ function ModesCircle() {
                 >
                     <a className="modes_button rounded-lg w-1/2 text-center border-2 border-white
                                   hover:bg-white hover:text-black"
-                       href="#intelligence_mode_start"
+                       href="#intelligence_mode"
                     >
                         single-player
                     </a>

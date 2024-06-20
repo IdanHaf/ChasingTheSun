@@ -48,11 +48,22 @@ function LabelSelector(props) {
     const lng = Math.floor(panoramaState?.position?.lng() * 1e12) / 1e12;
     const currentZoom = closest(panoramaState.zoom);
 
+      const precision = 1000;
+
+      console.log(props.data[0].lat)
+      console.log(Math.round(parseFloat(props.data[0].lat) * precision) / precision)
+      console.log( Math.round(lat * precision) / precision)
+      console.log( Math.round(parseFloat(props.data[0].lng) * precision) / precision)
+      console.log(Math.round(lng * precision) / precision)
+
+
+      console.log(Math.round(parseFloat(props.data[0].lat) * precision) / precision === Math.round(lat * precision) / precision &&
+          Math.round(parseFloat(props.data[0].lng) * precision) / precision === Math.round(lng * precision) / precision)
+
     let data = props.data.filter((d) => {
-      return (
-          parseFloat(d.lat) === lat &&
-          parseFloat(d.lng) === lng &&
-          d.zoom === parseFloat(currentZoom)
+    return (
+          Math.round(parseFloat(d.lat) * precision) / precision === Math.round(lat * precision) / precision &&
+          Math.round(parseFloat(d.lng) * precision) / precision === Math.round(lng * precision) / precision
       )
     });
 
@@ -61,7 +72,10 @@ function LabelSelector(props) {
       return false;
     }
 
-    const objectData = data[0];
+      console.log(lat)
+
+
+      const objectData = data[0];
     const [objectXposition, objectYposition] = objectPositionOnScreen(
       e,
       panoramaState,
@@ -100,6 +114,7 @@ function LabelSelector(props) {
   };
 
   const handleMouseUp = (e) =>{
+      console.log("hi")
     handlePageFinish(e, wasDetected(e));
   }
 
@@ -112,7 +127,6 @@ function LabelSelector(props) {
   // TODO: handle ctrl+tab edge case
   return (
     <>
-      {/*
           <div
             className="select-none"
             style={{
@@ -154,8 +168,6 @@ function LabelSelector(props) {
           >
             +
           </div>
-          */
-      }
 
       <div
         className={twMerge(

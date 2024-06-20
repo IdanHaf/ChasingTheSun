@@ -62,6 +62,25 @@ function usePanorama(
           0.07466666666666667,
       labelW:
           0.042495479204339964
+    }, {
+      lat:
+          32.0793011553545,
+      lng:
+          34.773851258170815,
+      zoom:
+          1,
+      xRatio:
+          0.48417721518987344,
+      yRatio:
+          0.616,
+      pitch:
+          1.1723691162628143,
+      heading:
+          350.05105100094835,
+      labelH:
+          0.07466666666666667,
+      labelW:
+          0.042495479204339964
     }]
 
     //Set the data of the object.
@@ -74,10 +93,11 @@ function usePanorama(
       if (streetViewLibrary && panoRef.current) {
         const { StreetViewPanorama } = streetViewLibrary;
         console.log("everything's loaded, let's go");
+        const data_index = Math.round(Math.random());
         const panorama = new StreetViewPanorama(panoRef.current, {
           position: {
-            lat: parseFloat(data[0].lat),
-            lng: parseFloat(data[0].lng),
+            lat: parseFloat(data[data_index].lat),
+            lng: parseFloat(data[data_index].lng),
           },
           pov: startPov,
           visible: true,

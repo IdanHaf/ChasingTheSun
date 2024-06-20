@@ -43,104 +43,127 @@ function usePanorama(
       version: "weekly",
     });
 
-    //Get a random object.
-    fetch("/api/objective/random", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.error) {
-          console.error(data.error);
-        } else {
-          //Set the data of the object.
-          setObjectData(data);
+    const data = [{
+      lat:
+          40.75986013487,
+      lng:
+          -73.980449311431,
+      zoom:
+          1,
+      xRatio:
+          0.48417721518987344,
+      yRatio:
+          0.616,
+      pitch:
+          1.1723691162628143,
+      heading:
+          350.05105100094835,
+      labelH:
+          0.07466666666666667,
+      labelW:
+          0.042495479204339964
+    }]
 
-          console.log("before library");
-          //Load the street view map.
-          loader.importLibrary("streetView").then(async (streetViewLibrary) => {
-            console.log("library loaded");
-            if (streetViewLibrary && panoRef.current) {
-              const { StreetViewPanorama } = streetViewLibrary;
-              console.log("everything's loaded, let's go");
-              const panorama = new StreetViewPanorama(panoRef.current, {
-                position: {
-                  lat: parseFloat(data[0].lat),
-                  lng: parseFloat(data[0].lng),
-                },
-                pov: startPov,
-                visible: true,
-                fullscreenControl: false,
-                disableDefaultUI: true,
-                motionTracking: false,
-                motionTrackingControl: false,
-              });
-              // transfer panorama object to json
-              // console.log(panorama)
-              // jsonPanorama = JSON.stringify(panorama);
-              // // transfer json to object
-              // panorama = JSON.parse(jsonPanorama);
+    //Set the data of the object.
+    setObjectData(data);
 
-              //Set start position.
-              setPanoramaState((prevPano) => {
-                return { ...prevPano, position: panorama.getPosition() };
-              });
+    console.log("before library");
+    //Load the street view map.
+    loader.importLibrary("streetView").then(async (streetViewLibrary) => {
+      console.log("library loaded");
+      if (streetViewLibrary && panoRef.current) {
+        const { StreetViewPanorama } = streetViewLibrary;
+        console.log("everything's loaded, let's go");
+        const panorama = new StreetViewPanorama(panoRef.current, {
+          position: {
+            lat: parseFloat(data[0].lat),
+            lng: parseFloat(data[0].lng),
+          },
+          pov: startPov,
+          visible: true,
+          fullscreenControl: false,
+          disableDefaultUI: true,
+          motionTracking: false,
+          motionTrackingControl: false,
+        });
+        // transfer panorama object to json
+        // console.log(panorama)
+        // jsonPanorama = JSON.stringify(panorama);
+        // // transfer json to object
+        // panorama = JSON.parse(jsonPanorama);
 
-              panorama.addListener("pano_changed", () => {
-                setPanoramaState((prevPano) => {
-                  return { ...prevPano, id: panorama.getPano() };
-                });
-              });
-              panorama.addListener("position_changed", () => {
-                setPanoramaState((prevPano) => {
-                  return { ...prevPano, position: panorama.getPosition() };
-                });
-              });
-              panorama.addListener("pov_changed", () => {
-                setPanoramaState((prevPano) => {
-                  return { ...prevPano, pov: panorama.getPov() };
-                });
-              });
-              panorama.addListener("zoom_changed", () => {
-                setPanoramaState((prevPano) => {
-                  return { ...prevPano, zoom: panorama.getZoom() };
-                });
-              });
+        //Set start position.
+        setPanoramaState((prevPano) => {
+          return { ...prevPano, position: panorama.getPosition() };
+        });
 
-              setPovLoader((p) => {
-                return (newPovFunc) => {
-                  setPanoramaState((prevPano) => {
-                    const newPov = newPovFunc(
-                      prevPano.pov.heading,
-                      prevPano.pov.pitch
-                    );
-                    panorama.setPov(newPov);
-                    return { ...prevPano, pov: newPov };
-                  });
-                };
-              });
-
-              setZoomLoader((p) => {
-                return (newZoomFunc) => {
-                  setPanoramaState((prevPano) => {
-                    //   console.log("prev:", prevPano.zoom);
-                    //   console.log("new:", newZoomFunc(prevPano.zoom));
-                    const newZoom = newZoomFunc(prevPano.zoom);
-                    console.log(newZoom);
-                    //   console.log(newZoom);
-                    panorama.setZoom(newZoom);
-                    return { ...prevPano, zoom: newZoom };
-                  });
-                };
-              });
-            } else {
-              console.error("Google Maps API or StreetViewPanorama not loaded");
-            }
+        panorama.addListener("pano_changed", () => {
+          setPanoramaState((prevPano) => {
+            return { ...prevPano, id: panorama.getPano() };
           });
-        }
-      });
+        });
+        panorama.addListener("position_changed", () => {
+          setPanoramaState((prevPano) => {
+            return { ...prevPano, position: panorama.getPosition() };
+          });
+        });
+        panorama.addListener("pov_changed", () => {
+          setPanoramaState((prevPano) => {
+            return { ...prevPano, pov: panorama.getPov() };
+          });
+        });
+        panorama.addListener("zoom_changed", () => {
+          setPanoramaState((prevPano) => {
+            return { ...prevPano, zoom: panorama.getZoom() };
+          });
+        });
+
+        setPovLoader((p) => {
+          return (newPovFunc) => {
+            setPanoramaState((prevPano) => {
+              const newPov = newPovFunc(
+                  prevPano.pov.heading,
+                  prevPano.pov.pitch
+              );
+              panorama.setPov(newPov);
+              return { ...prevPano, pov: newPov };
+            });
+          };
+        });
+
+        setZoomLoader((p) => {
+          return (newZoomFunc) => {
+            setPanoramaState((prevPano) => {
+              //   console.log("prev:", prevPano.zoom);
+              //   console.log("new:", newZoomFunc(prevPano.zoom));
+              const newZoom = newZoomFunc(prevPano.zoom);
+              console.log(newZoom);
+              //   console.log(newZoom);
+              panorama.setZoom(newZoom);
+              return { ...prevPano, zoom: newZoom };
+            });
+          };
+        });
+      } else {
+        console.error("Google Maps API or StreetViewPanorama not loaded");
+      }
+    });
+
+    // //Get a random object.
+    // fetch("/api/objective/random", {
+    //   method: "GET",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    // })
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //     if (data.error) {
+    //       console.error(data.error);
+    //     } else {
+    //
+    //     }
+    //   });
 
     // cleanup
     return () => {};
